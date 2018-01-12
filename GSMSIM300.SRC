@@ -1,0 +1,1637 @@
+; .\GSMSIM300.SRC generated from: GSMSIM300.c
+; COMPILER INVOKED BY:
+;        C:\Keil\C51\BIN\C51.EXE GSMSIM300.c LARGE BROWSE DEBUG OBJECTEXTEND SRC(.\GSMSIM300.SRC)
+
+$NOMOD51
+
+NAME	GSMSIM300
+
+ModuleSelect0	BIT	0B0H.7
+ModuleSelect1	BIT	0B0H.6
+P0	DATA	080H
+P1	DATA	090H
+P2	DATA	0A0H
+P3	DATA	0B0H
+T0	BIT	0B0H.4
+AC	BIT	0D0H.6
+T1	BIT	0B0H.5
+T2	BIT	090H.0
+EA	BIT	0A8H.7
+IE	DATA	0A8H
+EXF2	BIT	0C8H.6
+RD	BIT	0B0H.7
+ES	BIT	0A8H.4
+IP	DATA	0B8H
+RI	BIT	098H.0
+INT0	BIT	0B0H.2
+CY	BIT	0D0H.7
+TI	BIT	098H.1
+INT1	BIT	0B0H.3
+RCAP2H	DATA	0CBH
+Keyboard_key_10	BIT	080H.6
+PS	BIT	0B8H.4
+SP	DATA	081H
+Keyboard_key_11	BIT	080H.5
+T2EX	BIT	090H.1
+Keyboard_key_12	BIT	080H.4
+OV	BIT	0D0H.2
+RCAP2L	DATA	0CAH
+C_T2	BIT	0C8H.1
+WR	BIT	0B0H.6
+RCLK	BIT	0C8H.5
+lcd_d5	BIT	090H.5
+Buzzer_pin	BIT	080H.0
+lcd_d6	BIT	090H.6
+TCLK	BIT	0C8H.4
+SBUF	DATA	099H
+PCON	DATA	087H
+SCON	DATA	098H
+TMOD	DATA	089H
+TCON	DATA	088H
+RS_lcd	BIT	090H.2
+IE0	BIT	088H.1
+IE1	BIT	088H.3
+B	DATA	0F0H
+CP_RL2	BIT	0C8H.0
+EM_lock_pin	BIT	080H.3
+ACC	DATA	0E0H
+ET0	BIT	0A8H.1
+ET1	BIT	0A8H.3
+TF0	BIT	088H.5
+ET2	BIT	0A8H.5
+TF1	BIT	088H.7
+TF2	BIT	0C8H.7
+RB8	BIT	098H.2
+TH0	DATA	08CH
+EX0	BIT	0A8H.0
+IT0	BIT	088H.0
+TH1	DATA	08DH
+TB8	BIT	098H.3
+EX1	BIT	0A8H.2
+IT1	BIT	088H.2
+TH2	DATA	0CDH
+P	BIT	0D0H.0
+lcd_d4_lsb	BIT	090H.4
+SM0	BIT	098H.7
+TL0	DATA	08AH
+SM1	BIT	098H.6
+TL1	DATA	08BH
+SM2	BIT	098H.5
+TL2	DATA	0CCH
+lcd_d7_msb	BIT	090H.7
+PT0	BIT	0B8H.1
+PT1	BIT	0B8H.3
+RS0	BIT	0D0H.3
+PT2	BIT	0B8H.5
+TR0	BIT	088H.4
+RS1	BIT	0D0H.4
+TR1	BIT	088H.6
+TR2	BIT	0C8H.2
+PX0	BIT	0B8H.0
+PX1	BIT	0B8H.2
+DPH	DATA	083H
+Enable_lcd	BIT	090H.3
+DPL	DATA	082H
+EXEN2	BIT	0C8H.3
+REN	BIT	098H.4
+T2CON	DATA	0C8H
+RXD	BIT	0B0H.0
+TXD	BIT	0B0H.1
+Keyboard_key_1	BIT	0A0H.0
+Keyboard_key_2	BIT	0A0H.1
+Keyboard_key_3	BIT	0A0H.2
+Keyboard_key_4	BIT	0A0H.3
+F0	BIT	0D0H.5
+Keyboard_key_5	BIT	0A0H.4
+Keyboard_key_6	BIT	0A0H.5
+Keyboard_key_7	BIT	0A0H.6
+Keyboard_key_8	BIT	0A0H.7
+Keyboard_key_9	BIT	080H.7
+PSW	DATA	0D0H
+EM_lock_enabe_button	BIT	080H.2
+?PR?fn_GSM_Send_Init?GSMSIM300           SEGMENT CODE 
+?XD?fn_GSM_Send_Init?GSMSIM300           SEGMENT XDATA OVERLAYABLE 
+?PR?_fnGSMSendMessage?GSMSIM300          SEGMENT CODE 
+?XD?_fnGSMSendMessage?GSMSIM300          SEGMENT XDATA OVERLAYABLE 
+?PR?fn_GSM_Recieve_Init?GSMSIM300        SEGMENT CODE 
+?PR?fn_GSM_Send_Recieve_Init?GSMSIM300   SEGMENT CODE 
+?PR?fnSetMODEMToReceive?GSMSIM300        SEGMENT CODE 
+?PR?_fnDeleteMessageIndex?GSMSIM300      SEGMENT CODE 
+?XD?_fnDeleteMessageIndex?GSMSIM300      SEGMENT XDATA OVERLAYABLE 
+?PR?fnDeleteAllMessages?GSMSIM300        SEGMENT CODE 
+?PR?fnDeleteInboxMessages?GSMSIM300      SEGMENT CODE 
+?PR?fnDeleteAllUnReadMessages?GSMSIM300  SEGMENT CODE 
+?PR?fnDeleteAllSentMessages?GSMSIM300    SEGMENT CODE 
+?PR?fnDeleteAllUnSentMessages?GSMSIM300  SEGMENT CODE 
+?PR?fnDeleteAllReceivedMessages?GSMSIM300 SEGMENT CODE 
+?PR?chfnGSMNetworkReadyCheck?GSMSIM300   SEGMENT CODE 
+?XD?chfnGSMNetworkReadyCheck?GSMSIM300   SEGMENT XDATA OVERLAYABLE 
+?PR?uchfnCheckInboxStatus?GSMSIM300      SEGMENT CODE 
+?PR?uchfnCheckFirstMessageStatus?GSMSIM300 SEGMENT CODE 
+?XD?uchfnCheckFirstMessageStatus?GSMSIM300 SEGMENT XDATA OVERLAYABLE 
+?PR?fnExtractPhoneNoAndMessage?GSMSIM300 SEGMENT CODE 
+?XD?fnExtractPhoneNoAndMessage?GSMSIM300 SEGMENT XDATA OVERLAYABLE 
+?PR?fn_Disable_Echo?GSMSIM300            SEGMENT CODE 
+?PR?fnSendCarriageReturn?GSMSIM300       SEGMENT CODE 
+?PR?fnSendLineFeed?GSMSIM300             SEGMENT CODE 
+?PR?fnSendSUBCtrlZ?GSMSIM300             SEGMENT CODE 
+?PR?fnSendDoubleQuotes?GSMSIM300         SEGMENT CODE 
+?CO?GSMSIM300        SEGMENT CODE 
+?XD?GSMSIM300        SEGMENT XDATA 
+	EXTRN	CODE (_delay_in_ms)
+	EXTRN	CODE (_printf)
+	EXTRN	XDATA (?_printf?BYTE)
+	EXTRN	CODE (_delay_in_seconds)
+	EXTRN	CODE (_fnModuleSelect)
+	EXTRN	CODE (_strstr)
+	EXTRN	XDATA (?_strstr?BYTE)
+	EXTRN	CODE (fn_Receive_Serial)
+	EXTRN	CODE (_delay_ms)
+	EXTRN	CODE (?C?STRCPY)
+	PUBLIC	guchGSMPhoneNumber
+	PUBLIC	displaybuffer
+	PUBLIC	guchphonenumberpacket
+	PUBLIC	guchCompleteGSMDataPacket
+	PUBLIC	guchmessagepacket
+	PUBLIC	fnSendDoubleQuotes
+	PUBLIC	fnSendSUBCtrlZ
+	PUBLIC	fnSendLineFeed
+	PUBLIC	fnSendCarriageReturn
+	PUBLIC	fn_Disable_Echo
+	PUBLIC	fnExtractPhoneNoAndMessage
+	PUBLIC	uchfnCheckFirstMessageStatus
+	PUBLIC	uchfnCheckInboxStatus
+	PUBLIC	chfnGSMNetworkReadyCheck
+	PUBLIC	fnDeleteAllReceivedMessages
+	PUBLIC	fnDeleteAllUnSentMessages
+	PUBLIC	fnDeleteAllSentMessages
+	PUBLIC	fnDeleteAllUnReadMessages
+	PUBLIC	fnDeleteInboxMessages
+	PUBLIC	fnDeleteAllMessages
+	PUBLIC	_fnDeleteMessageIndex
+	PUBLIC	fnSetMODEMToReceive
+	PUBLIC	fn_GSM_Send_Recieve_Init
+	PUBLIC	fn_GSM_Recieve_Init
+	PUBLIC	?_fnGSMSendMessage?BYTE
+	PUBLIC	_fnGSMSendMessage
+	PUBLIC	fn_GSM_Send_Init
+
+	RSEG  ?XD?fn_GSM_Send_Init?GSMSIM300
+?fn_GSM_Send_Init?BYTE:
+          i?040:   DS   1
+
+	RSEG  ?XD?_fnGSMSendMessage?GSMSIM300
+?_fnGSMSendMessage?BYTE:
+guchGSMPhoneNumber?141:   DS   3
+	ORG  3
+guchCompleteGSMDataPacket?142:   DS   3
+
+	RSEG  ?XD?fnExtractPhoneNoAndMessage?GSMSIM300
+?fnExtractPhoneNoAndMessage?BYTE:
+  databuff?1552:   DS   20
+	ORG  20
+     index?1553:   DS   1
+
+	RSEG  ?XD?chfnGSMNetworkReadyCheck?GSMSIM300
+?chfnGSMNetworkReadyCheck?BYTE:
+uchResponseFromGSM?1244:   DS   15
+	ORG  15
+  uchCount?1245:   DS   1
+
+	RSEG  ?XD?uchfnCheckFirstMessageStatus?GSMSIM300
+?uchfnCheckFirstMessageStatus?BYTE:
+         i?1449:   DS   1
+
+	RSEG  ?XD?_fnDeleteMessageIndex?GSMSIM300
+?_fnDeleteMessageIndex?BYTE:
+      Index?543:   DS   1
+
+	RSEG  ?XD?GSMSIM300
+guchmessagepacket:   DS   40
+guchCompleteGSMDataPacket:   DS   160
+guchphonenumberpacket:   DS   15
+  displaybuffer:   DS   70
+guchGSMPhoneNumber:   DS   15
+
+	RSEG  ?CO?GSMSIM300
+?SC_0:
+	DB  'A' ,'T' ,000H
+
+?SC_3:
+	DB  'A' ,'T' ,'+' ,'C' ,'M' ,'G' ,'F' ,'=' ,'1' ,000H
+
+?SC_13:
+	DB  'A' ,'T' ,'+' ,'C' ,'M' ,'G' ,'S' ,'=' ,000H
+
+?SC_22:
+	DB  '%' ,'s' ,000H
+
+?SC_25:
+	DB  'A' ,'T' ,'+' ,'C' ,'N' ,'M' ,'I' ,'=' ,'2' ,',' 
+	DB  '1' ,',' ,'0' ,',' ,'0' ,',' ,'0' ,000H
+
+?SC_43:
+	DB  'A' ,'T' ,'+' ,'C' ,'M' ,'G' ,'D' ,'=' ,000H
+
+?SC_52:
+	DB  '%' ,'d' ,000H
+
+?SC_55:
+	DB  'A' ,'T' ,'+' ,'C' ,'M' ,'G' ,'D' ,'A' ,'=' ,000H
+
+?SC_65:
+	DB  'D' ,'E' ,'L' ,' ' ,'A' ,'L' ,'L' ,000H
+
+?SC_73:
+	DB  'D' ,'E' ,'L' ,' ' ,'I' ,'N' ,'B' ,'O' ,'X' ,000H
+
+?SC_83:
+	DB  'D' ,'E' ,'L' ,' ' ,'U' ,'N' ,'R' ,'E' ,'A' ,'D' 
+	DB  000H
+
+?SC_94:
+	DB  'D' ,'E' ,'L' ,' ' ,'S' ,'E' ,'N' ,'T' ,000H
+
+?SC_103:
+	DB  'D' ,'E' ,'L' ,' ' ,'U' ,'N' ,'S' ,'E' ,'N' ,'T' 
+	DB  000H
+
+?SC_114:
+	DB  'A' ,'T' ,'+' ,'C' ,'P' ,'I' ,'N' ,'?' ,000H
+
+?SC_123:
+	DB  'R' ,'E' ,'A' ,'D' ,'Y' ,000H
+
+?SC_129:
+	DB  'A' ,'T' ,'+' ,'C' ,'M' ,'G' ,'R' ,'=' ,'1' ,000H
+
+?SC_139:
+	DB  'U' ,'N' ,'R' ,'E' ,'A' ,'D' ,000H
+
+?SC_146:
+	DB  'R' ,'E' ,'A' ,'D' ,000H
+
+?SC_151:
+	DB  'A' ,'T' ,'E' ,'0' ,000H
+
+?SC_156:
+	DB  '%' ,'c' ,000H
+
+; /*
+;     filename	:GSMSIM300.c
+; 	description	:transmit and receive GSM data by SIM300 MODEM
+; 	author		:Nitin
+; 	date		:13.11.11		  
+; */
+; 
+; 
+; #include <reg52.h>
+; #include <stdio.h>                /* prototype declarations for I/O functions */
+; #include <string.h>
+; #include <stdlib.h>
+; 
+; #include "PinAllocation.h"
+; #include "delay.h"
+; #include "serial_codes.h"
+; #include "GSMSIM300.h"
+; #include "ProjectMain.h"
+; #include "lcd.h"
+; 
+; unsigned char guchmessagepacket[40],guchphonenumberpacket[15],guchCompleteGSMDataPacket[160];
+; unsigned char guchGSMPhoneNumber[15],displaybuffer[70];
+; 
+; #define	CR								0x0D // Carriage Return = Enter
+; #define LF								0x0A // Line Feed = New Line Symbol
+; 
+; void fn_GSM_Send_Init(void)
+
+	RSEG  ?PR?fn_GSM_Send_Init?GSMSIM300
+fn_GSM_Send_Init:
+	USING	0
+			; SOURCE LINE # 27
+; {
+			; SOURCE LINE # 28
+; 	unsigned char i;
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 30
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	for(i=0;i<30;i++)
+			; SOURCE LINE # 31
+	CLR  	A
+	MOV  	DPTR,#i?040
+	MOVX 	@DPTR,A
+?C0001:
+; 	{
+			; SOURCE LINE # 32
+; 		printf("AT");
+			; SOURCE LINE # 33
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_0)
+	MOV  	R1,#LOW (?SC_0)
+	LCALL	_printf
+; 		fnSendCarriageReturn();
+			; SOURCE LINE # 34
+	LCALL	fnSendCarriageReturn
+; 		delay_in_ms(30);
+			; SOURCE LINE # 35
+	MOV  	R7,#01EH
+	LCALL	_delay_in_ms
+; 	}
+			; SOURCE LINE # 36
+	MOV  	DPTR,#i?040
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+	MOVX 	A,@DPTR
+	CLR  	C
+	SUBB 	A,#01EH
+	JC   	?C0001
+?C0002:
+; 	printf("AT");
+			; SOURCE LINE # 37
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_0)
+	MOV  	R1,#LOW (?SC_0)
+	LCALL	_printf
+; 	fnSendCarriageReturn();
+			; SOURCE LINE # 38
+	LCALL	fnSendCarriageReturn
+; 	printf("AT+CMGF=1");
+			; SOURCE LINE # 39
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_3)
+	MOV  	R1,#LOW (?SC_3)
+	LCALL	_printf
+; 	fnSendCarriageReturn();
+			; SOURCE LINE # 40
+	LCALL	fnSendCarriageReturn
+; 	// printf("AT+CSCA=");
+; 	// printf("%s",msg_centre_num);
+; 	fnSendCarriageReturn();
+			; SOURCE LINE # 43
+	LCALL	fnSendCarriageReturn
+; 	delay_in_ms(30);
+			; SOURCE LINE # 44
+	MOV  	R7,#01EH
+	LCALL	_delay_in_ms
+; 	fn_Disable_Echo();
+			; SOURCE LINE # 45
+	LCALL	fn_Disable_Echo
+; 	delay_in_ms(30);
+			; SOURCE LINE # 46
+	MOV  	R7,#01EH
+	LJMP 	_delay_in_ms
+; END OF fn_GSM_Send_Init
+
+; }
+;  
+; 
+;   											
+; void fnGSMSendMessage(unsigned char *guchGSMPhoneNumber, unsigned char *guchCompleteGSMDataPacket)
+
+	RSEG  ?PR?_fnGSMSendMessage?GSMSIM300
+_fnGSMSendMessage:
+	USING	0
+			; SOURCE LINE # 51
+	MOV  	DPTR,#guchGSMPhoneNumber?141
+	MOV  	A,R3
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,R2
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,R1
+	MOVX 	@DPTR,A
+; {	 
+			; SOURCE LINE # 52
+;     fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 53
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	printf("AT+CMGS="); // Command to send Message
+			; SOURCE LINE # 54
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_13)
+	MOV  	R1,#LOW (?SC_13)
+	LCALL	_printf
+; 	fnSendDoubleQuotes();
+			; SOURCE LINE # 55
+	LCALL	fnSendDoubleQuotes
+; 	printf("%s",guchGSMPhoneNumber);
+			; SOURCE LINE # 56
+	MOV  	DPTR,#guchGSMPhoneNumber?141
+	MOVX 	A,@DPTR
+	MOV  	R1,A
+	INC  	DPTR
+	MOVX 	A,@DPTR
+	MOV  	R2,A
+	INC  	DPTR
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#?_printf?BYTE+03H
+	XCH  	A,R1
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,R2
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,R1
+	MOVX 	@DPTR,A
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_22)
+	MOV  	R1,#LOW (?SC_22)
+	LCALL	_printf
+; 	fnSendDoubleQuotes();
+			; SOURCE LINE # 57
+	LCALL	fnSendDoubleQuotes
+; 	fnSendCarriageReturn();
+			; SOURCE LINE # 58
+	LCALL	fnSendCarriageReturn
+; 	delay_ms(20);
+			; SOURCE LINE # 59
+	MOV  	R7,#014H
+	MOV  	R6,#00H
+	LCALL	_delay_ms
+; 	printf("%s",guchCompleteGSMDataPacket);
+			; SOURCE LINE # 60
+	MOV  	DPTR,#guchCompleteGSMDataPacket?142
+	MOVX 	A,@DPTR
+	MOV  	R1,A
+	INC  	DPTR
+	MOVX 	A,@DPTR
+	MOV  	R2,A
+	INC  	DPTR
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#?_printf?BYTE+03H
+	XCH  	A,R1
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,R2
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,R1
+	MOVX 	@DPTR,A
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_22)
+	MOV  	R1,#LOW (?SC_22)
+	LCALL	_printf
+; 	fnSendSUBCtrlZ();
+			; SOURCE LINE # 61
+	LCALL	fnSendSUBCtrlZ
+; 	//	while((fn_Receive_Serial)!= '+');
+;    	delay_ms(100);				   	 
+			; SOURCE LINE # 63
+	MOV  	R7,#064H
+	MOV  	R6,#00H
+	LJMP 	_delay_ms
+; END OF _fnGSMSendMessage
+
+; 	// Waiting for Carriage Return Symbol to appear from GSM as response
+; 	// Response expected here is          OK <CR><LF>
+; }
+; 
+; 
+; void fn_GSM_Recieve_Init(void)
+
+	RSEG  ?PR?fn_GSM_Recieve_Init?GSMSIM300
+fn_GSM_Recieve_Init:
+	USING	0
+			; SOURCE LINE # 69
+; {
+			; SOURCE LINE # 70
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 71
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	printf("AT+CNMI=2,1,0,0,0"); // Command to save to memory to and raise interrrupt	
+			; SOURCE LINE # 72
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_25)
+	MOV  	R1,#LOW (?SC_25)
+	LCALL	_printf
+; 	fnSendCarriageReturn();
+			; SOURCE LINE # 73
+	LCALL	fnSendCarriageReturn
+; 	fnSendLineFeed();
+			; SOURCE LINE # 74
+	LCALL	fnSendLineFeed
+?C0006:
+; 
+; 	while((fn_Receive_Serial())!=0x0a);
+			; SOURCE LINE # 76
+	LCALL	fn_Receive_Serial
+	CJNE 	R7,#0AH,?C0006
+?C0007:
+; 	// Response expected here is          OK <CR><LF>
+; }
+			; SOURCE LINE # 78
+?C0008:
+	RET  	
+; END OF fn_GSM_Recieve_Init
+
+; 
+; void fn_GSM_Send_Recieve_Init(void)
+
+	RSEG  ?PR?fn_GSM_Send_Recieve_Init?GSMSIM300
+fn_GSM_Send_Recieve_Init:
+	USING	0
+			; SOURCE LINE # 80
+; {
+			; SOURCE LINE # 81
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 82
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	fn_GSM_Send_Init();
+			; SOURCE LINE # 83
+	LCALL	fn_GSM_Send_Init
+; 	fn_GSM_Recieve_Init();
+			; SOURCE LINE # 84
+	LJMP 	fn_GSM_Recieve_Init
+; END OF fn_GSM_Send_Recieve_Init
+
+; }
+; 
+; 
+; void fnSetMODEMToReceive(void) //New message indication +CNMI
+
+	RSEG  ?PR?fnSetMODEMToReceive?GSMSIM300
+fnSetMODEMToReceive:
+	USING	0
+			; SOURCE LINE # 88
+; {
+			; SOURCE LINE # 89
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 90
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	printf("AT+CNMI=2,1,0,0,0"); // Command to save to memory to and raise interrrupt	
+			; SOURCE LINE # 91
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_25)
+	MOV  	R1,#LOW (?SC_25)
+	LCALL	_printf
+; 	fnSendCarriageReturn();
+			; SOURCE LINE # 92
+	LCALL	fnSendCarriageReturn
+; 	fnSendLineFeed();
+			; SOURCE LINE # 93
+	LCALL	fnSendLineFeed
+?C0010:
+; 
+; 	while((fn_Receive_Serial())!=0x0a);
+			; SOURCE LINE # 95
+	LCALL	fn_Receive_Serial
+	CJNE 	R7,#0AH,?C0010
+?C0011:
+; 	// Response expected here is          OK <CR><LF>
+; 
+; }
+			; SOURCE LINE # 98
+?C0012:
+	RET  	
+; END OF fnSetMODEMToReceive
+
+; void fnDeleteMessageIndex(unsigned char Index)
+
+	RSEG  ?PR?_fnDeleteMessageIndex?GSMSIM300
+_fnDeleteMessageIndex:
+	USING	0
+			; SOURCE LINE # 99
+	MOV  	DPTR,#Index?543
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; {
+			; SOURCE LINE # 100
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 101
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	printf("AT+CMGD="); // Command to delete
+			; SOURCE LINE # 102
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_43)
+	MOV  	R1,#LOW (?SC_43)
+	LCALL	_printf
+; 	printf("%d",Index);
+			; SOURCE LINE # 103
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_52)
+	MOV  	R1,#LOW (?SC_52)
+	MOV  	DPTR,#Index?543
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOVX 	@DPTR,A
+	LCALL	_printf
+; 	fnSendCarriageReturn();
+			; SOURCE LINE # 104
+	LCALL	fnSendCarriageReturn
+; 	fnSendLineFeed();
+			; SOURCE LINE # 105
+	LJMP 	fnSendLineFeed
+; END OF _fnDeleteMessageIndex
+
+; 
+;   // Waiting for Carriage Return Symbol to appear from GSM as response
+; 	// Response expected here is          OK <CR><LF>
+; }
+; 
+; void fnDeleteAllMessages(void)
+
+	RSEG  ?PR?fnDeleteAllMessages?GSMSIM300
+fnDeleteAllMessages:
+	USING	0
+			; SOURCE LINE # 111
+; {
+			; SOURCE LINE # 112
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 113
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	printf("AT+CMGDA="); // Command to delete all messages
+			; SOURCE LINE # 114
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_55)
+	MOV  	R1,#LOW (?SC_55)
+	LCALL	_printf
+; 	fnSendDoubleQuotes();
+			; SOURCE LINE # 115
+	LCALL	fnSendDoubleQuotes
+; 	printf("DEL ALL");
+			; SOURCE LINE # 116
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_65)
+	MOV  	R1,#LOW (?SC_65)
+	LCALL	_printf
+; 	fnSendDoubleQuotes();
+			; SOURCE LINE # 117
+	LCALL	fnSendDoubleQuotes
+; 
+; 	fnSendCarriageReturn();
+			; SOURCE LINE # 119
+	LCALL	fnSendCarriageReturn
+; 	fnSendLineFeed();
+			; SOURCE LINE # 120
+	LJMP 	fnSendLineFeed
+; END OF fnDeleteAllMessages
+
+; 
+; 	// Waiting for Carriage Return Symbol to appear from GSM as response
+; 	// Response expected here is          OK <CR><LF>
+; }
+; 
+; void fnDeleteInboxMessages(void)
+
+	RSEG  ?PR?fnDeleteInboxMessages?GSMSIM300
+fnDeleteInboxMessages:
+	USING	0
+			; SOURCE LINE # 126
+; {
+			; SOURCE LINE # 127
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 128
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	printf("AT+CMGDA="); // Command to delete all messages
+			; SOURCE LINE # 129
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_55)
+	MOV  	R1,#LOW (?SC_55)
+	LCALL	_printf
+; 	fnSendDoubleQuotes();
+			; SOURCE LINE # 130
+	LCALL	fnSendDoubleQuotes
+; 	printf("DEL INBOX");
+			; SOURCE LINE # 131
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_73)
+	MOV  	R1,#LOW (?SC_73)
+	LCALL	_printf
+; 	fnSendDoubleQuotes();
+			; SOURCE LINE # 132
+	LCALL	fnSendDoubleQuotes
+; 
+; 	fnSendCarriageReturn();
+			; SOURCE LINE # 134
+	LCALL	fnSendCarriageReturn
+; 
+; 	fnSendLineFeed();
+			; SOURCE LINE # 136
+	LCALL	fnSendLineFeed
+?C0015:
+; 
+; 	while((fn_Receive_Serial())!= CR);
+			; SOURCE LINE # 138
+	LCALL	fn_Receive_Serial
+	CJNE 	R7,#0DH,?C0015
+?C0016:
+; 	delay_in_seconds(1);
+			; SOURCE LINE # 139
+	MOV  	R7,#01H
+	LJMP 	_delay_in_seconds
+; END OF fnDeleteInboxMessages
+
+; 	
+;   // Waiting for Carriage Return Symbol to appear from GSM as response
+; 
+; 	// Response expected here is          OK <CR><LF>
+; 
+; }
+; void fnDeleteAllUnReadMessages(void)
+
+	RSEG  ?PR?fnDeleteAllUnReadMessages?GSMSIM300
+fnDeleteAllUnReadMessages:
+	USING	0
+			; SOURCE LINE # 146
+; {
+			; SOURCE LINE # 147
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 148
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	printf("AT+CMGDA="); // Command to delete all messages
+			; SOURCE LINE # 149
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_55)
+	MOV  	R1,#LOW (?SC_55)
+	LCALL	_printf
+; 	fnSendDoubleQuotes();
+			; SOURCE LINE # 150
+	LCALL	fnSendDoubleQuotes
+; 	printf("DEL UNREAD");
+			; SOURCE LINE # 151
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_83)
+	MOV  	R1,#LOW (?SC_83)
+	LCALL	_printf
+; 	fnSendDoubleQuotes();
+			; SOURCE LINE # 152
+	LCALL	fnSendDoubleQuotes
+; 
+; 	fnSendCarriageReturn();
+			; SOURCE LINE # 154
+	LCALL	fnSendCarriageReturn
+; 	fnSendLineFeed();
+			; SOURCE LINE # 155
+	LJMP 	fnSendLineFeed
+; END OF fnDeleteAllUnReadMessages
+
+; 
+; 
+;  // Waiting for Carriage Return Symbol to appear from GSM as response
+; 	// Response expected here is          OK <CR><LF>
+; }
+; void fnDeleteAllSentMessages(void)
+
+	RSEG  ?PR?fnDeleteAllSentMessages?GSMSIM300
+fnDeleteAllSentMessages:
+	USING	0
+			; SOURCE LINE # 161
+; {
+			; SOURCE LINE # 162
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 163
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	printf("AT+CMGDA="); // Command to delete all messages
+			; SOURCE LINE # 164
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_55)
+	MOV  	R1,#LOW (?SC_55)
+	LCALL	_printf
+; 	fnSendDoubleQuotes();
+			; SOURCE LINE # 165
+	LCALL	fnSendDoubleQuotes
+; 	printf("DEL SENT");
+			; SOURCE LINE # 166
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_94)
+	MOV  	R1,#LOW (?SC_94)
+	LCALL	_printf
+; 	fnSendDoubleQuotes();
+			; SOURCE LINE # 167
+	LCALL	fnSendDoubleQuotes
+; 
+; 	fnSendCarriageReturn();
+			; SOURCE LINE # 169
+	LCALL	fnSendCarriageReturn
+; 	fnSendLineFeed();
+			; SOURCE LINE # 170
+	LJMP 	fnSendLineFeed
+; END OF fnDeleteAllSentMessages
+
+; 	
+;   //Waiting for Carriage Return Symbol to appear from GSM as response
+; 	// Response expected here is          OK <CR><LF>
+; }
+; void fnDeleteAllUnSentMessages(void)
+
+	RSEG  ?PR?fnDeleteAllUnSentMessages?GSMSIM300
+fnDeleteAllUnSentMessages:
+	USING	0
+			; SOURCE LINE # 175
+; {
+			; SOURCE LINE # 176
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 177
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	printf("AT+CMGDA="); // Command to delete all messages;
+			; SOURCE LINE # 178
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_55)
+	MOV  	R1,#LOW (?SC_55)
+	LCALL	_printf
+; 	fnSendDoubleQuotes();
+			; SOURCE LINE # 179
+	LCALL	fnSendDoubleQuotes
+; 	printf("DEL UNSENT");
+			; SOURCE LINE # 180
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_103)
+	MOV  	R1,#LOW (?SC_103)
+	LCALL	_printf
+; 	fnSendDoubleQuotes();
+			; SOURCE LINE # 181
+	LCALL	fnSendDoubleQuotes
+; 
+; 	fnSendCarriageReturn();
+			; SOURCE LINE # 183
+	LCALL	fnSendCarriageReturn
+; 	fnSendLineFeed();
+			; SOURCE LINE # 184
+	LCALL	fnSendLineFeed
+?C0020:
+; 
+; 	while((fn_Receive_Serial())!='K');  // Waiting for Carriage Return Symbol to appear from GSM as response
+			; SOURCE LINE # 186
+	LCALL	fn_Receive_Serial
+	CJNE 	R7,#04BH,?C0020
+?C0021:
+; 	// Response expected here is          OK <CR><LF>
+; }
+			; SOURCE LINE # 188
+?C0022:
+	RET  	
+; END OF fnDeleteAllUnSentMessages
+
+; void fnDeleteAllReceivedMessages(void)
+
+	RSEG  ?PR?fnDeleteAllReceivedMessages?GSMSIM300
+fnDeleteAllReceivedMessages:
+	USING	0
+			; SOURCE LINE # 189
+; {
+			; SOURCE LINE # 190
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 191
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	printf("AT+CMGDA="); // Command to delete all messages
+			; SOURCE LINE # 192
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_55)
+	MOV  	R1,#LOW (?SC_55)
+	LCALL	_printf
+; 	fnSendDoubleQuotes();
+			; SOURCE LINE # 193
+	LCALL	fnSendDoubleQuotes
+; 	printf("DEL INBOX");
+			; SOURCE LINE # 194
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_73)
+	MOV  	R1,#LOW (?SC_73)
+	LCALL	_printf
+; 	fnSendDoubleQuotes();
+			; SOURCE LINE # 195
+	LCALL	fnSendDoubleQuotes
+; 
+; 	fnSendCarriageReturn();
+			; SOURCE LINE # 197
+	LCALL	fnSendCarriageReturn
+; 	fnSendLineFeed();
+			; SOURCE LINE # 198
+	LCALL	fnSendLineFeed
+?C0023:
+; 
+; 	while((fn_Receive_Serial())!= CR);  // Waiting for Carriage Return Symbol to appear from GSM as response
+			; SOURCE LINE # 200
+	LCALL	fn_Receive_Serial
+	CJNE 	R7,#0DH,?C0023
+?C0024:
+; 	// Response expected here is          OK <CR><LF>
+; }
+			; SOURCE LINE # 202
+?C0025:
+	RET  	
+; END OF fnDeleteAllReceivedMessages
+
+; 
+; 
+; char chfnGSMNetworkReadyCheck(void)
+
+	RSEG  ?PR?chfnGSMNetworkReadyCheck?GSMSIM300
+chfnGSMNetworkReadyCheck:
+	USING	0
+			; SOURCE LINE # 205
+; {
+			; SOURCE LINE # 206
+; 	unsigned char uchResponseFromGSM[15];
+; 	unsigned char uchCount=0;
+			; SOURCE LINE # 208
+	CLR  	A
+	MOV  	DPTR,#uchCount?1245
+	MOVX 	@DPTR,A
+; 	unsigned char uchTemp;
+; 
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 211
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	printf("AT+CPIN?");
+			; SOURCE LINE # 212
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_114)
+	MOV  	R1,#LOW (?SC_114)
+	LCALL	_printf
+; 	fnSendCarriageReturn();
+			; SOURCE LINE # 213
+	LCALL	fnSendCarriageReturn
+; 	fnSendLineFeed();
+			; SOURCE LINE # 214
+	LCALL	fnSendLineFeed
+?C0026:
+; 
+; 	while((fn_Receive_Serial())!='+');  // Waiting for '+' Symbol to appear from GSM as response
+			; SOURCE LINE # 216
+	LCALL	fn_Receive_Serial
+	CJNE 	R7,#02BH,?C0026
+?C0027:
+; 
+; 	uchCount=0;
+			; SOURCE LINE # 218
+	CLR  	A
+	MOV  	DPTR,#uchCount?1245
+; 	uchTemp = fn_Receive_Serial(); 	// First char of Response
+			; SOURCE LINE # 219
+;---- Variable 'uchTemp?1246' assigned to Register 'R7' ----
+	SJMP 	?C0062
+?C0028:
+; 	while(uchTemp!=0x0D)  // Fill Response till carriage return Symbol appears
+			; SOURCE LINE # 220
+	MOV  	A,R7
+	XRL  	A,#0DH
+	JZ   	?C0029
+; 	{
+			; SOURCE LINE # 221
+; 		uchResponseFromGSM[uchCount] = uchTemp;
+			; SOURCE LINE # 222
+	MOV  	DPTR,#uchCount?1245
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (uchResponseFromGSM?1244)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchResponseFromGSM?1244)
+	MOV  	DPH,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		uchCount++;
+			; SOURCE LINE # 223
+	MOV  	DPTR,#uchCount?1245
+	MOVX 	A,@DPTR
+	INC  	A
+?C0062:
+	MOVX 	@DPTR,A
+; 		uchTemp = fn_Receive_Serial(); 	
+			; SOURCE LINE # 224
+	LCALL	fn_Receive_Serial
+; 	}
+			; SOURCE LINE # 225
+	SJMP 	?C0028
+?C0029:
+; 	uchResponseFromGSM[uchCount] = 0;
+			; SOURCE LINE # 226
+	MOV  	DPTR,#uchCount?1245
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (uchResponseFromGSM?1244)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchResponseFromGSM?1244)
+	MOV  	DPH,A
+	CLR  	A
+	MOVX 	@DPTR,A
+; 	
+; 			//fnModuleSelect(SELECT_PC_ON_UART);
+; 			//printf("uchResponseFromGSM= %s",uchResponseFromGSM);
+; 			
+; 	if(strstr(uchResponseFromGSM,"READY"))
+			; SOURCE LINE # 231
+	MOV  	DPTR,#?_strstr?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_123)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_123)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (uchResponseFromGSM?1244)
+	MOV  	R1,#LOW (uchResponseFromGSM?1244)
+	LCALL	_strstr
+	MOV  	A,R2
+	ORL  	A,R1
+	ORL  	A,R3
+	JZ   	?C0030
+; 	{
+			; SOURCE LINE # 232
+; 		return(NETWORK_READY);			
+			; SOURCE LINE # 233
+	MOV  	R7,#01H
+	RET  	
+; 	}
+			; SOURCE LINE # 234
+?C0030:
+; 	return(NETWORK_NOT_READY);
+			; SOURCE LINE # 235
+	MOV  	R7,#00H
+; }
+			; SOURCE LINE # 236
+?C0031:
+	RET  	
+; END OF chfnGSMNetworkReadyCheck
+
+; 
+; 
+; 
+; unsigned char uchfnCheckInboxStatus(void)
+
+	RSEG  ?PR?uchfnCheckInboxStatus?GSMSIM300
+uchfnCheckInboxStatus:
+	USING	0
+			; SOURCE LINE # 240
+; {
+			; SOURCE LINE # 241
+; 
+; 	unsigned char uchSerialData,uchStatus;
+; 	
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 245
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	printf("AT+CMGR=1");   // Reading message at location No 1 in Inbox
+			; SOURCE LINE # 246
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_129)
+	MOV  	R1,#LOW (?SC_129)
+	LCALL	_printf
+; 	fnSendCarriageReturn();									  
+			; SOURCE LINE # 247
+	LCALL	fnSendCarriageReturn
+; 	fnSendLineFeed();
+			; SOURCE LINE # 248
+	LCALL	fnSendLineFeed
+; 
+; 	uchSerialData=fn_Receive_Serial();
+			; SOURCE LINE # 250
+;---- Variable 'uchSerialData?1347' assigned to Register 'R7' ----
+	SJMP 	?C0063
+?C0032:
+; 	while(((uchSerialData!='O')&&(uchSerialData!='+')))	// If OK only is received the NO message present at Location 1
+			; SOURCE LINE # 251
+	MOV  	A,R7
+	XRL  	A,#04FH
+	JZ   	?C0033
+	MOV  	A,R7
+	XRL  	A,#02BH
+	JZ   	?C0033
+; 								// incase any message is present it will start with +CMGR:			
+; 	{
+			; SOURCE LINE # 253
+; 		uchSerialData=fn_Receive_Serial(); 
+			; SOURCE LINE # 254
+?C0063:
+	LCALL	fn_Receive_Serial
+;    	}
+			; SOURCE LINE # 255
+	SJMP 	?C0032
+?C0033:
+; 
+;    switch(uchSerialData)
+			; SOURCE LINE # 257
+	MOV  	A,R7
+	ADD  	A,#0D5H
+	JZ   	?C0037
+	ADD  	A,#0DCH
+	JNZ  	?C0038
+;    {
+			; SOURCE LINE # 258
+; 					   
+; 	case 'O':  
+			; SOURCE LINE # 260
+?C0035:
+; 		return(INBOXEMPTY);
+			; SOURCE LINE # 261
+	MOV  	R7,#03H
+	RET  	
+; 	    break;
+			; SOURCE LINE # 262
+; 
+;     case '+':  
+			; SOURCE LINE # 264
+?C0037:
+; 		uchStatus=uchfnCheckFirstMessageStatus();
+			; SOURCE LINE # 265
+	LJMP 	uchfnCheckFirstMessageStatus
+;---- Variable 'uchStatus?1348' assigned to Register 'R7' ----
+; 	    return(uchStatus);
+			; SOURCE LINE # 266
+; 	    break;
+			; SOURCE LINE # 267
+; 
+;     default:  
+			; SOURCE LINE # 269
+?C0038:
+; 		return(ERROR);
+			; SOURCE LINE # 270
+	MOV  	R7,#02H
+	RET  	
+; END OF uchfnCheckInboxStatus
+
+; 	    break;
+; 	}
+; 
+; 	return(0);
+; }  
+; 
+; 
+; unsigned char uchfnCheckFirstMessageStatus(void)
+
+	RSEG  ?PR?uchfnCheckFirstMessageStatus?GSMSIM300
+uchfnCheckFirstMessageStatus:
+	USING	0
+			; SOURCE LINE # 278
+; {
+			; SOURCE LINE # 279
+; 	unsigned char i=0,uchSerialData=0;
+			; SOURCE LINE # 280
+	CLR  	A
+	MOV  	DPTR,#i?1449
+	MOVX 	@DPTR,A
+;---- Variable 'uchSerialData?1450' assigned to Register 'R7' ----
+	MOV  	R7,A
+; 	uchSerialData=fn_Receive_Serial();
+			; SOURCE LINE # 281
+	LCALL	fn_Receive_Serial
+?C0039:
+; 	while((uchSerialData)!=0x0d)
+			; SOURCE LINE # 282
+	MOV  	A,R7
+	XRL  	A,#0DH
+	JZ   	?C0040
+; 	{  
+			; SOURCE LINE # 283
+; 		uchSerialData=fn_Receive_Serial();
+			; SOURCE LINE # 284
+	LCALL	fn_Receive_Serial
+; 		displaybuffer[i++]=uchSerialData;
+			; SOURCE LINE # 285
+	MOV  	DPTR,#i?1449
+	MOVX 	A,@DPTR
+	MOV  	R6,A
+	INC  	A
+	MOVX 	@DPTR,A
+	MOV  	A,#LOW (displaybuffer)
+	ADD  	A,R6
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (displaybuffer)
+	MOV  	DPH,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	}
+			; SOURCE LINE # 286
+	SJMP 	?C0039
+?C0040:
+; 	uchSerialData = fn_Receive_Serial();
+			; SOURCE LINE # 287
+	LCALL	fn_Receive_Serial
+; 	displaybuffer[i++] = uchSerialData;						  
+			; SOURCE LINE # 288
+	SJMP 	?C0064
+?C0041:
+; 	while((uchSerialData=fn_Receive_Serial())!= '\r')
+			; SOURCE LINE # 289
+	LCALL	fn_Receive_Serial
+	MOV  	A,R7
+	XRL  	A,#0DH
+	JZ   	?C0042
+; 	{
+			; SOURCE LINE # 290
+; 		displaybuffer[i++] = uchSerialData;
+			; SOURCE LINE # 291
+?C0064:
+	MOV  	DPTR,#i?1449
+	MOVX 	A,@DPTR
+	MOV  	R6,A
+	INC  	A
+	MOVX 	@DPTR,A
+	MOV  	A,#LOW (displaybuffer)
+	ADD  	A,R6
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (displaybuffer)
+	MOV  	DPH,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	}   	   
+			; SOURCE LINE # 292
+	SJMP 	?C0041
+?C0042:
+; 	
+; 	displaybuffer[i]='\r';
+			; SOURCE LINE # 294
+	MOV  	DPTR,#i?1449
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (displaybuffer)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (displaybuffer)
+	MOV  	DPH,A
+	MOV  	A,#0DH
+	MOVX 	@DPTR,A
+; 	
+; 	if (strstr(displaybuffer,"UNREAD") )
+			; SOURCE LINE # 296
+	MOV  	DPTR,#?_strstr?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_139)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_139)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (displaybuffer)
+	MOV  	R1,#LOW (displaybuffer)
+	LCALL	_strstr
+	MOV  	A,R2
+	ORL  	A,R1
+	ORL  	A,R3
+	JZ   	?C0043
+; 	{	 
+			; SOURCE LINE # 297
+; 		return(NEWMESSAGE);
+			; SOURCE LINE # 298
+	MOV  	R7,#00H
+	RET  	
+; 	}
+			; SOURCE LINE # 299
+?C0043:
+; 	
+; 	if (strstr(displaybuffer,"READ") )	
+			; SOURCE LINE # 301
+	MOV  	DPTR,#?_strstr?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_146)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_146)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (displaybuffer)
+	MOV  	R1,#LOW (displaybuffer)
+	LCALL	_strstr
+	MOV  	A,R2
+	ORL  	A,R1
+	ORL  	A,R3
+	JZ   	?C0045
+; 	{	
+			; SOURCE LINE # 302
+; 		return(NONEWMESSAGE);
+			; SOURCE LINE # 303
+	MOV  	R7,#01H
+	RET  	
+; 	}						 	
+			; SOURCE LINE # 304
+?C0045:
+; 	else
+; 	{						 	
+			; SOURCE LINE # 306
+; 	return(ERROR);			 	
+			; SOURCE LINE # 307
+	MOV  	R7,#02H
+; 	}						 
+			; SOURCE LINE # 308
+; }						   
+			; SOURCE LINE # 309
+?C0044:
+	RET  	
+; END OF uchfnCheckFirstMessageStatus
+
+; 
+; void fnExtractPhoneNoAndMessage(void)
+
+	RSEG  ?PR?fnExtractPhoneNoAndMessage?GSMSIM300
+fnExtractPhoneNoAndMessage:
+	USING	0
+			; SOURCE LINE # 311
+; {									   	
+			; SOURCE LINE # 312
+; 	unsigned char i=0,databuff[20],index;  
+			; SOURCE LINE # 313
+;---- Variable 'i?1551' assigned to Register 'R7' ----
+	CLR  	A
+	MOV  	R7,A
+?C0047:
+; 		
+; 	while((displaybuffer[i])!='+')
+			; SOURCE LINE # 315
+	MOV  	A,#LOW (displaybuffer)
+	ADD  	A,R7
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (displaybuffer)
+	MOV  	DPH,A
+	MOVX 	A,@DPTR
+	XRL  	A,#02BH
+	JZ   	?C0048
+; 	{
+			; SOURCE LINE # 316
+; 		i++;		
+			; SOURCE LINE # 317
+	INC  	R7
+; 	}
+			; SOURCE LINE # 318
+	SJMP 	?C0047
+?C0048:
+; 	index=i; 
+			; SOURCE LINE # 319
+	MOV  	DPTR,#index?1553
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	
+; 	for(i=0;i<=12;i++)
+			; SOURCE LINE # 321
+	CLR  	A
+	MOV  	R7,A
+?C0049:
+; 	{				
+			; SOURCE LINE # 322
+; 		databuff[i]=displaybuffer[index+i];	
+			; SOURCE LINE # 323
+	MOV  	DPTR,#index?1553
+	MOVX 	A,@DPTR
+	ADD  	A,R7
+	ADD  	A,#LOW (displaybuffer)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (displaybuffer)
+	MOV  	DPH,A
+	MOVX 	A,@DPTR
+	MOV  	R6,A
+	MOV  	A,#LOW (databuff?1552)
+	ADD  	A,R7
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (databuff?1552)
+	MOV  	DPH,A
+	MOV  	A,R6
+	MOVX 	@DPTR,A
+; 	}
+			; SOURCE LINE # 324
+	INC  	R7
+	MOV  	A,R7
+	CJNE 	A,#0DH,?C0049
+?C0050:
+; 	databuff[i]='\0';					   	
+			; SOURCE LINE # 325
+	MOV  	A,#LOW (databuff?1552)
+	ADD  	A,R7
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (databuff?1552)
+	MOV  	DPH,A
+	CLR  	A
+	MOVX 	@DPTR,A
+; 	strcpy(guchphonenumberpacket,databuff);	
+			; SOURCE LINE # 326
+	MOV  	R0,#LOW (guchphonenumberpacket)
+	MOV  	R4,#HIGH (guchphonenumberpacket)
+	MOV  	R5,#01H
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (databuff?1552)
+	MOV  	R1,#LOW (databuff?1552)
+	LCALL	?C?STRCPY
+; 	i=0;								   	
+			; SOURCE LINE # 327
+	CLR  	A
+	MOV  	R7,A
+?C0052:
+; 	while(displaybuffer[i]!=0x0a)
+			; SOURCE LINE # 328
+	MOV  	A,#LOW (displaybuffer)
+	ADD  	A,R7
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (displaybuffer)
+	MOV  	DPH,A
+	MOVX 	A,@DPTR
+	XRL  	A,#0AH
+	JZ   	?C0053
+; 	{
+			; SOURCE LINE # 329
+; 		i++;
+			; SOURCE LINE # 330
+	INC  	R7
+; 	}
+			; SOURCE LINE # 331
+	SJMP 	?C0052
+?C0053:
+; 	index = ++i;
+			; SOURCE LINE # 332
+	INC  	R7
+	MOV  	DPTR,#index?1553
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	i=0;
+			; SOURCE LINE # 333
+	CLR  	A
+	MOV  	R7,A
+?C0054:
+; 	while(displaybuffer[index+i]!='\r')
+			; SOURCE LINE # 334
+	MOV  	DPTR,#index?1553
+	MOVX 	A,@DPTR
+	ADD  	A,R7
+	ADD  	A,#LOW (displaybuffer)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (displaybuffer)
+	MOV  	DPH,A
+	MOVX 	A,@DPTR
+	MOV  	R6,A
+	XRL  	A,#0DH
+	JZ   	?C0055
+; 	{
+			; SOURCE LINE # 335
+; 		databuff[i]=displaybuffer[index+i];
+			; SOURCE LINE # 336
+	MOV  	A,#LOW (databuff?1552)
+	ADD  	A,R7
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (databuff?1552)
+	MOV  	DPH,A
+	MOV  	A,R6
+	MOVX 	@DPTR,A
+; 		i++;
+			; SOURCE LINE # 337
+	INC  	R7
+; 	}
+			; SOURCE LINE # 338
+	SJMP 	?C0054
+?C0055:
+; 	databuff[i]='\0';				   	
+			; SOURCE LINE # 339
+	MOV  	A,#LOW (databuff?1552)
+	ADD  	A,R7
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (databuff?1552)
+	MOV  	DPH,A
+	CLR  	A
+	MOVX 	@DPTR,A
+; 	strcpy(guchmessagepacket,databuff);	
+			; SOURCE LINE # 340
+	MOV  	R0,#LOW (guchmessagepacket)
+	MOV  	R4,#HIGH (guchmessagepacket)
+	MOV  	R5,#01H
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (databuff?1552)
+	MOV  	R1,#LOW (databuff?1552)
+	LJMP 	?C?STRCPY
+; END OF fnExtractPhoneNoAndMessage
+
+; }
+;  
+; 
+; 
+; void  fn_Disable_Echo(void)
+
+	RSEG  ?PR?fn_Disable_Echo?GSMSIM300
+fn_Disable_Echo:
+	USING	0
+			; SOURCE LINE # 345
+; {
+			; SOURCE LINE # 346
+; 	printf("ATE0");
+			; SOURCE LINE # 347
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_151)
+	MOV  	R1,#LOW (?SC_151)
+	LCALL	_printf
+; 	fnSendCarriageReturn();
+			; SOURCE LINE # 348
+	LJMP 	fnSendCarriageReturn
+; END OF fn_Disable_Echo
+
+; }
+; void fnSendCarriageReturn(void)						   
+
+	RSEG  ?PR?fnSendCarriageReturn?GSMSIM300
+fnSendCarriageReturn:
+	USING	0
+			; SOURCE LINE # 350
+; {	 
+			; SOURCE LINE # 351
+; 	char c=0x0d;
+			; SOURCE LINE # 352
+;---- Variable 'c?1754' assigned to Register 'R7' ----
+	MOV  	R7,#0DH
+; 	printf("%c",c);
+			; SOURCE LINE # 353
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_156)
+	MOV  	R1,#LOW (?SC_156)
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+	LJMP 	_printf
+; END OF fnSendCarriageReturn
+
+; }
+; 
+; void fnSendLineFeed(void)
+
+	RSEG  ?PR?fnSendLineFeed?GSMSIM300
+fnSendLineFeed:
+	USING	0
+			; SOURCE LINE # 356
+; {  	char c=0X0A;
+			; SOURCE LINE # 357
+;---- Variable 'c?1855' assigned to Register 'R7' ----
+	MOV  	R7,#0AH
+; 	printf("%c",c);
+			; SOURCE LINE # 358
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_156)
+	MOV  	R1,#LOW (?SC_156)
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+	LJMP 	_printf
+; END OF fnSendLineFeed
+
+; }
+; 
+; void fnSendSUBCtrlZ(void)
+
+	RSEG  ?PR?fnSendSUBCtrlZ?GSMSIM300
+fnSendSUBCtrlZ:
+	USING	0
+			; SOURCE LINE # 361
+; {   char c= 0x1A;
+			; SOURCE LINE # 362
+;---- Variable 'c?1956' assigned to Register 'R7' ----
+	MOV  	R7,#01AH
+; 	printf("%c", c);
+			; SOURCE LINE # 363
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_156)
+	MOV  	R1,#LOW (?SC_156)
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+	LJMP 	_printf
+; END OF fnSendSUBCtrlZ
+
+; }
+; 
+; void fnSendDoubleQuotes(void)
+
+	RSEG  ?PR?fnSendDoubleQuotes?GSMSIM300
+fnSendDoubleQuotes:
+	USING	0
+			; SOURCE LINE # 366
+; {
+			; SOURCE LINE # 367
+;     char c= 0x22;
+			; SOURCE LINE # 368
+;---- Variable 'c?2057' assigned to Register 'R7' ----
+	MOV  	R7,#022H
+; 	printf("%c",c);
+			; SOURCE LINE # 369
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_156)
+	MOV  	R1,#LOW (?SC_156)
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+	LJMP 	_printf
+; END OF fnSendDoubleQuotes
+
+	END

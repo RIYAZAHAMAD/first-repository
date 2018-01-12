@@ -1,0 +1,507 @@
+C51 COMPILER V9.02   PROJECTMAIN                                                           04/01/2013 22:01:21 PAGE 1   
+
+
+C51 COMPILER V9.02, COMPILATION OF MODULE PROJECTMAIN
+OBJECT MODULE PLACED IN ProjectMain.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ProjectMain.c LARGE BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*
+   2              filename    :ProjectMain.c
+   3                  description     :transmit and receive data by serial port
+   4                  author          :apsis_team
+   5                  date            :
+   6          
+   7          */
+   8          
+   9          #include <reg51.h>
+  10          #include <stdio.h>
+  11          #include <string.h>
+  12          #include <stdlib.h>
+  13          #include "ProjectMain.h"
+  14          #include "serial_codes.h"
+  15          #include "delay.h"
+  16          #include "strings.h"
+  17          #include "LCD.h"
+  18          #include "pinallocation.h"
+  19          #include "GPS_NMEA.h"
+  20          #include "GSMSIM300.h"
+  21          #include "keyboard.h"
+  22          
+  23          
+  24          #define PASSWORDLENGTH                  5
+  25          #define REACHED_TO_DESTINATION  1
+  26          #define NOT_A_DESTINATION               0
+  27          #define RFID_CARD_NoLENGTH      11
+  28          
+  29          extern unsigned char key_pressed[7];
+  30          extern unsigned char gdisplayuchBufffer[30];
+  31          extern unsigned char guchLatitude[11];
+  32          extern unsigned char NSIndicator;
+  33          extern unsigned char guchLongitude[11];
+  34          extern unsigned char EWIndicator;
+  35          extern unsigned char guchmessagepacket[40] ;
+  36          extern unsigned char guchphonenumberpacket[15],guchCompleteGSMDataPacket[160];
+  37          
+  38          unsigned char uchTempVariable;
+  39          
+  40          unsigned char uchBuff[30] ;
+  41          unsigned char destination_update;
+  42          unsigned char rfid_card_no[16];
+  43          unsigned char rfid_count;                         
+  44          
+  45          
+  46          
+  47          
+  48          unsigned char uchMsgStatus;
+  49                                                                                                                          
+  50          extern unsigned char unValueFromCounter[6];
+  51          
+  52          extern unsigned char guchGSMPhoneNumber[15];
+  53          //unsigned char FlagVehicleLift,FlagVehicleHit,FlagSendSMS;
+  54          unsigned char code PHONE_NUMBERFOR_VB[20]=      {"9035135559"};
+  55          unsigned char code PHONE_NUMBERS[2][20]= {"7204931571" ,         //sandeep 7406050252 , riyaz 9738731765, prashan
+C51 COMPILER V9.02   PROJECTMAIN                                                           04/01/2013 22:01:21 PAGE 2   
+
+             -th 9035135559
+  56                                                                                                  "9738731765"}   ;
+  57          void fnModuleSelect(unsigned char uchModuleSelect)
+  58          {
+  59   1              
+  60   1      
+  61   1              switch(uchModuleSelect)
+  62   1              {
+  63   2                      case SELECT_PC_ON_UART:
+  64   2                                              ModuleSelect0   = 1;
+  65   2                                              ModuleSelect1   = 1;
+  66   2                                              break;
+  67   2                      case SELECT_GPS_ON_UART:
+  68   2                                              ModuleSelect0   = 0;
+  69   2                                              ModuleSelect1   = 1;
+  70   2                                              break;
+  71   2                      case SELECT_GSM_ON_UART:
+  72   2                                              ModuleSelect0   = 1;
+  73   2                                              ModuleSelect1   = 0;
+  74   2                                              break;
+  75   2                      case SELECT_RFID_ON_UART:
+  76   2                                              ModuleSelect0   = 0;
+  77   2                                              ModuleSelect1   = 0;
+  78   2                                              break;
+  79   2                      default:
+  80   2                                              ModuleSelect0   = 1;
+  81   2                                              ModuleSelect1   = 1;
+  82   2                                              break;
+  83   2              }
+  84   1      }
+  85          
+  86          
+  87          void fnProjectMain(void)
+  88          {
+  89   1              unsigned int k;
+  90   1              delay_in_seconds(5);
+  91   1              destination_update = NOT_A_DESTINATION;
+  92   1              fnModuleSelect(SELECT_GSM_ON_UART);// Giving time so that GSM Boots up properly         
+  93   1              fn_GSM_Send_Init();                                //
+  94   1              for(k=0; k<2;k++)
+  95   1              {
+  96   2              strcpy(guchGSMPhoneNumber,PHONE_NUMBERS[k]);
+  97   2              strcpy(guchCompleteGSMDataPacket,"Boot Up Message from Project - I am Active");
+  98   2              fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket); 
+  99   2              }
+ 100   1      //      strcpy(guchGSMPhoneNumber,PHONE_NUMBERFOR_VB);
+ 101   1      //      strcpy(guchCompleteGSMDataPacket,"Boot Up Message from Project - I am Active");
+ 102   1      //      fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket); 
+ 103   1              fnModuleSelect(SELECT_PC_ON_UART);
+ 104   1              printf("\nMessage Sent to Predefined Number\n");
+ 105   1              RI=0;
+ 106   1              RI=0;   
+ 107   1              fn_GSM_Recieve_Init();
+ 108   1              fnModuleSelect(SELECT_PC_ON_UART);
+ 109   1              printf("\nMODEM Set in 2,1,0,0,0 Mode to Recieve Incoming SMSs\n");     
+ 110   1              fn_GETGPSCoordinates();
+ 111   1              fnModuleSelect(SELECT_PC_ON_UART);
+ 112   1              printf("guchCompleteGSMDataPacket = %s\n",guchCompleteGSMDataPacket);
+ 113   1              printf("Latitude =%s,%c\n",guchLatitude,NSIndicator);
+ 114   1              printf("Longitude =%s,%c\n",guchLongitude,EWIndicator);
+ 115   1              
+ 116   1              fn_lcd_select_line_and_location(LCD_LINE_1, LOCATION_0);
+C51 COMPILER V9.02   PROJECTMAIN                                                           04/01/2013 22:01:21 PAGE 3   
+
+ 117   1          fn_Display_String_LCD(string_project_name);
+ 118   1          fn_lcd_select_line_and_location(LCD_LINE_2, LOCATION_0);
+ 119   1          fn_Display_String_LCD(string_welcome);
+ 120   1         
+ 121   1              P2=0xff;
+ 122   1              
+ 123   1        while(1)
+ 124   1        {
+ 125   2              Buzzer_pin=BUZZERDISABLE;
+ 126   2              if(EM_lock_pin==LOCKENABLED)
+ 127   2      
+ 128   2              {
+ 129   3                      fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+ 130   3                      fn_Display_String_LCD(" PRESS LOCK KEY ");
+ 131   3                      fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+ 132   3                      fn_Display_String_LCD("                 ");
+ 133   3      
+ 134   3                      while(EM_lock_enabe_button!=0);
+ 135   3                      EM_lock_pin=LOCKENABLED;
+ 136   3                      fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+ 137   3                      fn_Display_String_LCD("CARGO IS LOCKED ");
+ 138   3                      fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+ 139   3                      fn_Display_String_LCD("                 ");
+ 140   3                  delay_in_seconds(1);
+ 141   3              }
+ 142   2      
+ 143   2      
+ 144   2      
+ 145   2              
+ 146   2              strcpy(uchBuff ,"cargo is at source station") ;
+ 147   2              fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+ 148   2              fn_Display_String_LCD("Cargo Is GoingTo");
+ 149   2              fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+ 150   2              fn_Display_String_LCD("Acharya College ");
+ 151   2              //delay_in_seconds(1);
+ 152   2      
+ 153   2      //      fnToCheckInboxStatusAndDecryptCommandsIfAnySMS();          /* Function to read messages if any*/ //fnToCheckI
+             -nboxStatusAndDecryptIfAny
+ 154   2              
+ 155   2              while(!EM_lock_pin && !destination_update)        /* If  lock is not tampered on the way and if msg received 
+             -to get status then send the status                    */
+ 156   2              {
+ 157   3                      destination_update=chfnToCheckVehicleReachedToDestination();
+ 158   3                      fnVehicleOnTheWay();    
+ 159   3                      delay_in_seconds(2);
+ 160   3              }
+ 161   2              
+ 162   2              if(EM_lock_pin!=0) // To detect any temper cause to cargo
+ 163   2              {
+ 164   3                      fnCargoTampered();   
+ 165   3              }       
+ 166   2             
+ 167   2                              
+ 168   2              
+ 169   2              if(destination_update==REACHED_TO_DESTINATION)
+ 170   2              {       
+ 171   3                      unsigned char uchserialdata;
+ 172   3                      fnModuleSelect(SELECT_PC_ON_UART);              
+ 173   3                      delay_in_seconds(1);
+ 174   3                      printf("\nDestination Reached");
+ 175   3                      fnInitialisationAtDestination();
+ 176   3                      fnModuleSelect(SELECT_GSM_ON_UART);
+C51 COMPILER V9.02   PROJECTMAIN                                                           04/01/2013 22:01:21 PAGE 4   
+
+ 177   3                      fnDeleteAllMessages();
+ 178   3                      uchMsgStatus=uchfnCheckInboxStatus();
+ 179   3                      fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+ 180   3                      fn_Display_String_LCD("WAITING FOR MSG ");
+ 181   3                      fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+ 182   3                      fn_Display_String_LCD("  FROM SOURCE   ");
+ 183   3      
+ 184   3                      while(uchMsgStatus!=NEWMESSAGE)
+ 185   3                      {
+ 186   4                              fnModuleSelect(SELECT_GSM_ON_UART);
+ 187   4                              delay_in_seconds(1);
+ 188   4                              uchMsgStatus=uchfnCheckInboxStatus();   
+ 189   4                              fnModuleSelect(SELECT_PC_ON_UART);              
+ 190   4                              delay_in_seconds(1);
+ 191   4                              
+ 192   4                              printf("\nWaiting for Authorising Message from Base Station");
+ 193   4                              delay_in_seconds(1);
+ 194   4                      }
+ 195   3                      fnModuleSelect(SELECT_PC_ON_UART);
+ 196   3                      printf("\nAuthorising Message RECIEVED");
+ 197   3                      RI=0;
+ 198   3                      RI=0;
+ 199   3                      fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+ 200   3                      fn_Display_String_LCD(" SWIPE RFID CARD ");
+ 201   3                      fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+ 202   3                      fn_Display_String_LCD("                 ");
+ 203   3                      delay_in_seconds(1);
+ 204   3      
+ 205   3                      fnModuleSelect(SELECT_RFID_ON_UART);
+ 206   3                      while((fn_Receive_Serial())!=0x03);
+ 207   3                      rfid_count=0;
+ 208   3                      
+ 209   3                      while(uchserialdata!=0x0a)                                                                               
+ 210   3                      {
+ 211   4                              uchserialdata=fn_Receive_Serial();                                                         
+ 212   4                              rfid_card_no[rfid_count]=uchserialdata;
+ 213   4                              rfid_count++ ;
+ 214   4                      }
+ 215   3                      rfid_card_no[rfid_count-2]='\0';
+ 216   3                      fnModuleSelect(SELECT_PC_ON_UART);
+ 217   3                      printf("rfid card no is = %s",rfid_card_no);
+ 218   3                      RI=0;
+ 219   3                      RI=0;
+ 220   3                      
+ 221   3                      fnExtractPhoneNoAndMessage();
+ 222   3                      if(strstr( guchmessagepacket,rfid_card_no)) // RFID card detection
+ 223   3                      {
+ 224   4                              fnModuleSelect(SELECT_PC_ON_UART);
+ 225   4                              printf("rfid card no is matched ");
+ 226   4                              delay_in_seconds(2);
+ 227   4                              fn_keyboard_12x1for_password(PASSWORDLENGTH);
+ 228   4                              printf("key pressed = %s",key_pressed);
+ 229   4                              if(strstr( guchmessagepacket,key_pressed))   // password detection
+ 230   4                              {
+ 231   5                                      EM_lock_pin=LOCKDISABLE ;
+ 232   5                                      Buzzer_pin=BUZZERDISABLE;
+ 233   5                                      fnToSendAlertMSGFromDestination();                              
+ 234   5                              }
+ 235   4                              else
+ 236   4                              {
+ 237   5                                      fnInvalidAuthorisationAtDestination();  
+ 238   5                              }
+C51 COMPILER V9.02   PROJECTMAIN                                                           04/01/2013 22:01:21 PAGE 5   
+
+ 239   4                   }
+ 240   3                  else
+ 241   3                      {
+ 242   4                              fnInvalidAuthorisationAtDestination();
+ 243   4                  }
+ 244   3      
+ 245   3                      RI=0;
+ 246   3                      RI=0;
+ 247   3                              
+ 248   3              }
+ 249   2              
+ 250   2        }
+ 251   1      
+ 252   1      }
+ 253                          
+ 254          
+ 255          
+ 256          
+ 257          void fnVehicleOnTheWay(void)
+ 258          {
+ 259   1              strcpy(uchBuff, "cargo is on the way");
+ 260   1                      if(EM_lock_pin!=0)
+ 261   1              {
+ 262   2                      fnCargoTampered();
+ 263   2              }
+ 264   1              
+ 265   1              fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+ 266   1              fn_Display_String_LCD("CARGO IsOnWAY TO");
+ 267   1              fnToCheckInboxStatusAndDecryptCommandsIfAnySMS();
+ 268   1              
+ 269   1      
+ 270   1      }               
+ 271          
+ 272          
+ 273          unsigned char chfnToCheckVehicleReachedToDestination(void)
+ 274          {
+ 275   1      
+ 276   1              if (EM_lock_enabe_button==0)
+ 277   1              {
+ 278   2                      return (REACHED_TO_DESTINATION);
+ 279   2              }
+ 280   1      
+ 281   1              else
+ 282   1              return (NOT_A_DESTINATION);
+ 283   1      
+ 284   1      }
+ 285          
+ 286          
+ 287          void fnToSendAlertMSGFromDestination(void)
+ 288          {
+ 289   1              fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+ 290   1              fn_Display_String_LCD("PASSWORD MATCHED");
+ 291   1              fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+ 292   1              fn_Display_String_LCD("                 ");
+ 293   1              delay_in_seconds(5);
+ 294   1              fnModuleSelect(SELECT_GSM_ON_UART);
+ 295   1      
+ 296   1              strcpy(guchGSMPhoneNumber,PHONE_NUMBERFOR_VB);
+ 297   1          strcpy(guchCompleteGSMDataPacket,"CAUTION: YOUR VEHICLE no 111 \n ");
+ 298   1              strcat(guchCompleteGSMDataPacket, "LOCK IS OPENED SUCCESSFULLY AT DESTINATION ");
+ 299   1          strcat(guchCompleteGSMDataPacket, " ITS CORDINATES ARE @");
+ 300   1          strcat(guchCompleteGSMDataPacket, guchLatitude);
+C51 COMPILER V9.02   PROJECTMAIN                                                           04/01/2013 22:01:21 PAGE 6   
+
+ 301   1          strcat(guchCompleteGSMDataPacket,"N ");
+ 302   1          strcat(guchCompleteGSMDataPacket, guchLongitude);
+ 303   1          strcat(guchCompleteGSMDataPacket,"E");
+ 304   1          fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket);
+ 305   1              
+ 306   1              fnModuleSelect(SELECT_GSM_ON_UART);
+ 307   1              strcpy(guchGSMPhoneNumber,PHONE_NUMBERS[0]);
+ 308   1          strcpy(guchCompleteGSMDataPacket,"CAUTION: YOUR VEHICLE no 111 \n ");
+ 309   1              strcat(guchCompleteGSMDataPacket, "LOCK IS OPENED SUCCESSFULLY AT DESTINATION\n");
+ 310   1          strcat(guchCompleteGSMDataPacket, " ITS CORDINATES ARE\n ");
+ 311   1          strcat(guchCompleteGSMDataPacket, guchLatitude);
+ 312   1          strcat(guchCompleteGSMDataPacket,"N\n");
+ 313   1          strcat(guchCompleteGSMDataPacket, guchLongitude);
+ 314   1          strcat(guchCompleteGSMDataPacket,"E\n");
+ 315   1          fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket);
+ 316   1              
+ 317   1              
+ 318   1              fnModuleSelect(SELECT_PC_ON_UART);
+ 319   1              printf("guchCompleteGSMDataPacket = %s\n",guchCompleteGSMDataPacket);
+ 320   1              
+ 321   1      }
+ 322          
+ 323          
+ 324          
+ 325          void fnInvalidAuthorisationAtDestination(void)
+ 326          {
+ 327   1              Buzzer_pin=BUZZERENABLED;
+ 328   1              fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+ 329   1              fn_Display_String_LCD(" ACCESS DENIED ");
+ 330   1              fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+ 331   1              fn_Display_String_LCD("                 ");
+ 332   1              delay_in_seconds(2);
+ 333   1              fnModuleSelect(SELECT_GSM_ON_UART);
+ 334   1              strcpy(guchGSMPhoneNumber,PHONE_NUMBERFOR_VB);
+ 335   1          strcpy(guchCompleteGSMDataPacket,"CAUTION: YOUR VEHICLE no 111 \n ");
+ 336   1              strcat(guchCompleteGSMDataPacket, "UNAUTHORISED PERSION IS TRYING TO OPEN LOCK AT DESTINATION\n");
+ 337   1          strcat(guchCompleteGSMDataPacket, " ITS CORDINATES ARE @");
+ 338   1          strcat(guchCompleteGSMDataPacket, guchLatitude);
+ 339   1          strcat(guchCompleteGSMDataPacket,"N ");
+ 340   1          strcat(guchCompleteGSMDataPacket, guchLongitude);
+ 341   1          strcat(guchCompleteGSMDataPacket,"E");
+ 342   1          fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket);
+ 343   1              
+ 344   1              fnModuleSelect(SELECT_PC_ON_UART);
+ 345   1              printf("guchCompleteGSMDataPacket = %s\n",guchCompleteGSMDataPacket);   
+ 346   1      }
+ 347          
+ 348          
+ 349          void fnCargoTampered(void)
+ 350          {
+ 351   1              Buzzer_pin=BUZZERENABLED;
+ 352   1              fnModuleSelect(SELECT_GSM_ON_UART);
+ 353   1              strcpy(guchGSMPhoneNumber,PHONE_NUMBERS[0]);
+ 354   1          strcpy(guchCompleteGSMDataPacket,"CAUTION: YOUR VEHICLE no 111 \n ");
+ 355   1              strcat(guchCompleteGSMDataPacket, "IS TAMPERED!!  \n");
+ 356   1              strcat(guchCompleteGSMDataPacket, uchBuff);
+ 357   1          strcat(guchCompleteGSMDataPacket, " \r ITS CORDINATES ARE\n ");
+ 358   1          strcat(guchCompleteGSMDataPacket, guchLatitude);
+ 359   1          strcat(guchCompleteGSMDataPacket,"N\n");
+ 360   1          strcat(guchCompleteGSMDataPacket, guchLongitude);
+ 361   1          strcat(guchCompleteGSMDataPacket,"E\n");
+ 362   1          fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket);
+C51 COMPILER V9.02   PROJECTMAIN                                                           04/01/2013 22:01:21 PAGE 7   
+
+ 363   1      
+ 364   1              strcpy(guchGSMPhoneNumber,PHONE_NUMBERFOR_VB);
+ 365   1          strcpy(guchCompleteGSMDataPacket,"CAUTION: YOUR VEHICLE no 111 \n ");
+ 366   1              strcat(guchCompleteGSMDataPacket, "IS TAMPERED!!  ");
+ 367   1              strcat(guchCompleteGSMDataPacket, uchBuff);
+ 368   1          strcat(guchCompleteGSMDataPacket, " ITS CORDINATES ARE @");
+ 369   1          strcat(guchCompleteGSMDataPacket, guchLatitude);
+ 370   1          strcat(guchCompleteGSMDataPacket,"N ");
+ 371   1          strcat(guchCompleteGSMDataPacket, guchLongitude);
+ 372   1          strcat(guchCompleteGSMDataPacket,"E");
+ 373   1          fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket);
+ 374   1      
+ 375   1              fnModuleSelect(SELECT_PC_ON_UART);
+ 376   1              printf("guchCompleteGSMDataPacket = %s\n",guchCompleteGSMDataPacket);   
+ 377   1      }
+ 378          
+ 379          
+ 380          void fnInitialisationAtDestination(void)
+ 381          {
+ 382   1              fnModuleSelect(SELECT_GSM_ON_UART);
+ 383   1              fnDeleteAllMessages();
+ 384   1              
+ 385   1              strcpy(guchGSMPhoneNumber,PHONE_NUMBERFOR_VB);
+ 386   1          strcpy(guchCompleteGSMDataPacket,"CAUTION: YOUR VEHICLE no 111 ");
+ 387   1              strcat(guchCompleteGSMDataPacket, "Has REACHED TO DESTINATION ");
+ 388   1          strcat(guchCompleteGSMDataPacket, " ITS CORDINATES ARE @");
+ 389   1          strcat(guchCompleteGSMDataPacket, guchLatitude);
+ 390   1          strcat(guchCompleteGSMDataPacket,"N ");
+ 391   1          strcat(guchCompleteGSMDataPacket, guchLongitude);
+ 392   1          strcat(guchCompleteGSMDataPacket,"E");
+ 393   1          fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket);     
+ 394   1      
+ 395   1              fnModuleSelect(SELECT_PC_ON_UART);
+ 396   1              fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+ 397   1              fn_Display_String_LCD("MSG SendToBaseSt");        
+ 398   1              
+ 399   1              printf("guchCompleteGSMDataPacket = %s\n",guchCompleteGSMDataPacket);   
+ 400   1      }
+ 401          
+ 402          
+ 403          
+ 404          
+ 405          
+ 406          
+ 407          void fnToCheckInboxStatusAndDecryptCommandsIfAnySMS(void)
+ 408          {
+ 409   1              uchTempVariable = uchfnCheckInboxStatus();
+ 410   1                      
+ 411   1                      fnModuleSelect(SELECT_PC_ON_UART);      
+ 412   1                                       
+ 413   1                      switch(uchTempVariable)
+ 414   1                      {
+ 415   2                              case NEWMESSAGE:
+ 416   2                                      printf("\nNEW Message Present in INBOX");       
+ 417   2                                      fnExtractPhoneNoAndMessage();
+ 418   2                                      printf("\nPhone Number = %s\n", guchphonenumberpacket); 
+ 419   2                                      printf("\nMessage = %s\n", guchmessagepacket);
+ 420   2                                      fnDecryptCommandsInSMS();
+ 421   2                                      break;
+ 422   2                              case NONEWMESSAGE:
+ 423   2                                      printf("\nNO new message in inbox");    
+ 424   2                                      fnExtractPhoneNoAndMessage();
+C51 COMPILER V9.02   PROJECTMAIN                                                           04/01/2013 22:01:21 PAGE 8   
+
+ 425   2                                      printf("\nPhone Number = %s\n", guchphonenumberpacket); 
+ 426   2                                      printf("\nMessage = %s\n", guchmessagepacket);
+ 427   2                                      break; 
+ 428   2                              case INBOXEMPTY:
+ 429   2                                      printf("\nINBOX EMPTY\n");      
+ 430   2                                      break; 
+ 431   2                              default:
+ 432   2                                      printf("\nERROR Reading Status");       
+ 433   2                                      break;                                                          
+ 434   2                      }
+ 435   1                      printf("\nInbox Status Checked and Message Decoded if any present\n");  
+ 436   1                      RI=0;
+ 437   1                      RI=0;
+ 438   1              
+ 439   1                      fnDeleteAllMessages();
+ 440   1                      fnModuleSelect(SELECT_PC_ON_UART);
+ 441   1                      printf("\nAll Messages Deleted\n"); 
+ 442   1              
+ 443   1       }
+ 444          
+ 445           void fnDecryptCommandsInSMS(void)
+ 446          {
+ 447   1              if(strstr(guchmessagepacket,"1234"))
+ 448   1              {                                                                                                                               
+ 449   2                      if(strstr(guchmessagepacket,"STATUS"))
+ 450   2                      {
+ 451   3                              strcpy(guchGSMPhoneNumber,guchphonenumberpacket);
+ 452   3                              strcpy(guchCompleteGSMDataPacket,"CAUTION:STATUS: YOUR VEHICLE no 111 ");
+ 453   3                              strcat(guchCompleteGSMDataPacket, uchBuff);
+ 454   3                              strcat(guchCompleteGSMDataPacket, " IT'S CORDINATES ARE @");
+ 455   3                              strcat(guchCompleteGSMDataPacket, guchLatitude);
+ 456   3                              strcat(guchCompleteGSMDataPacket,"N ");
+ 457   3                              strcat(guchCompleteGSMDataPacket, guchLongitude);
+ 458   3                              strcat(guchCompleteGSMDataPacket,"E");
+ 459   3                              fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket); 
+ 460   3      
+ 461   3                              fnModuleSelect(SELECT_PC_ON_UART);
+ 462   3                              printf("\n Message Sent with this Body \n");
+ 463   3                              printf("%s\n", guchCompleteGSMDataPacket);              
+ 464   3                      
+ 465   3                      }
+ 466   2              }
+ 467   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   2846    ----
+   CONSTANT SIZE    =   1479    ----
+   XDATA SIZE       =     50       3
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,165 @@
+C51 COMPILER V9.02   LCD                                                                   04/01/2013 22:01:20 PAGE 1   
+
+
+C51 COMPILER V9.02, COMPILATION OF MODULE LCD
+OBJECT MODULE PLACED IN LCD.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE LCD.c LARGE BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*
+   2          LCD.c
+   3          */
+   4          
+   5          #include <reg51.h>
+   6          #include <intrins.h>
+   7          #include "LCD.h"
+   8          #include "delay.h"
+   9          #include "PinAllocation.h"
+  10          
+  11          bit sel_reg=0;          // for data write/command write used in void lcd_cmdw(unsigned char a) 
+  12          
+  13          //unsigned char uch_Lcd_Data;
+  14          
+  15          void fn_Display_String_LCD(unsigned char *generic_ptr)
+  16          {   
+  17   1              while (*generic_ptr) 
+  18   1              {
+  19   2                  uch_Lcd_Data =*generic_ptr;
+  20   2              lcd_write_data();
+  21   2                      generic_ptr++;
+  22   2              }
+  23   1      }
+  24          
+  25          void write_port_lcd(bit high_low_nibble) 
+  26          {
+  27   1          if (high_low_nibble != 0)
+  28   1          {
+  29   2              lcd_d7_msb      =       uch_Lcd_Data & 0x80;   
+  30   2              lcd_d6          =       uch_Lcd_Data & 0x40;   
+  31   2              lcd_d5          =       uch_Lcd_Data & 0x20;  
+  32   2              lcd_d4_lsb      =       uch_Lcd_Data & 0x10;  
+  33   2          }
+  34   1          else
+  35   1          {
+  36   2              lcd_d7_msb      =       uch_Lcd_Data & 0x08;   
+  37   2              lcd_d6          =       uch_Lcd_Data & 0x04;   
+  38   2              lcd_d5          =       uch_Lcd_Data & 0x02;   
+  39   2              lcd_d4_lsb      =       uch_Lcd_Data & 0x01;   
+  40   2          }
+  41   1      }    
+  42          void lcd_write_command(void) 
+  43          {
+  44   1          RS_lcd = 0;
+  45   1          Enable_lcd = 0;     
+  46   1          write_port_lcd(HIGHER_NIBBLE);
+  47   1          _nop_ ();
+  48   1          _nop_ ();
+  49   1          _nop_ ();
+  50   1          Enable_lcd = 1;
+  51   1          delay_100us(1);
+  52   1          Enable_lcd = 0;
+  53   1          
+  54   1          _nop_ ();
+  55   1          _nop_ ();
+C51 COMPILER V9.02   LCD                                                                   04/01/2013 22:01:20 PAGE 2   
+
+  56   1          _nop_ ();
+  57   1      
+  58   1          write_port_lcd(LOWER_NIBBLE);
+  59   1          _nop_ ();
+  60   1          _nop_ ();
+  61   1          _nop_ ();
+  62   1          Enable_lcd = 1;
+  63   1          delay_100us(1);
+  64   1          Enable_lcd = 0;
+  65   1          
+  66   1      }
+  67          void lcd_write_data(void) 
+  68          {
+  69   1          RS_lcd = 1;
+  70   1          Enable_lcd = 0;     
+  71   1          write_port_lcd(HIGHER_NIBBLE);
+  72   1          _nop_ ();
+  73   1          _nop_ ();
+  74   1          _nop_ ();
+  75   1          Enable_lcd = 1;
+  76   1          delay_100us(1);
+  77   1          Enable_lcd = 0;
+  78   1      
+  79   1          _nop_ ();
+  80   1          _nop_ ();
+  81   1          _nop_ ();
+  82   1      
+  83   1          write_port_lcd(LOWER_NIBBLE);
+  84   1          _nop_ ();
+  85   1          _nop_ ();
+  86   1          _nop_ ();
+  87   1          Enable_lcd = 1;
+  88   1          delay_100us(1);
+  89   1          Enable_lcd = 0;
+  90   1      }
+  91          void lcd_dummy_write(void) 
+  92          {
+  93   1          uch_Lcd_Data = 0x20;
+  94   1      
+  95   1          RS_lcd = 0;
+  96   1          Enable_lcd = 0;     
+  97   1          write_port_lcd(HIGHER_NIBBLE);
+  98   1          _nop_ ();
+  99   1          _nop_ ();
+ 100   1          _nop_ ();
+ 101   1          Enable_lcd = 1;
+ 102   1          delay_100us(1);
+ 103   1          Enable_lcd = 0;
+ 104   1      
+ 105   1      }
+ 106          
+ 107          
+ 108          void lcd_16_2_Initialisation(void) 
+ 109          {
+ 110   1          delay_in_half_seconds(1);
+ 111   1          lcd_dummy_write();
+ 112   1      
+ 113   1          uch_Lcd_Data = 0x2C;  ; //function set first time interface 8 bit long
+ 114   1          lcd_write_command();
+ 115   1      
+ 116   1          uch_Lcd_Data = 0x0C;  ; //display 0ff
+ 117   1          lcd_write_command();
+C51 COMPILER V9.02   LCD                                                                   04/01/2013 22:01:20 PAGE 3   
+
+ 118   1           
+ 119   1          uch_Lcd_Data = 0x06;  ; //entry mode
+ 120   1          lcd_write_command();
+ 121   1        
+ 122   1          uch_Lcd_Data = 0x01;  ; //clear display
+ 123   1          lcd_write_command();
+ 124   1          delay_in_ms(1);
+ 125   1      }       
+ 126          
+ 127          void fn_lcd_select_line_and_location(char ch_line_no, char ch_location_no) 
+ 128          {
+ 129   1              if (ch_line_no== LCD_LINE_2)
+ 130   1                      uch_Lcd_Data = 0xC0 + ch_location_no;
+ 131   1              else
+ 132   1              uch_Lcd_Data = 0x80     + ch_location_no;
+ 133   1      
+ 134   1          lcd_write_command();
+ 135   1          delay_in_ms(1);
+ 136   1      }
+ 137          
+ 138          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    245    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----       3
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

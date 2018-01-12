@@ -1,0 +1,93 @@
+C51 COMPILER V9.02   MAIN                                                                  04/01/2013 22:01:20 PAGE 1   
+
+
+C51 COMPILER V9.02, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c LARGE BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*
+   2                  filename        :main.c
+   3                  description     :main function
+   4                  author          :
+   5                  date            :
+   6                  
+   7                  Good practice
+   8                  1. Downsizing Your Variables
+   9                  2. Use Unsigned Types
+  10                  3. Stay Away from Floating Point
+  11                  4. Make Use of bit Variables
+  12                  5. Use Locals instead of Globals
+  13                  6. Use Internal Memory for Variables - DATA, IDATA, PDATA, XDATA.
+  14                  7. Use Macros Instead of Functions - For speed
+  15                     Use functions Instead of Macros - For Code space less
+  16                  8. Never add printf in the code it uses about 1K code
+  17          */
+  18          #pragma OT(1, SIZE) // to decide on the level of optimisation
+  19          
+  20          
+  21          #include <reg52.h>
+  22          #include <stdio.h>                /* prototype declarations for I/O functions */
+  23          
+  24          
+  25          #include "serial_codes.h"
+  26          #include "main.h"
+  27          #include "LCD.h"
+  28          #include "delay.h"
+  29          #include "ProjectMain.h"
+  30          #include "PinAllocation.h"
+  31          //#include "keyboard.h"
+  32          
+  33          unsigned char bdata uch_Lcd_Data;
+  34          unsigned char uchSerialData;
+  35          //extern unsigned char key_pressed[6];
+  36          //unsigned char keywordvalue[];
+  37          //unsigned char value=5;
+  38          
+  39          
+  40          void main(void)
+  41          {
+  42   1              Buzzer_pin=BUZZERDISABLE;
+  43   1              //EM_lock_pin=LOCKENABLED;      
+  44   1              fn_Initialize_Serial(BAUD_9600);
+  45   1              printf(string_project_name);
+  46   1              EM_lock_enabe_button=1 ;
+  47   1      
+  48   1      
+  49   1              lcd_16_2_Initialisation();
+  50   1          fn_lcd_select_line_and_location(LCD_LINE_1, LOCATION_0);
+  51   1          fn_Display_String_LCD(string_project_name);
+  52   1          fn_lcd_select_line_and_location(LCD_LINE_2, LOCATION_0);
+  53   1          fn_Display_String_LCD(string_welcome);
+  54   1          delay_in_seconds(1);
+  55   1      //      while(1)
+C51 COMPILER V9.02   MAIN                                                                  04/01/2013 22:01:20 PAGE 2   
+
+  56   1      //      {
+  57   1      //
+  58   1      //      fn_keyboard_12x1for_password(value)     ;
+  59   1      //       //keywordvalue[6]=key_pressed;
+  60   1      //       printf(keywordvalue);
+  61   1      //      delay_in_seconds(5);
+  62   1      //       }
+  63   1      
+  64   1      fnProjectMain();
+  65   1      
+  66   1      }
+  67          
+  68          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     62    ----
+   CONSTANT SIZE    =    512    ----
+   XDATA SIZE       =      1    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

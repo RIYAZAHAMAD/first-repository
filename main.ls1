@@ -1,0 +1,668 @@
+A51 MACRO ASSEMBLER  MAIN                                                                 11/09/2012 17:30:09 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02
+OBJECT MODULE PLACED IN main.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE main.src PR(.\main.ls1) EP DEBUG
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ; .\main.SRC generated from: main.c
+                       2     ; COMPILER INVOKED BY:
+                       3     ;        C:\Keil\C51\BIN\C51.EXE main.c LARGE BROWSE DEBUG OBJECTEXTEND SRC(.\main.SRC)
+                       4     
+                       5     $nomod51 
+                       6     
+                       7     NAME    MAIN
+                       8     
+  00B7                 9     ModuleSelect0   BIT     0B0H.7
+  00B6                10     ModuleSelect1   BIT     0B0H.6
+  0080                11     P0      DATA    080H
+  0090                12     P1      DATA    090H
+  00A0                13     P2      DATA    0A0H
+  00B0                14     P3      DATA    0B0H
+  00B4                15     T0      BIT     0B0H.4
+  00D6                16     AC      BIT     0D0H.6
+  00B5                17     T1      BIT     0B0H.5
+  0090                18     T2      BIT     090H.0
+  00AF                19     EA      BIT     0A8H.7
+  00A8                20     IE      DATA    0A8H
+  00CE                21     EXF2    BIT     0C8H.6
+  00B7                22     RD      BIT     0B0H.7
+  00AC                23     ES      BIT     0A8H.4
+  00B8                24     IP      DATA    0B8H
+  0098                25     RI      BIT     098H.0
+  00B2                26     INT0    BIT     0B0H.2
+  00D7                27     CY      BIT     0D0H.7
+  0099                28     TI      BIT     098H.1
+  00B3                29     INT1    BIT     0B0H.3
+  00CB                30     RCAP2H  DATA    0CBH
+  0086                31     Keyboard_key_10 BIT     080H.6
+  00BC                32     PS      BIT     0B8H.4
+  0081                33     SP      DATA    081H
+  0085                34     Keyboard_key_11 BIT     080H.5
+  0091                35     T2EX    BIT     090H.1
+  0084                36     Keyboard_key_12 BIT     080H.4
+  00D2                37     OV      BIT     0D0H.2
+  00CA                38     RCAP2L  DATA    0CAH
+  00C9                39     C_T2    BIT     0C8H.1
+  00B6                40     WR      BIT     0B0H.6
+  00CD                41     RCLK    BIT     0C8H.5
+  0095                42     lcd_d5  BIT     090H.5
+  0080                43     Buzzer_pin      BIT     080H.0
+  0096                44     lcd_d6  BIT     090H.6
+  00CC                45     TCLK    BIT     0C8H.4
+  0099                46     SBUF    DATA    099H
+  0087                47     PCON    DATA    087H
+  0098                48     SCON    DATA    098H
+  0089                49     TMOD    DATA    089H
+  0088                50     TCON    DATA    088H
+  0092                51     RS_lcd  BIT     090H.2
+  0089                52     IE0     BIT     088H.1
+  008B                53     IE1     BIT     088H.3
+  00F0                54     B       DATA    0F0H
+  00C8                55     CP_RL2  BIT     0C8H.0
+  0083                56     EM_lock_pin     BIT     080H.3
+  00E0                57     ACC     DATA    0E0H
+  00A9                58     ET0     BIT     0A8H.1
+A51 MACRO ASSEMBLER  MAIN                                                                 11/09/2012 17:30:09 PAGE     2
+
+  00AB                59     ET1     BIT     0A8H.3
+  008D                60     TF0     BIT     088H.5
+  00AD                61     ET2     BIT     0A8H.5
+  008F                62     TF1     BIT     088H.7
+  00CF                63     TF2     BIT     0C8H.7
+  009A                64     RB8     BIT     098H.2
+  008C                65     TH0     DATA    08CH
+  00A8                66     EX0     BIT     0A8H.0
+  0088                67     IT0     BIT     088H.0
+  008D                68     TH1     DATA    08DH
+  009B                69     TB8     BIT     098H.3
+  00AA                70     EX1     BIT     0A8H.2
+  008A                71     IT1     BIT     088H.2
+  00CD                72     TH2     DATA    0CDH
+  00D0                73     P       BIT     0D0H.0
+  0094                74     lcd_d4_lsb      BIT     090H.4
+  009F                75     SM0     BIT     098H.7
+  008A                76     TL0     DATA    08AH
+  009E                77     SM1     BIT     098H.6
+  008B                78     TL1     DATA    08BH
+  009D                79     SM2     BIT     098H.5
+  00CC                80     TL2     DATA    0CCH
+  0097                81     lcd_d7_msb      BIT     090H.7
+  00B9                82     PT0     BIT     0B8H.1
+  00BB                83     PT1     BIT     0B8H.3
+  00D3                84     RS0     BIT     0D0H.3
+  00BD                85     PT2     BIT     0B8H.5
+  008C                86     TR0     BIT     088H.4
+  00D4                87     RS1     BIT     0D0H.4
+  008E                88     TR1     BIT     088H.6
+  00CA                89     TR2     BIT     0C8H.2
+  00B8                90     PX0     BIT     0B8H.0
+  00BA                91     PX1     BIT     0B8H.2
+  0083                92     DPH     DATA    083H
+  0093                93     Enable_lcd      BIT     090H.3
+  0082                94     DPL     DATA    082H
+  00CB                95     EXEN2   BIT     0C8H.3
+  009C                96     REN     BIT     098H.4
+  00C8                97     T2CON   DATA    0C8H
+  00B0                98     RXD     BIT     0B0H.0
+  00B1                99     TXD     BIT     0B0H.1
+  00A0               100     Keyboard_key_1  BIT     0A0H.0
+  00A1               101     Keyboard_key_2  BIT     0A0H.1
+  00A2               102     Keyboard_key_3  BIT     0A0H.2
+  00A3               103     Keyboard_key_4  BIT     0A0H.3
+  00D5               104     F0      BIT     0D0H.5
+  00A4               105     Keyboard_key_5  BIT     0A0H.4
+  00A5               106     Keyboard_key_6  BIT     0A0H.5
+  00A6               107     Keyboard_key_7  BIT     0A0H.6
+  00A7               108     Keyboard_key_8  BIT     0A0H.7
+  0087               109     Keyboard_key_9  BIT     080H.7
+  00D0               110     PSW     DATA    0D0H
+  0082               111     EM_lock_enabe_button    BIT     080H.2
+                     112     ?PR?main?MAIN        SEGMENT CODE 
+                     113     ?CO?MAIN             SEGMENT CODE 
+                     114     ?BA?MAIN             SEGMENT DATA BITADDRESSABLE 
+                     115     ?XD?MAIN             SEGMENT XDATA 
+                     116             EXTRN   CODE (_fn_Initialize_Serial)
+                     117             EXTRN   CODE (_printf)
+                     118             EXTRN   XDATA (?_printf?BYTE)
+                     119             EXTRN   CODE (_delay_in_seconds)
+                     120             EXTRN   CODE (_fn_Display_String_LCD)
+                     121             EXTRN   CODE (_fn_lcd_select_line_and_location)
+                     122             EXTRN   CODE (fnProjectMain)
+                     123             EXTRN   CODE (lcd_16_2_Initialisation)
+                     124             EXTRN   CODE (string_welcome)
+A51 MACRO ASSEMBLER  MAIN                                                                 11/09/2012 17:30:09 PAGE     3
+
+                     125             EXTRN   CODE (string_project_name)
+                     126             EXTRN   CODE (?C_STARTUP)
+                     127             PUBLIC  uchSerialData
+                     128             PUBLIC  uch_Lcd_Data
+                     129             PUBLIC  Value_Decoded
+                     130             PUBLIC  main
+                     131     
+----                 132             RSEG  ?BA?MAIN
+0000                 133        uch_Lcd_Data:   DS   1
+                     134     
+----                 135             RSEG  ?XD?MAIN
+0000                 136       uchSerialData:   DS   1
+                     137     
+----                 138             RSEG  ?CO?MAIN
+0000                 139     Value_Decoded:
+0000 0028            140             DW      00028H
+0002 0028            141             DW      00028H
+0004 0028            142             DW      00028H
+0006 0028            143             DW      00028H
+0008 0028            144             DW      00028H
+000A 0028            145             DW      00028H
+000C 0028            146             DW      00028H
+000E 0028            147             DW      00028H
+0010 0032            148             DW      00032H
+0012 0037            149             DW      00037H
+0014 0037            150             DW      00037H
+0016 0037            151             DW      00037H
+0018 0037            152             DW      00037H
+001A 0037            153             DW      00037H
+001C 0037            154             DW      00037H
+001E 0037            155             DW      00037H
+0020 0037            156             DW      00037H
+0022 0037            157             DW      00037H
+0024 0037            158             DW      00037H
+0026 003C            159             DW      0003CH
+0028 003E            160             DW      0003EH
+002A 0041            161             DW      00041H
+002C 0043            162             DW      00043H
+002E 0046            163             DW      00046H
+0030 004B            164             DW      0004BH
+0032 004D            165             DW      0004DH
+0034 004D            166             DW      0004DH
+0036 004D            167             DW      0004DH
+0038 0050            168             DW      00050H
+003A 0052            169             DW      00052H
+003C 0055            170             DW      00055H
+003E 0057            171             DW      00057H
+0040 0057            172             DW      00057H
+0042 005A            173             DW      0005AH
+0044 005A            174             DW      0005AH
+0046 005A            175             DW      0005AH
+0048 005A            176             DW      0005AH
+004A 005C            177             DW      0005CH
+004C 005F            178             DW      0005FH
+004E 0061            179             DW      00061H
+0050 0061            180             DW      00061H
+0052 0064            181             DW      00064H
+0054 0066            182             DW      00066H
+0056 0069            183             DW      00069H
+0058 006B            184             DW      0006BH
+005A 006E            185             DW      0006EH
+005C 0073            186             DW      00073H
+005E 0073            187             DW      00073H
+0060 0073            188             DW      00073H
+0062 0073            189             DW      00073H
+0064 006E            190             DW      0006EH
+A51 MACRO ASSEMBLER  MAIN                                                                 11/09/2012 17:30:09 PAGE     4
+
+0066 006E            191             DW      0006EH
+0068 006E            192             DW      0006EH
+006A 006E            193             DW      0006EH
+006C 0070            194             DW      00070H
+006E 0070            195             DW      00070H
+0070 0070            196             DW      00070H
+0072 0070            197             DW      00070H
+0074 0070            198             DW      00070H
+0076 0078            199             DW      00078H
+0078 007D            200             DW      0007DH
+007A 007D            201             DW      0007DH
+007C 007F            202             DW      0007FH
+007E 007F            203             DW      0007FH
+0080 0082            204             DW      00082H
+0082 0082            205             DW      00082H
+0084 0084            206             DW      00084H
+0086 0089            207             DW      00089H
+0088 008E            208             DW      0008EH
+008A 0091            209             DW      00091H
+008C 0091            210             DW      00091H
+008E 0091            211             DW      00091H
+0090 0096            212             DW      00096H
+0092 0096            213             DW      00096H
+0094 0096            214             DW      00096H
+0096 0096            215             DW      00096H
+0098 0096            216             DW      00096H
+009A 0096            217             DW      00096H
+009C 0096            218             DW      00096H
+009E 0096            219             DW      00096H
+00A0 0096            220             DW      00096H
+00A2 0096            221             DW      00096H
+00A4 0096            222             DW      00096H
+00A6 0096            223             DW      00096H
+00A8 009D            224             DW      0009DH
+00AA 00A0            225             DW      000A0H
+00AC 00A5            226             DW      000A5H
+00AE 00A7            227             DW      000A7H
+00B0 00AA            228             DW      000AAH
+00B2 00AA            229             DW      000AAH
+00B4 00AF            230             DW      000AFH
+00B6 00B4            231             DW      000B4H
+00B8 00BC            232             DW      000BCH
+00BA 00B9            233             DW      000B9H
+00BC 00BE            234             DW      000BEH
+00BE 00C0            235             DW      000C0H
+00C0 00C5            236             DW      000C5H
+00C2 00C8            237             DW      000C8H
+00C4 00CA            238             DW      000CAH
+00C6 00CF            239             DW      000CFH
+00C8 00CF            240             DW      000CFH
+00CA 00CF            241             DW      000CFH
+00CC 00D4            242             DW      000D4H
+00CE 00D4            243             DW      000D4H
+00D0 00D4            244             DW      000D4H
+00D2 00D4            245             DW      000D4H
+00D4 00DC            246             DW      000DCH
+00D6 00DE            247             DW      000DEH
+00D8 00E1            248             DW      000E1H
+00DA 00E3            249             DW      000E3H
+00DC 00E3            250             DW      000E3H
+00DE 00E3            251             DW      000E3H
+00E0 00E3            252             DW      000E3H
+00E2 00E6            253             DW      000E6H
+00E4 00E6            254             DW      000E6H
+00E6 00E8            255             DW      000E8H
+00E8 00F5            256             DW      000F5H
+A51 MACRO ASSEMBLER  MAIN                                                                 11/09/2012 17:30:09 PAGE     5
+
+00EA 00FA            257             DW      000FAH
+00EC 00FF            258             DW      000FFH
+00EE 0104            259             DW      00104H
+00F0 0109            260             DW      00109H
+00F2 010E            261             DW      0010EH
+00F4 010E            262             DW      0010EH
+00F6 0110            263             DW      00110H
+00F8 0113            264             DW      00113H
+00FA 0113            265             DW      00113H
+00FC 0118            266             DW      00118H
+00FE 011D            267             DW      0011DH
+0100 0122            268             DW      00122H
+0102 0124            269             DW      00124H
+0104 0129            270             DW      00129H
+0106 0118            271             DW      00118H
+0108 0118            272             DW      00118H
+010A 011A            273             DW      0011AH
+010C 012E            274             DW      0012EH
+010E 012E            275             DW      0012EH
+0110 0131            276             DW      00131H
+0112 0133            277             DW      00133H
+0114 0133            278             DW      00133H
+0116 0136            279             DW      00136H
+0118 013D            280             DW      0013DH
+011A 0145            281             DW      00145H
+011C 0147            282             DW      00147H
+011E 014A            283             DW      0014AH
+0120 014A            284             DW      0014AH
+0122 014A            285             DW      0014AH
+0124 014A            286             DW      0014AH
+0126 014A            287             DW      0014AH
+0128 0163            288             DW      00163H
+012A 0165            289             DW      00165H
+012C 0168            290             DW      00168H
+012E 0168            291             DW      00168H
+0130 0172            292             DW      00172H
+0132 017C            293             DW      0017CH
+0134 0186            294             DW      00186H
+0136 0190            295             DW      00190H
+0138 019A            296             DW      0019AH
+013A 01A4            297             DW      001A4H
+013C 01AE            298             DW      001AEH
+013E 01B8            299             DW      001B8H
+0140 01C2            300             DW      001C2H
+0142 01CC            301             DW      001CCH
+0144 01D6            302             DW      001D6H
+0146 01E0            303             DW      001E0H
+0148 01EA            304             DW      001EAH
+014A 01F4            305             DW      001F4H
+014C 01FE            306             DW      001FEH
+014E 0208            307             DW      00208H
+0150 0212            308             DW      00212H
+0152 021C            309             DW      0021CH
+0154 0226            310             DW      00226H
+0156 0230            311             DW      00230H
+0158 023A            312             DW      0023AH
+015A 0244            313             DW      00244H
+015C 024E            314             DW      0024EH
+015E 0258            315             DW      00258H
+0160 0262            316             DW      00262H
+0162 026C            317             DW      0026CH
+0164 0276            318             DW      00276H
+0166 0280            319             DW      00280H
+0168 028A            320             DW      0028AH
+016A 0294            321             DW      00294H
+016C 029E            322             DW      0029EH
+A51 MACRO ASSEMBLER  MAIN                                                                 11/09/2012 17:30:09 PAGE     6
+
+016E 02A8            323             DW      002A8H
+0170 02B2            324             DW      002B2H
+0172 02BC            325             DW      002BCH
+0174 02C6            326             DW      002C6H
+0176 02D0            327             DW      002D0H
+0178 02DA            328             DW      002DAH
+017A 02E4            329             DW      002E4H
+017C 02EE            330             DW      002EEH
+017E 02F8            331             DW      002F8H
+0180 0302            332             DW      00302H
+0182 030C            333             DW      0030CH
+0184 0316            334             DW      00316H
+0186 0320            335             DW      00320H
+0188 032A            336             DW      0032AH
+018A 0334            337             DW      00334H
+018C 033E            338             DW      0033EH
+018E 0348            339             DW      00348H
+0190 0352            340             DW      00352H
+0192 035C            341             DW      0035CH
+0194 0366            342             DW      00366H
+0196 0370            343             DW      00370H
+0198 037A            344             DW      0037AH
+019A 0384            345             DW      00384H
+019C 038E            346             DW      0038EH
+019E 0398            347             DW      00398H
+01A0 03A2            348             DW      003A2H
+01A2 03AC            349             DW      003ACH
+01A4 03B6            350             DW      003B6H
+01A6 03C0            351             DW      003C0H
+01A8 03CA            352             DW      003CAH
+01AA 03D4            353             DW      003D4H
+01AC 03DE            354             DW      003DEH
+01AE 03E8            355             DW      003E8H
+01B0 03F2            356             DW      003F2H
+01B2 03FC            357             DW      003FCH
+01B4 0406            358             DW      00406H
+01B6 0410            359             DW      00410H
+01B8 041A            360             DW      0041AH
+01BA 0424            361             DW      00424H
+01BC 042E            362             DW      0042EH
+01BE 0438            363             DW      00438H
+01C0 0442            364             DW      00442H
+01C2 044C            365             DW      0044CH
+01C4 0456            366             DW      00456H
+01C6 0460            367             DW      00460H
+01C8 046A            368             DW      0046AH
+01CA 0474            369             DW      00474H
+01CC 047E            370             DW      0047EH
+01CE 0488            371             DW      00488H
+01D0 0492            372             DW      00492H
+01D2 049C            373             DW      0049CH
+01D4 04A6            374             DW      004A6H
+01D6 04B0            375             DW      004B0H
+01D8 04BA            376             DW      004BAH
+01DA 04C4            377             DW      004C4H
+01DC 04CE            378             DW      004CEH
+01DE 04D8            379             DW      004D8H
+01E0 04E2            380             DW      004E2H
+01E2 04EC            381             DW      004ECH
+01E4 04F6            382             DW      004F6H
+01E6 0500            383             DW      00500H
+01E8 050A            384             DW      0050AH
+01EA 0514            385             DW      00514H
+01EC 051E            386             DW      0051EH
+01EE 0528            387             DW      00528H
+01F0 0532            388             DW      00532H
+A51 MACRO ASSEMBLER  MAIN                                                                 11/09/2012 17:30:09 PAGE     7
+
+01F2 053C            389             DW      0053CH
+01F4 0546            390             DW      00546H
+01F6 0550            391             DW      00550H
+01F8 055A            392             DW      0055AH
+01FA 0564            393             DW      00564H
+01FC 056E            394             DW      0056EH
+01FE 0578            395             DW      00578H
+                     396     
+                     397     ; /*
+                     398     ;       filename        :main.c
+                     399     ;       description     :main function
+                     400     ;       author          :
+                     401     ;       date            :
+                     402     ;       
+                     403     ;       Good practice
+                     404     ;       1. Downsizing Your Variables
+                     405     ;       2. Use Unsigned Types
+                     406     ;       3. Stay Away from Floating Point
+                     407     ;       4. Make Use of bit Variables
+                     408     ;       5. Use Locals instead of Globals
+                     409     ;       6. Use Internal Memory for Variables - DATA, IDATA, PDATA, XDATA.
+                     410     ;       7. Use Macros Instead of Functions - For speed
+                     411     ;          Use functions Instead of Macros - For Code space less
+                     412     ;       8. Never add printf in the code it uses about 1K code
+                     413     ; */
+                     414     ; #pragma OT(1, SIZE) // to decide on the level of optimisation
+                     415     ; 
+                     416     ; 
+                     417     ; #include <reg52.h>
+                     418     ; #include <stdio.h>                /* prototype declarations for I/O functions */
+                     419     ; 
+                     420     ; 
+                     421     ; #include "serial_codes.h"
+                     422     ; #include "main.h"
+                     423     ; #include "LCD.h"
+                     424     ; #include "delay.h"
+                     425     ; #include "ProjectMain.h"
+                     426     ; #include "PinAllocation.h"
+                     427     ; //#include "keyboard.h"
+                     428     ; 
+                     429     ; unsigned char bdata uch_Lcd_Data;
+                     430     ; unsigned char uchSerialData;
+                     431     ; //extern unsigned char key_pressed[6];
+                     432     ; //unsigned char keywordvalue[];
+                     433     ; //unsigned char value=5;
+                     434     ; 
+                     435     ; 
+                     436     ; void main(void)
+                     437     
+----                 438             RSEG  ?PR?main?MAIN
+0000                 439     main:
+                     440             USING   0
+                     441                             ; SOURCE LINE # 40
+                     442     ; {
+                     443                             ; SOURCE LINE # 41
+                     444     ;       Buzzer_pin=BUZZERDISABLE;
+                     445                             ; SOURCE LINE # 42
+0000 C280            446             CLR     Buzzer_pin
+                     447     ;       fn_Initialize_Serial(BAUD_9600);
+                     448                             ; SOURCE LINE # 43
+0002 7F01            449             MOV     R7,#01H
+0004 120000   F      450             LCALL   _fn_Initialize_Serial
+                     451     ;       printf(string_project_name);
+                     452                             ; SOURCE LINE # 44
+0007 7BFF            453             MOV     R3,#0FFH
+0009 7A00     F      454             MOV     R2,#HIGH (string_project_name)
+A51 MACRO ASSEMBLER  MAIN                                                                 11/09/2012 17:30:09 PAGE     8
+
+000B 7900     F      455             MOV     R1,#LOW (string_project_name)
+000D 120000   F      456             LCALL   _printf
+                     457     ; 
+                     458     ; 
+                     459     ; 
+                     460     ;       lcd_16_2_Initialisation();
+                     461                             ; SOURCE LINE # 48
+0010 120000   F      462             LCALL   lcd_16_2_Initialisation
+                     463     ;     fn_lcd_select_line_and_location(LCD_LINE_1, LOCATION_0);
+                     464                             ; SOURCE LINE # 49
+0013 7D00            465             MOV     R5,#00H
+0015 7F01            466             MOV     R7,#01H
+0017 120000   F      467             LCALL   _fn_lcd_select_line_and_location
+                     468     ;     fn_Display_String_LCD(string_project_name);
+                     469                             ; SOURCE LINE # 50
+001A 7BFF            470             MOV     R3,#0FFH
+001C 7A00     F      471             MOV     R2,#HIGH (string_project_name)
+001E 7900     F      472             MOV     R1,#LOW (string_project_name)
+0020 120000   F      473             LCALL   _fn_Display_String_LCD
+                     474     ;     fn_lcd_select_line_and_location(LCD_LINE_2, LOCATION_0);
+                     475                             ; SOURCE LINE # 51
+0023 7D00            476             MOV     R5,#00H
+0025 7F02            477             MOV     R7,#02H
+0027 120000   F      478             LCALL   _fn_lcd_select_line_and_location
+                     479     ;     fn_Display_String_LCD(string_welcome);
+                     480                             ; SOURCE LINE # 52
+002A 7BFF            481             MOV     R3,#0FFH
+002C 7A00     F      482             MOV     R2,#HIGH (string_welcome)
+002E 7900     F      483             MOV     R1,#LOW (string_welcome)
+0030 120000   F      484             LCALL   _fn_Display_String_LCD
+                     485     ;     delay_in_seconds(1);
+                     486                             ; SOURCE LINE # 53
+0033 7F01            487             MOV     R7,#01H
+0035 120000   F      488             LCALL   _delay_in_seconds
+                     489     ; //    while(1)
+                     490     ; //    {
+                     491     ; //
+                     492     ; //    fn_keyboard_12x1for_password(value)     ;
+                     493     ; //     //keywordvalue[6]=key_pressed;
+                     494     ; //     printf(keywordvalue);
+                     495     ; //    delay_in_seconds(5);
+                     496     ; //     }
+                     497     ; 
+                     498     ; fnProjectMain();
+                     499                             ; SOURCE LINE # 63
+0038 120000   F      500             LCALL   fnProjectMain
+                     501     ; 
+                     502     ; }
+                     503                             ; SOURCE LINE # 65
+003B 22              504             RET     
+                     505     ; END OF main
+                     506     
+                     507             END
+A51 MACRO ASSEMBLER  MAIN                                                                 11/09/2012 17:30:09 PAGE     9
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                           T Y P E  V A L U E   ATTRIBUTES
+
+?BA?MAIN . . . . . . . . . . . .  D SEG    0001H       REL=BITADDRESSABLE
+?CO?MAIN . . . . . . . . . . . .  C SEG    0200H       REL=UNIT
+?C_STARTUP . . . . . . . . . . .  C ADDR   -----       EXT
+?PR?MAIN?MAIN. . . . . . . . . .  C SEG    003CH       REL=UNIT
+?XD?MAIN . . . . . . . . . . . .  X SEG    0001H       REL=UNIT
+?_PRINTF?BYTE. . . . . . . . . .  X ADDR   -----       EXT
+AC . . . . . . . . . . . . . . .  B ADDR   00D0H.6 A   
+ACC. . . . . . . . . . . . . . .  D ADDR   00E0H   A   
+B. . . . . . . . . . . . . . . .  D ADDR   00F0H   A   
+BUZZER_PIN . . . . . . . . . . .  B ADDR   0080H.0 A   
+CP_RL2 . . . . . . . . . . . . .  B ADDR   00C8H.0 A   
+CY . . . . . . . . . . . . . . .  B ADDR   00D0H.7 A   
+C_T2 . . . . . . . . . . . . . .  B ADDR   00C8H.1 A   
+DPH. . . . . . . . . . . . . . .  D ADDR   0083H   A   
+DPL. . . . . . . . . . . . . . .  D ADDR   0082H   A   
+EA . . . . . . . . . . . . . . .  B ADDR   00A8H.7 A   
+EM_LOCK_ENABE_BUTTON . . . . . .  B ADDR   0080H.2 A   
+EM_LOCK_PIN. . . . . . . . . . .  B ADDR   0080H.3 A   
+ENABLE_LCD . . . . . . . . . . .  B ADDR   0090H.3 A   
+ES . . . . . . . . . . . . . . .  B ADDR   00A8H.4 A   
+ET0. . . . . . . . . . . . . . .  B ADDR   00A8H.1 A   
+ET1. . . . . . . . . . . . . . .  B ADDR   00A8H.3 A   
+ET2. . . . . . . . . . . . . . .  B ADDR   00A8H.5 A   
+EX0. . . . . . . . . . . . . . .  B ADDR   00A8H.0 A   
+EX1. . . . . . . . . . . . . . .  B ADDR   00A8H.2 A   
+EXEN2. . . . . . . . . . . . . .  B ADDR   00C8H.3 A   
+EXF2 . . . . . . . . . . . . . .  B ADDR   00C8H.6 A   
+F0 . . . . . . . . . . . . . . .  B ADDR   00D0H.5 A   
+FNPROJECTMAIN. . . . . . . . . .  C ADDR   -----       EXT
+IE . . . . . . . . . . . . . . .  D ADDR   00A8H   A   
+IE0. . . . . . . . . . . . . . .  B ADDR   0088H.1 A   
+IE1. . . . . . . . . . . . . . .  B ADDR   0088H.3 A   
+INT0 . . . . . . . . . . . . . .  B ADDR   00B0H.2 A   
+INT1 . . . . . . . . . . . . . .  B ADDR   00B0H.3 A   
+IP . . . . . . . . . . . . . . .  D ADDR   00B8H   A   
+IT0. . . . . . . . . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . . . . . . . . .  B ADDR   0088H.2 A   
+KEYBOARD_KEY_1 . . . . . . . . .  B ADDR   00A0H.0 A   
+KEYBOARD_KEY_10. . . . . . . . .  B ADDR   0080H.6 A   
+KEYBOARD_KEY_11. . . . . . . . .  B ADDR   0080H.5 A   
+KEYBOARD_KEY_12. . . . . . . . .  B ADDR   0080H.4 A   
+KEYBOARD_KEY_2 . . . . . . . . .  B ADDR   00A0H.1 A   
+KEYBOARD_KEY_3 . . . . . . . . .  B ADDR   00A0H.2 A   
+KEYBOARD_KEY_4 . . . . . . . . .  B ADDR   00A0H.3 A   
+KEYBOARD_KEY_5 . . . . . . . . .  B ADDR   00A0H.4 A   
+KEYBOARD_KEY_6 . . . . . . . . .  B ADDR   00A0H.5 A   
+KEYBOARD_KEY_7 . . . . . . . . .  B ADDR   00A0H.6 A   
+KEYBOARD_KEY_8 . . . . . . . . .  B ADDR   00A0H.7 A   
+KEYBOARD_KEY_9 . . . . . . . . .  B ADDR   0080H.7 A   
+LCD_16_2_INITIALISATION. . . . .  C ADDR   -----       EXT
+LCD_D4_LSB . . . . . . . . . . .  B ADDR   0090H.4 A   
+LCD_D5 . . . . . . . . . . . . .  B ADDR   0090H.5 A   
+LCD_D6 . . . . . . . . . . . . .  B ADDR   0090H.6 A   
+LCD_D7_MSB . . . . . . . . . . .  B ADDR   0090H.7 A   
+MAIN . . . . . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?MAIN?MAIN
+MODULESELECT0. . . . . . . . . .  B ADDR   00B0H.7 A   
+MODULESELECT1. . . . . . . . . .  B ADDR   00B0H.6 A   
+OV . . . . . . . . . . . . . . .  B ADDR   00D0H.2 A   
+P. . . . . . . . . . . . . . . .  B ADDR   00D0H.0 A   
+P0 . . . . . . . . . . . . . . .  D ADDR   0080H   A   
+A51 MACRO ASSEMBLER  MAIN                                                                 11/09/2012 17:30:09 PAGE    10
+
+P1 . . . . . . . . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . . . . . . . . .  D ADDR   00B0H   A   
+PCON . . . . . . . . . . . . . .  D ADDR   0087H   A   
+PS . . . . . . . . . . . . . . .  B ADDR   00B8H.4 A   
+PSW. . . . . . . . . . . . . . .  D ADDR   00D0H   A   
+PT0. . . . . . . . . . . . . . .  B ADDR   00B8H.1 A   
+PT1. . . . . . . . . . . . . . .  B ADDR   00B8H.3 A   
+PT2. . . . . . . . . . . . . . .  B ADDR   00B8H.5 A   
+PX0. . . . . . . . . . . . . . .  B ADDR   00B8H.0 A   
+PX1. . . . . . . . . . . . . . .  B ADDR   00B8H.2 A   
+RB8. . . . . . . . . . . . . . .  B ADDR   0098H.2 A   
+RCAP2H . . . . . . . . . . . . .  D ADDR   00CBH   A   
+RCAP2L . . . . . . . . . . . . .  D ADDR   00CAH   A   
+RCLK . . . . . . . . . . . . . .  B ADDR   00C8H.5 A   
+RD . . . . . . . . . . . . . . .  B ADDR   00B0H.7 A   
+REN. . . . . . . . . . . . . . .  B ADDR   0098H.4 A   
+RI . . . . . . . . . . . . . . .  B ADDR   0098H.0 A   
+RS0. . . . . . . . . . . . . . .  B ADDR   00D0H.3 A   
+RS1. . . . . . . . . . . . . . .  B ADDR   00D0H.4 A   
+RS_LCD . . . . . . . . . . . . .  B ADDR   0090H.2 A   
+RXD. . . . . . . . . . . . . . .  B ADDR   00B0H.0 A   
+SBUF . . . . . . . . . . . . . .  D ADDR   0099H   A   
+SCON . . . . . . . . . . . . . .  D ADDR   0098H   A   
+SM0. . . . . . . . . . . . . . .  B ADDR   0098H.7 A   
+SM1. . . . . . . . . . . . . . .  B ADDR   0098H.6 A   
+SM2. . . . . . . . . . . . . . .  B ADDR   0098H.5 A   
+SP . . . . . . . . . . . . . . .  D ADDR   0081H   A   
+STRING_PROJECT_NAME. . . . . . .  C ADDR   -----       EXT
+STRING_WELCOME . . . . . . . . .  C ADDR   -----       EXT
+T0 . . . . . . . . . . . . . . .  B ADDR   00B0H.4 A   
+T1 . . . . . . . . . . . . . . .  B ADDR   00B0H.5 A   
+T2 . . . . . . . . . . . . . . .  B ADDR   0090H.0 A   
+T2CON. . . . . . . . . . . . . .  D ADDR   00C8H   A   
+T2EX . . . . . . . . . . . . . .  B ADDR   0090H.1 A   
+TB8. . . . . . . . . . . . . . .  B ADDR   0098H.3 A   
+TCLK . . . . . . . . . . . . . .  B ADDR   00C8H.4 A   
+TCON . . . . . . . . . . . . . .  D ADDR   0088H   A   
+TF0. . . . . . . . . . . . . . .  B ADDR   0088H.5 A   
+TF1. . . . . . . . . . . . . . .  B ADDR   0088H.7 A   
+TF2. . . . . . . . . . . . . . .  B ADDR   00C8H.7 A   
+TH0. . . . . . . . . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . . . . . . . . .  D ADDR   008DH   A   
+TH2. . . . . . . . . . . . . . .  D ADDR   00CDH   A   
+TI . . . . . . . . . . . . . . .  B ADDR   0098H.1 A   
+TL0. . . . . . . . . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . . . . . . . . .  D ADDR   008BH   A   
+TL2. . . . . . . . . . . . . . .  D ADDR   00CCH   A   
+TMOD . . . . . . . . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . . . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . . . . . . . . .  B ADDR   0088H.6 A   
+TR2. . . . . . . . . . . . . . .  B ADDR   00C8H.2 A   
+TXD. . . . . . . . . . . . . . .  B ADDR   00B0H.1 A   
+UCHSERIALDATA. . . . . . . . . .  X ADDR   0000H   R   SEG=?XD?MAIN
+UCH_LCD_DATA . . . . . . . . . .  D ADDR   0000H   R   SEG=?BA?MAIN
+VALUE_DECODED. . . . . . . . . .  C ADDR   0000H   R   SEG=?CO?MAIN
+WR . . . . . . . . . . . . . . .  B ADDR   00B0H.6 A   
+_DELAY_IN_SECONDS. . . . . . . .  C ADDR   -----       EXT
+_FN_DISPLAY_STRING_LCD . . . . .  C ADDR   -----       EXT
+_FN_INITIALIZE_SERIAL. . . . . .  C ADDR   -----       EXT
+_FN_LCD_SELECT_LINE_AND_LOCATION  C ADDR   -----       EXT
+_PRINTF. . . . . . . . . . . . .  C ADDR   -----       EXT
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

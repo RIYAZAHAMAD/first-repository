@@ -1,0 +1,420 @@
+C51 COMPILER V9.02   GPS_NMEA                                                              04/01/2013 22:01:19 PAGE 1   
+
+
+C51 COMPILER V9.02, COMPILATION OF MODULE GPS_NMEA
+OBJECT MODULE PLACED IN GPS_NMEA.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE GPS_NMEA.c LARGE BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*
+   2              filename    :serial_codes.c
+   3                  description     :transmit and receive data by serial port
+   4                  author          :apsis_team
+   5                  date            :11.08.07
+   6          
+   7          
+   8          */
+   9          
+  10          
+  11          #include <reg52.h>
+  12          #include <stdio.h>                /* prototype declarations for I/O functions */
+  13          #include <string.h>
+  14          #include <stdlib.h>
+  15          
+  16          #include "PinAllocation.h"
+  17          #include "delay.h"
+  18          #include "serial_codes.h"
+  19          #include "GPS_NMEA.h"
+  20          #include "ProjectMain.h"
+  21          
+  22          extern unsigned char uchSerialData;
+  23          unsigned char guchCompleteDataPacket[65];
+  24          
+  25          unsigned char guchLatitude[11];
+  26          unsigned char NSIndicator;
+  27          unsigned char guchLongitude[11];
+  28          unsigned char EWIndicator;
+  29          
+  30          #define GPSQualityIndicatorPOSITIONINPACKET     0
+  31          #define NoSatellitesUsedPOSITIONINPACKET                1
+  32          #define GPSNoOfSatellitesInViewPOSITIONINPACKET 3
+  33          #define GPSUTCTimePOSITIONINPACKET                              28
+  34          #define GPSStatusPOSITIONINPACKET                               5
+  35          #define GPSLatitudePOSITIONINPACKET                     6
+  36          #define GPSN_SPOSITIONINPACKET                                  16
+  37          #define GPSLongitudePOSITIONINPACKET                    17
+  38          #define GPSE_WPOSITIONINPACKET                                  27
+  39          #define GPSUTCDatePOSITIONINPACKET                              34
+  40          #define GPSSpeedInKnotsPOSITIONINPACKET                 40
+  41          #define GPSSpeedInKMPHPOSITIONINPACKET                  45
+  42          #define GPSModePOSITIONINPACKET                                 51
+  43          
+  44          
+  45          
+  46          #define GPGGAGPSQUALITYINDICATORFIELD           6
+  47          #define GPGGANOOFSATELLITESUSEDFIELD            7
+  48          #define GPGSVNOOFSATELLITESINVIEWFIELD          3
+  49          #define GPVTGSPEEDINKNOTSFIELD                          3
+  50          #define GPVTGSPEEDINKMPHFIELD                           4
+  51          #define GPRMCUTCTIMEFIELD                                       1
+  52          #define GPRMCSTATUSFIELD                                        2
+  53          #define GPRMCLATITUDEFIELD                                      3
+  54          #define GPRMCNSINDICATORFIELD                           4
+  55          #define GPRMCLONGITUDEFIELD                                     5
+C51 COMPILER V9.02   GPS_NMEA                                                              04/01/2013 22:01:19 PAGE 2   
+
+  56          #define GPRMCEWINDICATORFIELD                           6
+  57          #define GPRMCUTCDATEFIELD                                       9
+  58          
+  59          
+  60          
+  61          #define LENGTHOFGPSPATTERN 6
+  62          #define NOOFGPSPATTERN 5
+  63          #define GPGGA   1
+  64          #define GPGSA   2
+  65          #define GPGSV   3
+  66          #define GPRMC   4
+  67          #define GPVTG   5
+  68          char GPSPattern[NOOFGPSPATTERN][LENGTHOFGPSPATTERN] = 
+  69                                                  {
+  70                                                          "GPGGA", // Pattern 0 LATITUDE AND LONGITUDE, WITH TIME OF POSITION FIX AND STATUS
+  71                                                          "GPGSA", // Pattern 1 GPS DOP AND ACTIVE SATELLITES
+  72                                                          "GPGSV", // Pattern 2 GPS SATELLITE IN VIEW
+  73                                                          "GPRMC", // Pattern 3 RECOMMENDED MINIMUM SPECIFIC GPS/TRANSIT DATA
+  74                                                          "GPVTG"  // Pattern 4 COURSE OVER GROUND AND GROUND SPEED
+  75                                                  };
+  76          
+  77          
+  78          
+  79          unsigned char fn_GPSPatternDetect(void)
+  80          {
+  81   1              unsigned char uchCount=0;
+  82   1              unsigned char uchPatternReceived[6];
+  83   1      
+  84   1              for(uchCount=0; uchCount<GPSPatternLength;uchCount++)
+  85   1              {
+  86   2                      uchPatternReceived[uchCount]= fn_Receive_Serial();
+  87   2              }
+  88   1              uchPatternReceived[uchCount]= 0;
+  89   1      
+  90   1              for (uchCount=0; uchCount < NOOFGPSPATTERN;uchCount++)
+  91   1              {
+  92   2                      if (!strcmp(uchPatternReceived, GPSPattern[uchCount]))
+  93   2                              return (uchCount+1);
+  94   2                              
+  95   2              }
+  96   1              return 20;
+  97   1      }
+  98          /*
+  99          The GPS locations are in minutes and seconds while google maps uses degrees. 
+ 100          for example,
+ 101          S 40°48.452' 
+ 102          E 147°37.843' 
+ 103          In google map it should be: 
+ 104          -(40 + 48.452/60) = -40.8075 
+ 105          147 + 37.843/60 = 147.6307 
+ 106          
+ 107          N 17°18.3806' 
+ 108          E 78°44.6059'
+ 109          College in Hyd
+ 110          In google map it should be: 
+ 111          17 + 18.3806/60 = 17.3063 
+ 112          78 + 44.6059/60 = 78.7434 
+ 113          */
+ 114          void fn_GETGPSCoordinates(void)
+ 115          {
+ 116   1              fnModuleSelect(SELECT_GPS_ON_UART);
+ 117   1              fn_DecodeGPS();
+C51 COMPILER V9.02   GPS_NMEA                                                              04/01/2013 22:01:19 PAGE 3   
+
+ 118   1              fn_DecodeGPS();
+ 119   1              fn_DecodeGPS();
+ 120   1              fn_DecodeGPS();
+ 121   1              fn_DecodeGPS();
+ 122   1              fn_DecodeGPS();
+ 123   1              fn_DecodeGPS();
+ 124   1              fn_DecodeGPS();
+ 125   1              GPSDBGPRINTF("guchCompleteDataPacket = %s\n",guchCompleteDataPacket);
+ 126   1              GPSDBGPRINTF("Latitude =%s,%c\n",guchLatitude,NSIndicator);
+ 127   1              GPSDBGPRINTF("Longitude =%s,%c\n",guchLongitude,EWIndicator);
+ 128   1      
+ 129   1      
+ 130   1      }
+ 131          
+ 132          
+ 133          void fn_DecodeGPS(void)
+ 134          {
+ 135   1      
+ 136   1              while((fn_Receive_Serial())!='$');  // Waiting for '$' Symbol to appear from the GPS
+ 137   1      
+ 138   1              uchSerialData = fn_GPSPatternDetect();
+ 139   1      
+ 140   1              switch(uchSerialData)
+ 141   1              {
+ 142   2                      case GPGGA:
+ 143   2                                              fnDecodeGPGGA();
+ 144   2                                              GPSDBGPRINTF("A");
+ 145   2                                              break;
+ 146   2                      case GPGSA:
+ 147   2                                              fnDecodeGPGSA();
+ 148   2                                              GPSDBGPRINTF("S");
+ 149   2                                              break;
+ 150   2                      case GPGSV:
+ 151   2                                              fnDecodeGPGSV();
+ 152   2                                              GPSDBGPRINTF("V");
+ 153   2                                              break;
+ 154   2                      case GPRMC:
+ 155   2                                              fnDecodeGPRMC();
+ 156   2                                              GPSDBGPRINTF("R");
+ 157   2                                              break;
+ 158   2                      case GPVTG:
+ 159   2                                              fnDecodeGPVTG();
+ 160   2                                              GPSDBGPRINTF("guchCompleteDataPacket = %s\n",guchCompleteDataPacket);
+ 161   2                                              GPSDBGPRINTF("G");
+ 162   2                                              break;
+ 163   2                      default:
+ 164   2                                              break;
+ 165   2              }
+ 166   1      }
+ 167          
+ 168          
+ 169          
+ 170          
+ 171          void fnDecodeGPGGA(void) //9.1 GGA-GLOBAL POSITIONING SYSTEM FIX DATA
+ 172          // From here we will pick GPS Quality Indicator (Field 6)
+ 173          // No of satellites used (Field 7)
+ 174          {
+ 175   1              unsigned char uchGPSQualityIndicator;
+ 176   1              unsigned char uchNoSatellitesUsedArray[3];
+ 177   1              unsigned char uchNoSatellitesUsed;
+ 178   1              unsigned char uchCount=0;
+ 179   1              unsigned char uchTemp;
+C51 COMPILER V9.02   GPS_NMEA                                                              04/01/2013 22:01:19 PAGE 4   
+
+ 180   1              uchNoSatellitesUsedArray[0] = '0';
+ 181   1              uchNoSatellitesUsedArray[1] = '0';
+ 182   1              uchNoSatellitesUsedArray[2] = 0;
+ 183   1      
+ 184   1      
+ 185   1              for (uchCount=0; uchCount < GPGGAGPSQUALITYINDICATORFIELD;uchCount++)
+ 186   1                      while((fn_Receive_Serial())!=',');  // Waiting for ',' Symbol to appear from the GPS
+ 187   1              uchGPSQualityIndicator = fn_Receive_Serial();
+ 188   1              //DBGPRINTF("uchGPSQualityIndicator = %c\n",uchGPSQualityIndicator);
+ 189   1              uchCount=0;
+ 190   1              uchTemp = fn_Receive_Serial(); // To take care of the ',' symbol 
+ 191   1              uchTemp = fn_Receive_Serial();
+ 192   1              while(uchTemp!=',')  // Fill No of satellites till ',' Symbol appears
+ 193   1              {
+ 194   2                      uchNoSatellitesUsedArray[uchCount] = uchTemp;   
+ 195   2                      uchCount++;
+ 196   2                      uchTemp = fn_Receive_Serial();
+ 197   2              }
+ 198   1              
+ 199   1              //DBGPRINTF("$GPGGA uchGPSQualityIndicator = %c\n",uchGPSQualityIndicator);
+ 200   1              uchNoSatellitesUsed = (char)atoi(uchNoSatellitesUsedArray);
+ 201   1              GPSDBGPRINTF("$GPGGASATUsed=%d\n",(int)uchNoSatellitesUsed);
+ 202   1              
+ 203   1              guchCompleteDataPacket[GPSQualityIndicatorPOSITIONINPACKET]= uchGPSQualityIndicator;
+ 204   1              strncpy(&guchCompleteDataPacket[NoSatellitesUsedPOSITIONINPACKET],uchNoSatellitesUsedArray, 2);
+ 205   1              //DBGPRINTF("guchCompleteDataPacket = %s\n",guchCompleteDataPacket);
+ 206   1      
+ 207   1              
+ 208   1      }
+ 209          void fnDecodeGPGSA(void) //9.3 GSA - GPS DOP AND ACTIVE SATELLITES
+ 210          {
+ 211   1              // Nothing to pick now
+ 212   1      }
+ 213          void fnDecodeGPGSV(void) //9.4 GSV - GPS SATELLITE IN VIEW
+ 214          {
+ 215   1              unsigned char uchGPSNoOfSatellitesInView; 
+ 216   1              unsigned char uchGPSNoOfSatellitesInViewArray[3];
+ 217   1              unsigned char uchCount=0;
+ 218   1              unsigned char uchTemp;
+ 219   1      
+ 220   1              uchGPSNoOfSatellitesInViewArray[0] = '0';
+ 221   1              uchGPSNoOfSatellitesInViewArray[1] = '0';
+ 222   1              uchGPSNoOfSatellitesInViewArray[2] = 0;
+ 223   1      
+ 224   1              for (uchCount=0; uchCount < GPGSVNOOFSATELLITESINVIEWFIELD;uchCount++)
+ 225   1                      while((fn_Receive_Serial())!=',');  // Waiting for ',' Symbol to appear from the GPS
+ 226   1              uchCount=0;
+ 227   1              uchTemp = fn_Receive_Serial();  
+ 228   1              while(uchTemp!=',')  // Fill No of satellites till ',' Symbol appears
+ 229   1              {
+ 230   2                      uchGPSNoOfSatellitesInViewArray[uchCount] = uchTemp;
+ 231   2                      uchCount++;
+ 232   2                      uchTemp = fn_Receive_Serial();  
+ 233   2              }
+ 234   1              uchGPSNoOfSatellitesInViewArray[2] = 0;
+ 235   1              uchGPSNoOfSatellitesInView = (char)atoi(uchGPSNoOfSatellitesInViewArray);
+ 236   1              //uchGPSNoOfSatellitesInView = (char)atoi(uchGPSNoOfSatellitesInViewArray);
+ 237   1              //DBGPRINTF("$GPGSV uchGPSNoOfSatellitesInView = %d\n",(int)uchGPSNoOfSatellitesInView);
+ 238   1              //DBGPRINTF("$GPGSV uchGPSNoOfSatellitesInViewArray = %s\n",uchGPSNoOfSatellitesInViewArray);
+ 239   1      
+ 240   1      
+ 241   1              strncpy(&guchCompleteDataPacket[GPSNoOfSatellitesInViewPOSITIONINPACKET],uchGPSNoOfSatellitesInViewArray,
+C51 COMPILER V9.02   GPS_NMEA                                                              04/01/2013 22:01:19 PAGE 5   
+
+             - 2);
+ 242   1              //DBGPRINTF("guchCompleteDataPacket = %s\n",guchCompleteDataPacket);
+ 243   1      }
+ 244          void fnDecodeGPRMC(void) //9.5 RMC - RECOMMANDED MINIMUM SPECIFIC GPS/TRANSIT DATA
+ 245          //Time, date, position, course and speed data provided by a GNSS navigation receiver.
+ 246          {
+ 247   1              unsigned char uchGPSUTCTimearray[7]; 
+ 248   1              unsigned char uchStatus=0;
+ 249   1              unsigned char uchGPSLatitudearray[11];
+ 250   1              unsigned char uchN_S_Indicator=0;
+ 251   1              unsigned char uchGPSLongitudearray[11];
+ 252   1              unsigned char uchE_W_Indicator=0;
+ 253   1              unsigned char uchGPSUTCDatearray[7]; 
+ 254   1      
+ 255   1              unsigned char uchCount=0;
+ 256   1              unsigned char uchTemp;
+ 257   1      
+ 258   1              for(uchCount=0; uchCount < 11;uchCount++)
+ 259   1              {
+ 260   2                      uchGPSLatitudearray[uchCount]='0';
+ 261   2                      uchGPSLongitudearray[uchCount]='0';
+ 262   2                      if (uchCount < 6)
+ 263   2                      {
+ 264   3                              uchGPSUTCTimearray[uchCount]='0';
+ 265   3                              uchGPSUTCDatearray[uchCount]='0';
+ 266   3                      }
+ 267   2              }
+ 268   1              uchGPSLatitudearray[10]=0;
+ 269   1              uchGPSLongitudearray[10]=0;
+ 270   1              uchGPSUTCTimearray[6]=0;
+ 271   1              uchGPSUTCDatearray[6]=0;
+ 272   1      
+ 273   1              uchTemp = fn_Receive_Serial();  // Compensate for the first ',' symbol
+ 274   1              for(uchCount=0; uchCount < 6;uchCount++)
+ 275   1              {
+ 276   2                      uchGPSUTCTimearray[uchCount]=fn_Receive_Serial(); 
+ 277   2              }
+ 278   1              while((fn_Receive_Serial())!=',');  // Waiting for ',' Symbol to appear from the GPS
+ 279   1      
+ 280   1              uchStatus = fn_Receive_Serial(); 
+ 281   1      
+ 282   1              uchTemp = fn_Receive_Serial();  // Compensate for the  ',' symbol
+ 283   1      
+ 284   1              uchCount=0;
+ 285   1              uchTemp = fn_Receive_Serial();  // First char of Latitude
+ 286   1              while(uchTemp!=',')  // Fill Latitude till ',' Symbol appears
+ 287   1              {
+ 288   2                      uchGPSLatitudearray[uchCount] = uchTemp;
+ 289   2                      uchCount++;
+ 290   2                      uchTemp = fn_Receive_Serial();  
+ 291   2              }
+ 292   1              uchN_S_Indicator = fn_Receive_Serial(); 
+ 293   1              while((fn_Receive_Serial())!=',');  // Waiting for ',' Symbol to appear from the GPS
+ 294   1              uchCount=0;
+ 295   1              uchTemp = fn_Receive_Serial();  // First char of Longitude
+ 296   1              while(uchTemp!=',')  // Fill Longitude till ',' Symbol appears
+ 297   1              {
+ 298   2                      uchGPSLongitudearray[uchCount] = uchTemp;
+ 299   2                      uchCount++;
+ 300   2                      uchTemp = fn_Receive_Serial();  
+ 301   2              }
+ 302   1              uchGPSLongitudearray[uchCount] = 0;
+C51 COMPILER V9.02   GPS_NMEA                                                              04/01/2013 22:01:19 PAGE 6   
+
+ 303   1              uchE_W_Indicator = fn_Receive_Serial(); 
+ 304   1      
+ 305   1              while((fn_Receive_Serial())!=',');  // Waiting for ',' Symbol to appear from the GPS
+ 306   1              while((fn_Receive_Serial())!=',');  // Waiting for ',' Symbol to appear from the GPS
+ 307   1              while((fn_Receive_Serial())!=',');  // Waiting for ',' Symbol to appear from the GPS
+ 308   1      
+ 309   1              uchCount=0;
+ 310   1              uchTemp = fn_Receive_Serial();  // First char of UTCDate
+ 311   1              while(uchTemp!=',')  // Fill UTCDate till ',' Symbol appears
+ 312   1              {
+ 313   2                      uchGPSUTCDatearray[uchCount] = uchTemp;
+ 314   2                      uchCount++;
+ 315   2                      uchTemp = fn_Receive_Serial();  
+ 316   2              }
+ 317   1      
+ 318   1              strncpy(&guchCompleteDataPacket[GPSUTCTimePOSITIONINPACKET],uchGPSUTCTimearray, 6);
+ 319   1              guchCompleteDataPacket[GPSStatusPOSITIONINPACKET]= uchStatus;
+ 320   1              strncpy(&guchCompleteDataPacket[GPSLatitudePOSITIONINPACKET],uchGPSLatitudearray, 10);
+ 321   1      
+ 322   1              strncpy(&guchLatitude[0],uchGPSLatitudearray, 10);
+ 323   1              guchLatitude[10] = 0;
+ 324   1      
+ 325   1              guchCompleteDataPacket[GPSN_SPOSITIONINPACKET]= uchN_S_Indicator;
+ 326   1              NSIndicator = uchN_S_Indicator;
+ 327   1      
+ 328   1              strncpy(&guchCompleteDataPacket[GPSLongitudePOSITIONINPACKET],uchGPSLongitudearray, 10);
+ 329   1      
+ 330   1              strncpy(&guchLongitude[0],uchGPSLongitudearray, 10);
+ 331   1              guchLongitude[10] = 0;
+ 332   1      
+ 333   1              guchCompleteDataPacket[GPSE_WPOSITIONINPACKET]= uchE_W_Indicator;
+ 334   1              EWIndicator = uchE_W_Indicator;
+ 335   1              strncpy(&guchCompleteDataPacket[GPSUTCDatePOSITIONINPACKET],uchGPSUTCDatearray, 6);
+ 336   1              
+ 337   1      }
+ 338          void fnDecodeGPVTG(void)// 9.6 VTG - COURSE OVER GROUND AND GROUND SPEED
+ 339          {
+ 340   1              unsigned char uchGPSSpeedInKnotsarray[6]; 
+ 341   1              unsigned char uchGPSSpeedInKMPHarray[7];
+ 342   1              unsigned char uchCount=0;
+ 343   1              unsigned char uchTemp;
+ 344   1      
+ 345   1              for(uchCount=0; uchCount < 5;uchCount++)
+ 346   1              {
+ 347   2                      uchGPSSpeedInKnotsarray[uchCount]='0';
+ 348   2                      uchGPSSpeedInKMPHarray[uchCount]='0';
+ 349   2              }
+ 350   1              uchGPSSpeedInKMPHarray[5]='0';
+ 351   1              uchGPSSpeedInKMPHarray[6]=0;
+ 352   1              uchGPSSpeedInKnotsarray[5]=0;
+ 353   1      
+ 354   1              for (uchCount=0; uchCount < GPVTGSPEEDINKNOTSFIELD;uchCount++)
+ 355   1                      while((fn_Receive_Serial())!=',');  // Waiting for ',' Symbol to appear from the GPS
+ 356   1              uchCount=0;
+ 357   1              uchTemp = fn_Receive_Serial();  
+ 358   1              while(uchTemp!=',')  // Fill Speed in Knots till ',' Symbol appears
+ 359   1              {
+ 360   2                      uchGPSSpeedInKnotsarray[uchCount] = uchTemp;
+ 361   2                      uchCount++;
+ 362   2                      uchTemp = fn_Receive_Serial();  
+ 363   2              }
+ 364   1              uchCount=0;
+C51 COMPILER V9.02   GPS_NMEA                                                              04/01/2013 22:01:19 PAGE 7   
+
+ 365   1              uchTemp = fn_Receive_Serial();  
+ 366   1              while(uchTemp!=',')  // Fill Speed in KMPH till ',' Symbol appears
+ 367   1              {
+ 368   2                      uchGPSSpeedInKMPHarray[uchCount] = uchTemp;
+ 369   2                      uchCount++;
+ 370   2                      uchTemp = fn_Receive_Serial();  
+ 371   2              }
+ 372   1              //DBGPRINTF("$GPVTG uchGPSSpeedInKnotsarray = %s\n",uchGPSSpeedInKnotsarray);
+ 373   1              //DBGPRINTF("$GPVTG uchGPSSpeedInKMPHarray = %s\n",uchGPSSpeedInKMPHarray);
+ 374   1      
+ 375   1              strncpy(&guchCompleteDataPacket[GPSSpeedInKnotsPOSITIONINPACKET],uchGPSSpeedInKnotsarray, 6);
+ 376   1              strncpy(&guchCompleteDataPacket[GPSSpeedInKMPHPOSITIONINPACKET],uchGPSSpeedInKMPHarray, 7);
+ 377   1              //DBGPRINTF("guchCompleteDataPacket = %s\n",guchCompleteDataPacket);
+ 378   1      }
+ 379          
+ 380          /*
+ 381          unsigned char uchReceive_From_UART[32]; 
+ 382          */
+ 383          
+ 384          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1259    ----
+   CONSTANT SIZE    =     92    ----
+   XDATA SIZE       =    119      73
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

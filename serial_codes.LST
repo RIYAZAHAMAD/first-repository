@@ -1,0 +1,111 @@
+C51 COMPILER V9.02   SERIAL_CODES                                                          04/01/2013 22:01:21 PAGE 1   
+
+
+C51 COMPILER V9.02, COMPILATION OF MODULE SERIAL_CODES
+OBJECT MODULE PLACED IN serial_codes.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE serial_codes.c LARGE BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*                                                                                                                                                                  
+   2              filename    :serial_codes.c
+   3                  description     :transmit and receive data by serial port
+   4                  author          :apsis_team
+   5                  date            :11.08.07
+   6          
+   7          
+   8          */
+   9          
+  10          #include <reg51.h>
+  11          
+  12          #include "serial_codes.h"
+  13          
+  14          
+  15          
+  16          
+  17          
+  18          /*
+  19          To be used incase we wish to avoid printf
+  20          void fn_Display_String_Serial_Port(unsigned char *generic_ptr)
+  21          {   
+  22              unsigned char uchSerialData;
+  23              //generic_ptr =  string_IAmActive;
+  24                  while (*generic_ptr) 
+  25                  {
+  26                      uchSerialData =*generic_ptr;
+  27                          fn_Transmit_Serial(uchSerialData);
+  28                          generic_ptr++;
+  29                  }
+  30          }
+  31          */                                                                             
+  32          
+  33          //      Receiving the characters through the serial port
+  34          char fn_Receive_Serial(void)
+  35          {
+  36   1              unsigned char RECV_DATA;
+  37   1      
+  38   1              while(RI==0);
+  39   1              RECV_DATA=SBUF;
+  40   1              RI=0;
+  41   1              return RECV_DATA;
+  42   1      }
+  43          
+  44          //      Transmitting the characters     through the serial port 
+  45          void fn_Transmit_Serial(unsigned char TRANS_DATA )
+  46          {
+  47   1              SBUF=TRANS_DATA;
+  48   1              while(TI==0);
+  49   1              TI=0;
+  50   1      }
+  51          
+  52          
+  53          // Intiialising the Default Serial Port
+  54          void fn_Initialize_Serial(char baud_rate) 
+  55          {
+C51 COMPILER V9.02   SERIAL_CODES                                                          04/01/2013 22:01:21 PAGE 2   
+
+  56   1              SCON=0X50;       /* SCON: mode 1, 8-bit UART, enable rcvr      */
+  57   1              TMOD=0X20;      //timer 1,8-bit auto reload 
+  58   1              switch(baud_rate)
+  59   1              {
+  60   2                      //      Initialization settings for 1200 baud rate
+  61   2                              case 0:
+  62   2                                      {
+  63   3                                                      TH1=0XE8;
+  64   3                                                      break;
+  65   3                                      }
+  66   2                      //      Initialization settings for 9600 baud rate      
+  67   2                              case 1:
+  68   2                                      {
+  69   3                                                      TH1=0XFD;
+  70   3                                                      break;
+  71   3                                       }
+  72   2                      //      Initialization settings for 28800 baud rate                                     
+  73   2                              case 2:
+  74   2                                      {
+  75   3                                                      TH1=0XFF;
+  76   3                                                      break;
+  77   3                                       }
+  78   2              }       
+  79   1              TR1=1;                  /* TR1:  timer 1 run                          */
+  80   1              TI    = 1;                  /* TI:   set TI to send first char of UART    */
+  81   1      
+  82   1      
+  83   1      }
+  84          
+  85          
+  86          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     51    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

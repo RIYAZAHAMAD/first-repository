@@ -1,0 +1,420 @@
+; .\delay.SRC generated from: delay.c
+; COMPILER INVOKED BY:
+;        C:\Keil\C51\BIN\C51.EXE delay.c LARGE BROWSE DEBUG OBJECTEXTEND SRC(.\delay.SRC)
+
+$NOMOD51
+
+NAME	DELAY
+
+P0	DATA	080H
+P1	DATA	090H
+P2	DATA	0A0H
+P3	DATA	0B0H
+T0	BIT	0B0H.4
+AC	BIT	0D0H.6
+T1	BIT	0B0H.5
+EA	BIT	0A8H.7
+IE	DATA	0A8H
+RD	BIT	0B0H.7
+ES	BIT	0A8H.4
+IP	DATA	0B8H
+RI	BIT	098H.0
+INT0	BIT	0B0H.2
+CY	BIT	0D0H.7
+TI	BIT	098H.1
+INT1	BIT	0B0H.3
+PS	BIT	0B8H.4
+SP	DATA	081H
+OV	BIT	0D0H.2
+WR	BIT	0B0H.6
+SBUF	DATA	099H
+PCON	DATA	087H
+SCON	DATA	098H
+TMOD	DATA	089H
+TCON	DATA	088H
+IE0	BIT	088H.1
+IE1	BIT	088H.3
+B	DATA	0F0H
+ACC	DATA	0E0H
+ET0	BIT	0A8H.1
+ET1	BIT	0A8H.3
+TF0	BIT	088H.5
+TF1	BIT	088H.7
+RB8	BIT	098H.2
+TH0	DATA	08CH
+EX0	BIT	0A8H.0
+IT0	BIT	088H.0
+TH1	DATA	08DH
+TB8	BIT	098H.3
+EX1	BIT	0A8H.2
+IT1	BIT	088H.2
+P	BIT	0D0H.0
+SM0	BIT	098H.7
+TL0	DATA	08AH
+SM1	BIT	098H.6
+TL1	DATA	08BH
+SM2	BIT	098H.5
+PT0	BIT	0B8H.1
+PT1	BIT	0B8H.3
+RS0	BIT	0D0H.3
+TR0	BIT	088H.4
+RS1	BIT	0D0H.4
+TR1	BIT	088H.6
+PX0	BIT	0B8H.0
+PX1	BIT	0B8H.2
+DPH	DATA	083H
+DPL	DATA	082H
+REN	BIT	098H.4
+RXD	BIT	0B0H.0
+TXD	BIT	0B0H.1
+F0	BIT	0D0H.5
+PSW	DATA	0D0H
+?PR?_delay_16us?DELAY                    SEGMENT CODE 
+?PR?_delay_ms?DELAY  SEGMENT CODE 
+?PR?_delay_100us?DELAY                   SEGMENT CODE 
+?PR?_delay_in_ms?DELAY                   SEGMENT CODE 
+?XD?_delay_in_ms?DELAY                   SEGMENT XDATA OVERLAYABLE 
+?PR?_delay_in_half_seconds?DELAY         SEGMENT CODE 
+?XD?_delay_in_half_seconds?DELAY         SEGMENT XDATA OVERLAYABLE 
+?PR?_delay_in_seconds?DELAY              SEGMENT CODE 
+?XD?_delay_in_seconds?DELAY              SEGMENT XDATA OVERLAYABLE 
+	PUBLIC	_delay_in_seconds
+	PUBLIC	_delay_in_half_seconds
+	PUBLIC	_delay_in_ms
+	PUBLIC	_delay_100us
+	PUBLIC	_delay_ms
+	PUBLIC	_delay_16us
+
+	RSEG  ?XD?_delay_in_ms?DELAY
+?_delay_in_ms?BYTE:
+  uch_Count?346:   DS   1
+	ORG  1
+          i?347:   DS   2
+
+	RSEG  ?XD?_delay_in_half_seconds?DELAY
+?_delay_in_half_seconds?BYTE:
+  uch_Count?448:   DS   1
+	ORG  1
+          i?449:   DS   2
+
+	RSEG  ?XD?_delay_in_seconds?DELAY
+?_delay_in_seconds?BYTE:
+  uch_Count?550:   DS   1
+	ORG  1
+          i?551:   DS   2
+; /*
+; delay.c
+; */
+; 
+; #include <reg51.h>
+; 
+; #include "delay.h"
+; 
+; 
+; 
+; 
+; void delay_16us(unsigned int j)
+
+	RSEG  ?PR?_delay_16us?DELAY
+_delay_16us:
+	USING	0
+			; SOURCE LINE # 12
+;---- Variable 'j?040' assigned to Register 'R6/R7' ----
+; { 
+			; SOURCE LINE # 13
+;   unsigned int i;
+;   for(i=0;i<j;i++);
+			; SOURCE LINE # 15
+;---- Variable 'i?041' assigned to Register 'R4/R5' ----
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R4,A
+?C0001:
+	CLR  	C
+	MOV  	A,R5
+	SUBB 	A,R7
+	MOV  	A,R4
+	SUBB 	A,R6
+	JNC  	?C0004
+	INC  	R5
+	CJNE 	R5,#00H,?C0025
+	INC  	R4
+?C0025:
+	SJMP 	?C0001
+; }
+			; SOURCE LINE # 16
+?C0004:
+	RET  	
+; END OF _delay_16us
+
+; 
+; void delay_ms(unsigned int j)
+
+	RSEG  ?PR?_delay_ms?DELAY
+_delay_ms:
+	USING	0
+			; SOURCE LINE # 18
+;---- Variable 'j?142' assigned to Register 'R2/R3' ----
+	MOV  	R3,AR7
+	MOV  	R2,AR6
+; {
+			; SOURCE LINE # 19
+; unsigned int i;
+; for(i=0;i<j;i++)
+			; SOURCE LINE # 21
+;---- Variable 'i?143' assigned to Register 'DPTR' ----
+	MOV  	DPTR,#00H
+?C0005:
+	CLR  	C
+	MOV  	A,DPL
+	SUBB 	A,R3
+	MOV  	A,DPH
+	SUBB 	A,R2
+	JNC  	?C0008
+; delay_16us(60);
+			; SOURCE LINE # 22
+	MOV  	R7,#03CH
+	MOV  	R6,#00H
+	LCALL	_delay_16us
+	INC  	DPTR
+	SJMP 	?C0005
+; }
+			; SOURCE LINE # 23
+?C0008:
+	RET  	
+; END OF _delay_ms
+
+; 
+; void delay_100us(unsigned char uch_Count)
+
+	RSEG  ?PR?_delay_100us?DELAY
+_delay_100us:
+	USING	0
+			; SOURCE LINE # 25
+;---- Variable 'uch_Count?244' assigned to Register 'R7' ----
+; {
+			; SOURCE LINE # 26
+;     unsigned int i;
+;     for(i=0;i<uch_Count;i++)
+			; SOURCE LINE # 28
+;---- Variable 'i?245' assigned to Register 'R4/R5' ----
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R4,A
+?C0009:
+	MOV  	A,R7
+	MOV  	R3,A
+	CLR  	C
+	MOV  	A,R5
+	SUBB 	A,R3
+	MOV  	A,R4
+	SUBB 	A,#00H
+	JNC  	?C0012
+;     {  
+			; SOURCE LINE # 29
+;     }
+			; SOURCE LINE # 30
+	INC  	R5
+	CJNE 	R5,#00H,?C0026
+	INC  	R4
+?C0026:
+	SJMP 	?C0009
+; }
+			; SOURCE LINE # 31
+?C0012:
+	RET  	
+; END OF _delay_100us
+
+; 
+; void delay_in_ms(unsigned char uch_Count)
+
+	RSEG  ?PR?_delay_in_ms?DELAY
+_delay_in_ms:
+	USING	0
+			; SOURCE LINE # 33
+	MOV  	DPTR,#uch_Count?346
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; {
+			; SOURCE LINE # 34
+;     unsigned int i;
+;     for(i=0;i<uch_Count;i++)
+			; SOURCE LINE # 36
+	CLR  	A
+	INC  	DPTR
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOVX 	@DPTR,A
+?C0013:
+	MOV  	DPTR,#uch_Count?346
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	CLR  	C
+	MOV  	DPTR,#i?347+01H
+	MOVX 	A,@DPTR
+	SUBB 	A,R7
+	MOV  	DPTR,#i?347
+	MOVX 	A,@DPTR
+	SUBB 	A,#00H
+	JNC  	?C0016
+;     {
+			; SOURCE LINE # 37
+;         #pragma asm 
+;                             push 06
+	  push 06
+;                 			push 05
+	  push 05
+;                 			mov r6,#04h
+	  mov r6,#04h
+;         delay_1ms_2:		mov r5,#68h
+	  delay_1ms_2:		mov r5,#68h
+;         delay_1ms_1:		djnz r5,delay_1ms_1
+	  delay_1ms_1:		djnz r5,delay_1ms_1
+;                 			djnz r6,delay_1ms_2
+	  djnz r6,delay_1ms_2
+;                 			pop 05
+	  pop 05
+;                 			pop 06
+	  pop 06
+;        
+	  
+;         #pragma endasm 
+;     }
+			; SOURCE LINE # 49
+	MOV  	DPTR,#i?347+01H
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+	JNZ  	?C0013
+	MOV  	DPTR,#i?347
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+?C0027:
+	SJMP 	?C0013
+; }
+			; SOURCE LINE # 50
+?C0016:
+	RET  	
+; END OF _delay_in_ms
+
+; void delay_in_half_seconds(unsigned char uch_Count)
+
+	RSEG  ?PR?_delay_in_half_seconds?DELAY
+_delay_in_half_seconds:
+	USING	0
+			; SOURCE LINE # 51
+	MOV  	DPTR,#uch_Count?448
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; {
+			; SOURCE LINE # 52
+;     unsigned int i;
+;     for(i=0;i<uch_Count;i++)
+			; SOURCE LINE # 54
+	CLR  	A
+	INC  	DPTR
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOVX 	@DPTR,A
+?C0017:
+	MOV  	DPTR,#uch_Count?448
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	CLR  	C
+	MOV  	DPTR,#i?449+01H
+	MOVX 	A,@DPTR
+	SUBB 	A,R7
+	MOV  	DPTR,#i?449
+	MOVX 	A,@DPTR
+	SUBB 	A,#00H
+	JNC  	?C0020
+;     {
+			; SOURCE LINE # 55
+;         delay_in_ms(200); 
+			; SOURCE LINE # 56
+	MOV  	R7,#0C8H
+	LCALL	_delay_in_ms
+;         delay_in_ms(200); 
+			; SOURCE LINE # 57
+	MOV  	R7,#0C8H
+	LCALL	_delay_in_ms
+;         delay_in_ms(133);
+			; SOURCE LINE # 58
+	MOV  	R7,#085H
+	LCALL	_delay_in_ms
+;     }
+			; SOURCE LINE # 59
+	MOV  	DPTR,#i?449+01H
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+	JNZ  	?C0017
+	MOV  	DPTR,#i?449
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+?C0028:
+	SJMP 	?C0017
+; }
+			; SOURCE LINE # 60
+?C0020:
+	RET  	
+; END OF _delay_in_half_seconds
+
+; void delay_in_seconds(unsigned char uch_Count)
+
+	RSEG  ?PR?_delay_in_seconds?DELAY
+_delay_in_seconds:
+	USING	0
+			; SOURCE LINE # 61
+	MOV  	DPTR,#uch_Count?550
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; {
+			; SOURCE LINE # 62
+;     unsigned int i;
+;     for(i=0;i<uch_Count;i++)
+			; SOURCE LINE # 64
+	CLR  	A
+	INC  	DPTR
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOVX 	@DPTR,A
+?C0021:
+	MOV  	DPTR,#uch_Count?550
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	CLR  	C
+	MOV  	DPTR,#i?551+01H
+	MOVX 	A,@DPTR
+	SUBB 	A,R7
+	MOV  	DPTR,#i?551
+	MOVX 	A,@DPTR
+	SUBB 	A,#00H
+	JNC  	?C0024
+;     {
+			; SOURCE LINE # 65
+;         delay_in_half_seconds(2);;
+			; SOURCE LINE # 66
+	MOV  	R7,#02H
+	LCALL	_delay_in_half_seconds
+;     }
+			; SOURCE LINE # 67
+	MOV  	DPTR,#i?551+01H
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+	JNZ  	?C0021
+	MOV  	DPTR,#i?551
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+?C0029:
+	SJMP 	?C0021
+; }			; SOURCE LINE # 68
+?C0024:
+	RET  	
+; END OF _delay_in_seconds
+
+	END

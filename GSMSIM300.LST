@@ -1,0 +1,406 @@
+C51 COMPILER V9.02   GSMSIM300                                                             04/01/2013 22:01:19 PAGE 1   
+
+
+C51 COMPILER V9.02, COMPILATION OF MODULE GSMSIM300
+OBJECT MODULE PLACED IN GSMSIM300.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE GSMSIM300.c LARGE BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*
+   2              filename    :GSMSIM300.c
+   3                  description     :transmit and receive GSM data by SIM300 MODEM
+   4                  author          :Nitin
+   5                  date            :13.11.11                 
+   6          */
+   7          
+   8          
+   9          #include <reg52.h>
+  10          #include <stdio.h>                /* prototype declarations for I/O functions */
+  11          #include <string.h>
+  12          #include <stdlib.h>
+  13          
+  14          #include "PinAllocation.h"
+  15          #include "delay.h"
+  16          #include "serial_codes.h"
+  17          #include "GSMSIM300.h"
+  18          #include "ProjectMain.h"
+  19          #include "lcd.h"
+  20          
+  21          unsigned char guchmessagepacket[40],guchphonenumberpacket[15],guchCompleteGSMDataPacket[160];
+  22          unsigned char guchGSMPhoneNumber[15],displaybuffer[70];
+  23          
+  24          #define CR                                                              0x0D // Carriage Return = Enter
+  25          #define LF                                                              0x0A // Line Feed = New Line Symbol
+  26          
+  27          void fn_GSM_Send_Init(void)
+  28          {
+  29   1              unsigned char i;
+  30   1              fnModuleSelect(SELECT_GSM_ON_UART);
+  31   1              for(i=0;i<30;i++)
+  32   1              {
+  33   2                      printf("AT");
+  34   2                      fnSendCarriageReturn();
+  35   2                      delay_in_ms(30);
+  36   2              }
+  37   1              printf("AT");
+  38   1              fnSendCarriageReturn();
+  39   1              printf("AT+CMGF=1");
+  40   1              fnSendCarriageReturn();
+  41   1              // printf("AT+CSCA=");
+  42   1              // printf("%s",msg_centre_num);
+  43   1              fnSendCarriageReturn();
+  44   1              delay_in_ms(30);
+  45   1              fn_Disable_Echo();
+  46   1              delay_in_ms(30);
+  47   1      }
+  48           
+  49          
+  50                                                                                                  
+  51          void fnGSMSendMessage(unsigned char *guchGSMPhoneNumber, unsigned char *guchCompleteGSMDataPacket)
+  52          {        
+  53   1          fnModuleSelect(SELECT_GSM_ON_UART);
+  54   1              printf("AT+CMGS="); // Command to send Message
+  55   1              fnSendDoubleQuotes();
+C51 COMPILER V9.02   GSMSIM300                                                             04/01/2013 22:01:19 PAGE 2   
+
+  56   1              printf("%s",guchGSMPhoneNumber);
+  57   1              fnSendDoubleQuotes();
+  58   1              fnSendCarriageReturn();
+  59   1              delay_ms(20);
+  60   1              printf("%s",guchCompleteGSMDataPacket);
+  61   1              fnSendSUBCtrlZ();
+  62   1              //      while((fn_Receive_Serial)!= '+');
+  63   1              delay_ms(100);                                   
+  64   1              // Waiting for Carriage Return Symbol to appear from GSM as response
+  65   1              // Response expected here is          OK <CR><LF>
+  66   1      }
+  67          
+  68          
+  69          void fn_GSM_Recieve_Init(void)
+  70          {
+  71   1              fnModuleSelect(SELECT_GSM_ON_UART);
+  72   1              printf("AT+CNMI=2,1,0,0,0"); // Command to save to memory to and raise interrrupt       
+  73   1              fnSendCarriageReturn();
+  74   1              fnSendLineFeed();
+  75   1      
+  76   1              while((fn_Receive_Serial())!=0x0a);
+  77   1              // Response expected here is          OK <CR><LF>
+  78   1      }
+  79          
+  80          void fn_GSM_Send_Recieve_Init(void)
+  81          {
+  82   1              fnModuleSelect(SELECT_GSM_ON_UART);
+  83   1              fn_GSM_Send_Init();
+  84   1              fn_GSM_Recieve_Init();
+  85   1      }
+  86          
+  87          
+  88          void fnSetMODEMToReceive(void) //New message indication +CNMI
+  89          {
+  90   1              fnModuleSelect(SELECT_GSM_ON_UART);
+  91   1              printf("AT+CNMI=2,1,0,0,0"); // Command to save to memory to and raise interrrupt       
+  92   1              fnSendCarriageReturn();
+  93   1              fnSendLineFeed();
+  94   1      
+  95   1              while((fn_Receive_Serial())!=0x0a);
+  96   1              // Response expected here is          OK <CR><LF>
+  97   1      
+  98   1      }
+  99          void fnDeleteMessageIndex(unsigned char Index)
+ 100          {
+ 101   1              fnModuleSelect(SELECT_GSM_ON_UART);
+ 102   1              printf("AT+CMGD="); // Command to delete
+ 103   1              printf("%d",Index);
+ 104   1              fnSendCarriageReturn();
+ 105   1              fnSendLineFeed();
+ 106   1      
+ 107   1        // Waiting for Carriage Return Symbol to appear from GSM as response
+ 108   1              // Response expected here is          OK <CR><LF>
+ 109   1      }
+ 110          
+ 111          void fnDeleteAllMessages(void)
+ 112          {
+ 113   1              fnModuleSelect(SELECT_GSM_ON_UART);
+ 114   1              printf("AT+CMGDA="); // Command to delete all messages
+ 115   1              fnSendDoubleQuotes();
+ 116   1              printf("DEL ALL");
+ 117   1              fnSendDoubleQuotes();
+C51 COMPILER V9.02   GSMSIM300                                                             04/01/2013 22:01:19 PAGE 3   
+
+ 118   1      
+ 119   1              fnSendCarriageReturn();
+ 120   1              fnSendLineFeed();
+ 121   1      
+ 122   1              // Waiting for Carriage Return Symbol to appear from GSM as response
+ 123   1              // Response expected here is          OK <CR><LF>
+ 124   1      }
+ 125          
+ 126          void fnDeleteInboxMessages(void)
+ 127          {
+ 128   1              fnModuleSelect(SELECT_GSM_ON_UART);
+ 129   1              printf("AT+CMGDA="); // Command to delete all messages
+ 130   1              fnSendDoubleQuotes();
+ 131   1              printf("DEL INBOX");
+ 132   1              fnSendDoubleQuotes();
+ 133   1      
+ 134   1              fnSendCarriageReturn();
+ 135   1      
+ 136   1              fnSendLineFeed();
+ 137   1      
+ 138   1              while((fn_Receive_Serial())!= CR);
+ 139   1              delay_in_seconds(1);
+ 140   1              
+ 141   1        // Waiting for Carriage Return Symbol to appear from GSM as response
+ 142   1      
+ 143   1              // Response expected here is          OK <CR><LF>
+ 144   1      
+ 145   1      }
+ 146          void fnDeleteAllUnReadMessages(void)
+ 147          {
+ 148   1              fnModuleSelect(SELECT_GSM_ON_UART);
+ 149   1              printf("AT+CMGDA="); // Command to delete all messages
+ 150   1              fnSendDoubleQuotes();
+ 151   1              printf("DEL UNREAD");
+ 152   1              fnSendDoubleQuotes();
+ 153   1      
+ 154   1              fnSendCarriageReturn();
+ 155   1              fnSendLineFeed();
+ 156   1      
+ 157   1      
+ 158   1       // Waiting for Carriage Return Symbol to appear from GSM as response
+ 159   1              // Response expected here is          OK <CR><LF>
+ 160   1      }
+ 161          void fnDeleteAllSentMessages(void)
+ 162          {
+ 163   1              fnModuleSelect(SELECT_GSM_ON_UART);
+ 164   1              printf("AT+CMGDA="); // Command to delete all messages
+ 165   1              fnSendDoubleQuotes();
+ 166   1              printf("DEL SENT");
+ 167   1              fnSendDoubleQuotes();
+ 168   1      
+ 169   1              fnSendCarriageReturn();
+ 170   1              fnSendLineFeed();
+ 171   1              
+ 172   1        //Waiting for Carriage Return Symbol to appear from GSM as response
+ 173   1              // Response expected here is          OK <CR><LF>
+ 174   1      }
+ 175          void fnDeleteAllUnSentMessages(void)
+ 176          {
+ 177   1              fnModuleSelect(SELECT_GSM_ON_UART);
+ 178   1              printf("AT+CMGDA="); // Command to delete all messages;
+ 179   1              fnSendDoubleQuotes();
+C51 COMPILER V9.02   GSMSIM300                                                             04/01/2013 22:01:19 PAGE 4   
+
+ 180   1              printf("DEL UNSENT");
+ 181   1              fnSendDoubleQuotes();
+ 182   1      
+ 183   1              fnSendCarriageReturn();
+ 184   1              fnSendLineFeed();
+ 185   1      
+ 186   1              while((fn_Receive_Serial())!='K');  // Waiting for Carriage Return Symbol to appear from GSM as response
+ 187   1              // Response expected here is          OK <CR><LF>
+ 188   1      }
+ 189          void fnDeleteAllReceivedMessages(void)
+ 190          {
+ 191   1              fnModuleSelect(SELECT_GSM_ON_UART);
+ 192   1              printf("AT+CMGDA="); // Command to delete all messages
+ 193   1              fnSendDoubleQuotes();
+ 194   1              printf("DEL INBOX");
+ 195   1              fnSendDoubleQuotes();
+ 196   1      
+ 197   1              fnSendCarriageReturn();
+ 198   1              fnSendLineFeed();
+ 199   1      
+ 200   1              while((fn_Receive_Serial())!= CR);  // Waiting for Carriage Return Symbol to appear from GSM as response
+ 201   1              // Response expected here is          OK <CR><LF>
+ 202   1      }
+ 203          
+ 204          
+ 205          char chfnGSMNetworkReadyCheck(void)
+ 206          {
+ 207   1              unsigned char uchResponseFromGSM[15];
+ 208   1              unsigned char uchCount=0;
+ 209   1              unsigned char uchTemp;
+ 210   1      
+ 211   1              fnModuleSelect(SELECT_GSM_ON_UART);
+ 212   1              printf("AT+CPIN?");
+ 213   1              fnSendCarriageReturn();
+ 214   1              fnSendLineFeed();
+ 215   1      
+ 216   1              while((fn_Receive_Serial())!='+');  // Waiting for '+' Symbol to appear from GSM as response
+ 217   1      
+ 218   1              uchCount=0;
+ 219   1              uchTemp = fn_Receive_Serial();  // First char of Response
+ 220   1              while(uchTemp!=0x0D)  // Fill Response till carriage return Symbol appears
+ 221   1              {
+ 222   2                      uchResponseFromGSM[uchCount] = uchTemp;
+ 223   2                      uchCount++;
+ 224   2                      uchTemp = fn_Receive_Serial();  
+ 225   2              }
+ 226   1              uchResponseFromGSM[uchCount] = 0;
+ 227   1              
+ 228   1                              //fnModuleSelect(SELECT_PC_ON_UART);
+ 229   1                              //printf("uchResponseFromGSM= %s",uchResponseFromGSM);
+ 230   1                              
+ 231   1              if(strstr(uchResponseFromGSM,"READY"))
+ 232   1              {
+ 233   2                      return(NETWORK_READY);                  
+ 234   2              }
+ 235   1              return(NETWORK_NOT_READY);
+ 236   1      }
+ 237          
+ 238          
+ 239          
+ 240          unsigned char uchfnCheckInboxStatus(void)
+ 241          {
+C51 COMPILER V9.02   GSMSIM300                                                             04/01/2013 22:01:19 PAGE 5   
+
+ 242   1      
+ 243   1              unsigned char uchSerialData,uchStatus;
+ 244   1              
+ 245   1              fnModuleSelect(SELECT_GSM_ON_UART);
+ 246   1              printf("AT+CMGR=1");   // Reading message at location No 1 in Inbox
+ 247   1              fnSendCarriageReturn();                                                                   
+ 248   1              fnSendLineFeed();
+ 249   1      
+ 250   1              uchSerialData=fn_Receive_Serial();
+ 251   1              while(((uchSerialData!='O')&&(uchSerialData!='+')))     // If OK only is received the NO message present at L
+             -ocation 1
+ 252   1                                                                      // incase any message is present it will start with +CMGR:                      
+ 253   1              {
+ 254   2                      uchSerialData=fn_Receive_Serial(); 
+ 255   2              }
+ 256   1      
+ 257   1         switch(uchSerialData)
+ 258   1         {
+ 259   2                                                 
+ 260   2              case 'O':  
+ 261   2                      return(INBOXEMPTY);
+ 262   2                  break;
+ 263   2      
+ 264   2          case '+':  
+ 265   2                      uchStatus=uchfnCheckFirstMessageStatus();
+ 266   2                  return(uchStatus);
+ 267   2                  break;
+ 268   2      
+ 269   2          default:  
+ 270   2                      return(ERROR);
+ 271   2                  break;
+ 272   2              }
+ 273   1      
+ 274   1              return(0);
+ 275   1      }  
+ 276          
+ 277          
+ 278          unsigned char uchfnCheckFirstMessageStatus(void)
+ 279          {
+ 280   1              unsigned char i=0,uchSerialData=0;
+ 281   1              uchSerialData=fn_Receive_Serial();
+ 282   1              while((uchSerialData)!=0x0d)
+ 283   1              {  
+ 284   2                      uchSerialData=fn_Receive_Serial();
+ 285   2                      displaybuffer[i++]=uchSerialData;
+ 286   2              }
+ 287   1              uchSerialData = fn_Receive_Serial();
+ 288   1              displaybuffer[i++] = uchSerialData;                                               
+ 289   1              while((uchSerialData=fn_Receive_Serial())!= '\r')
+ 290   1              {
+ 291   2                      displaybuffer[i++] = uchSerialData;
+ 292   2              }          
+ 293   1              
+ 294   1              displaybuffer[i]='\r';
+ 295   1              
+ 296   1              if (strstr(displaybuffer,"UNREAD") )
+ 297   1              {        
+ 298   2                      return(NEWMESSAGE);
+ 299   2              }
+ 300   1              
+ 301   1              if (strstr(displaybuffer,"READ") )      
+ 302   1              {       
+C51 COMPILER V9.02   GSMSIM300                                                             04/01/2013 22:01:19 PAGE 6   
+
+ 303   2                      return(NONEWMESSAGE);
+ 304   2              }                                                       
+ 305   1              else
+ 306   1              {                                                       
+ 307   2              return(ERROR);                          
+ 308   2              }                                                
+ 309   1      }                                                  
+ 310          
+ 311          void fnExtractPhoneNoAndMessage(void)
+ 312          {                                                                               
+ 313   1              unsigned char i=0,databuff[20],index;  
+ 314   1                      
+ 315   1              while((displaybuffer[i])!='+')
+ 316   1              {
+ 317   2                      i++;            
+ 318   2              }
+ 319   1              index=i; 
+ 320   1              
+ 321   1              for(i=0;i<=12;i++)
+ 322   1              {                               
+ 323   2                      databuff[i]=displaybuffer[index+i];     
+ 324   2              }
+ 325   1              databuff[i]='\0';                                               
+ 326   1              strcpy(guchphonenumberpacket,databuff); 
+ 327   1              i=0;                                                                    
+ 328   1              while(displaybuffer[i]!=0x0a)
+ 329   1              {
+ 330   2                      i++;
+ 331   2              }
+ 332   1              index = ++i;
+ 333   1              i=0;
+ 334   1              while(displaybuffer[index+i]!='\r')
+ 335   1              {
+ 336   2                      databuff[i]=displaybuffer[index+i];
+ 337   2                      i++;
+ 338   2              }
+ 339   1              databuff[i]='\0';                                       
+ 340   1              strcpy(guchmessagepacket,databuff);     
+ 341   1      }
+ 342           
+ 343          
+ 344          
+ 345          void  fn_Disable_Echo(void)
+ 346          {
+ 347   1              printf("ATE0");
+ 348   1              fnSendCarriageReturn();
+ 349   1      }
+ 350          void fnSendCarriageReturn(void)                                            
+ 351          {        
+ 352   1              char c=0x0d;
+ 353   1              printf("%c",c);
+ 354   1      }
+ 355          
+ 356          void fnSendLineFeed(void)
+ 357          {       char c=0X0A;
+ 358   1              printf("%c",c);
+ 359   1      }
+ 360          
+ 361          void fnSendSUBCtrlZ(void)
+ 362          {   char c= 0x1A;
+ 363   1              printf("%c", c);
+ 364   1      }
+C51 COMPILER V9.02   GSMSIM300                                                             04/01/2013 22:01:19 PAGE 7   
+
+ 365          
+ 366          void fnSendDoubleQuotes(void)
+ 367          {
+ 368   1          char c= 0x22;
+ 369   1              printf("%c",c);
+ 370   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1110    ----
+   CONSTANT SIZE    =    159    ----
+   XDATA SIZE       =    300      46
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,507 @@
+; .\main.SRC generated from: main.c
+; COMPILER INVOKED BY:
+;        C:\Keil\C51\BIN\C51.EXE main.c LARGE BROWSE DEBUG OBJECTEXTEND SRC(.\main.SRC)
+
+$NOMOD51
+
+NAME	MAIN
+
+ModuleSelect0	BIT	0B0H.7
+ModuleSelect1	BIT	0B0H.6
+P0	DATA	080H
+P1	DATA	090H
+P2	DATA	0A0H
+P3	DATA	0B0H
+T0	BIT	0B0H.4
+AC	BIT	0D0H.6
+T1	BIT	0B0H.5
+T2	BIT	090H.0
+EA	BIT	0A8H.7
+IE	DATA	0A8H
+EXF2	BIT	0C8H.6
+RD	BIT	0B0H.7
+ES	BIT	0A8H.4
+IP	DATA	0B8H
+RI	BIT	098H.0
+INT0	BIT	0B0H.2
+CY	BIT	0D0H.7
+TI	BIT	098H.1
+INT1	BIT	0B0H.3
+RCAP2H	DATA	0CBH
+Keyboard_key_10	BIT	080H.6
+PS	BIT	0B8H.4
+SP	DATA	081H
+Keyboard_key_11	BIT	080H.5
+T2EX	BIT	090H.1
+Keyboard_key_12	BIT	080H.4
+OV	BIT	0D0H.2
+RCAP2L	DATA	0CAH
+C_T2	BIT	0C8H.1
+WR	BIT	0B0H.6
+RCLK	BIT	0C8H.5
+lcd_d5	BIT	090H.5
+Buzzer_pin	BIT	080H.0
+lcd_d6	BIT	090H.6
+TCLK	BIT	0C8H.4
+SBUF	DATA	099H
+PCON	DATA	087H
+SCON	DATA	098H
+TMOD	DATA	089H
+TCON	DATA	088H
+RS_lcd	BIT	090H.2
+IE0	BIT	088H.1
+IE1	BIT	088H.3
+B	DATA	0F0H
+CP_RL2	BIT	0C8H.0
+EM_lock_pin	BIT	080H.3
+ACC	DATA	0E0H
+ET0	BIT	0A8H.1
+ET1	BIT	0A8H.3
+TF0	BIT	088H.5
+ET2	BIT	0A8H.5
+TF1	BIT	088H.7
+TF2	BIT	0C8H.7
+RB8	BIT	098H.2
+TH0	DATA	08CH
+EX0	BIT	0A8H.0
+IT0	BIT	088H.0
+TH1	DATA	08DH
+TB8	BIT	098H.3
+EX1	BIT	0A8H.2
+IT1	BIT	088H.2
+TH2	DATA	0CDH
+P	BIT	0D0H.0
+lcd_d4_lsb	BIT	090H.4
+SM0	BIT	098H.7
+TL0	DATA	08AH
+SM1	BIT	098H.6
+TL1	DATA	08BH
+SM2	BIT	098H.5
+TL2	DATA	0CCH
+lcd_d7_msb	BIT	090H.7
+PT0	BIT	0B8H.1
+PT1	BIT	0B8H.3
+RS0	BIT	0D0H.3
+PT2	BIT	0B8H.5
+TR0	BIT	088H.4
+RS1	BIT	0D0H.4
+TR1	BIT	088H.6
+TR2	BIT	0C8H.2
+PX0	BIT	0B8H.0
+PX1	BIT	0B8H.2
+DPH	DATA	083H
+Enable_lcd	BIT	090H.3
+DPL	DATA	082H
+EXEN2	BIT	0C8H.3
+REN	BIT	098H.4
+T2CON	DATA	0C8H
+RXD	BIT	0B0H.0
+TXD	BIT	0B0H.1
+Keyboard_key_1	BIT	0A0H.0
+Keyboard_key_2	BIT	0A0H.1
+Keyboard_key_3	BIT	0A0H.2
+Keyboard_key_4	BIT	0A0H.3
+F0	BIT	0D0H.5
+Keyboard_key_5	BIT	0A0H.4
+Keyboard_key_6	BIT	0A0H.5
+Keyboard_key_7	BIT	0A0H.6
+Keyboard_key_8	BIT	0A0H.7
+Keyboard_key_9	BIT	080H.7
+PSW	DATA	0D0H
+EM_lock_enabe_button	BIT	080H.2
+?PR?main?MAIN        SEGMENT CODE 
+?CO?MAIN             SEGMENT CODE 
+?BA?MAIN             SEGMENT DATA BITADDRESSABLE 
+?XD?MAIN             SEGMENT XDATA 
+	EXTRN	CODE (_fn_Initialize_Serial)
+	EXTRN	CODE (_printf)
+	EXTRN	XDATA (?_printf?BYTE)
+	EXTRN	CODE (_delay_in_seconds)
+	EXTRN	CODE (_fn_Display_String_LCD)
+	EXTRN	CODE (_fn_lcd_select_line_and_location)
+	EXTRN	CODE (fnProjectMain)
+	EXTRN	CODE (lcd_16_2_Initialisation)
+	EXTRN	CODE (string_welcome)
+	EXTRN	CODE (string_project_name)
+	EXTRN	CODE (?C_STARTUP)
+	PUBLIC	uchSerialData
+	PUBLIC	uch_Lcd_Data
+	PUBLIC	Value_Decoded
+	PUBLIC	main
+
+	RSEG  ?BA?MAIN
+   uch_Lcd_Data:   DS   1
+
+	RSEG  ?XD?MAIN
+  uchSerialData:   DS   1
+
+	RSEG  ?CO?MAIN
+Value_Decoded:
+	DW	00028H
+	DW	00028H
+	DW	00028H
+	DW	00028H
+	DW	00028H
+	DW	00028H
+	DW	00028H
+	DW	00028H
+	DW	00032H
+	DW	00037H
+	DW	00037H
+	DW	00037H
+	DW	00037H
+	DW	00037H
+	DW	00037H
+	DW	00037H
+	DW	00037H
+	DW	00037H
+	DW	00037H
+	DW	0003CH
+	DW	0003EH
+	DW	00041H
+	DW	00043H
+	DW	00046H
+	DW	0004BH
+	DW	0004DH
+	DW	0004DH
+	DW	0004DH
+	DW	00050H
+	DW	00052H
+	DW	00055H
+	DW	00057H
+	DW	00057H
+	DW	0005AH
+	DW	0005AH
+	DW	0005AH
+	DW	0005AH
+	DW	0005CH
+	DW	0005FH
+	DW	00061H
+	DW	00061H
+	DW	00064H
+	DW	00066H
+	DW	00069H
+	DW	0006BH
+	DW	0006EH
+	DW	00073H
+	DW	00073H
+	DW	00073H
+	DW	00073H
+	DW	0006EH
+	DW	0006EH
+	DW	0006EH
+	DW	0006EH
+	DW	00070H
+	DW	00070H
+	DW	00070H
+	DW	00070H
+	DW	00070H
+	DW	00078H
+	DW	0007DH
+	DW	0007DH
+	DW	0007FH
+	DW	0007FH
+	DW	00082H
+	DW	00082H
+	DW	00084H
+	DW	00089H
+	DW	0008EH
+	DW	00091H
+	DW	00091H
+	DW	00091H
+	DW	00096H
+	DW	00096H
+	DW	00096H
+	DW	00096H
+	DW	00096H
+	DW	00096H
+	DW	00096H
+	DW	00096H
+	DW	00096H
+	DW	00096H
+	DW	00096H
+	DW	00096H
+	DW	0009DH
+	DW	000A0H
+	DW	000A5H
+	DW	000A7H
+	DW	000AAH
+	DW	000AAH
+	DW	000AFH
+	DW	000B4H
+	DW	000BCH
+	DW	000B9H
+	DW	000BEH
+	DW	000C0H
+	DW	000C5H
+	DW	000C8H
+	DW	000CAH
+	DW	000CFH
+	DW	000CFH
+	DW	000CFH
+	DW	000D4H
+	DW	000D4H
+	DW	000D4H
+	DW	000D4H
+	DW	000DCH
+	DW	000DEH
+	DW	000E1H
+	DW	000E3H
+	DW	000E3H
+	DW	000E3H
+	DW	000E3H
+	DW	000E6H
+	DW	000E6H
+	DW	000E8H
+	DW	000F5H
+	DW	000FAH
+	DW	000FFH
+	DW	00104H
+	DW	00109H
+	DW	0010EH
+	DW	0010EH
+	DW	00110H
+	DW	00113H
+	DW	00113H
+	DW	00118H
+	DW	0011DH
+	DW	00122H
+	DW	00124H
+	DW	00129H
+	DW	00118H
+	DW	00118H
+	DW	0011AH
+	DW	0012EH
+	DW	0012EH
+	DW	00131H
+	DW	00133H
+	DW	00133H
+	DW	00136H
+	DW	0013DH
+	DW	00145H
+	DW	00147H
+	DW	0014AH
+	DW	0014AH
+	DW	0014AH
+	DW	0014AH
+	DW	0014AH
+	DW	00163H
+	DW	00165H
+	DW	00168H
+	DW	00168H
+	DW	00172H
+	DW	0017CH
+	DW	00186H
+	DW	00190H
+	DW	0019AH
+	DW	001A4H
+	DW	001AEH
+	DW	001B8H
+	DW	001C2H
+	DW	001CCH
+	DW	001D6H
+	DW	001E0H
+	DW	001EAH
+	DW	001F4H
+	DW	001FEH
+	DW	00208H
+	DW	00212H
+	DW	0021CH
+	DW	00226H
+	DW	00230H
+	DW	0023AH
+	DW	00244H
+	DW	0024EH
+	DW	00258H
+	DW	00262H
+	DW	0026CH
+	DW	00276H
+	DW	00280H
+	DW	0028AH
+	DW	00294H
+	DW	0029EH
+	DW	002A8H
+	DW	002B2H
+	DW	002BCH
+	DW	002C6H
+	DW	002D0H
+	DW	002DAH
+	DW	002E4H
+	DW	002EEH
+	DW	002F8H
+	DW	00302H
+	DW	0030CH
+	DW	00316H
+	DW	00320H
+	DW	0032AH
+	DW	00334H
+	DW	0033EH
+	DW	00348H
+	DW	00352H
+	DW	0035CH
+	DW	00366H
+	DW	00370H
+	DW	0037AH
+	DW	00384H
+	DW	0038EH
+	DW	00398H
+	DW	003A2H
+	DW	003ACH
+	DW	003B6H
+	DW	003C0H
+	DW	003CAH
+	DW	003D4H
+	DW	003DEH
+	DW	003E8H
+	DW	003F2H
+	DW	003FCH
+	DW	00406H
+	DW	00410H
+	DW	0041AH
+	DW	00424H
+	DW	0042EH
+	DW	00438H
+	DW	00442H
+	DW	0044CH
+	DW	00456H
+	DW	00460H
+	DW	0046AH
+	DW	00474H
+	DW	0047EH
+	DW	00488H
+	DW	00492H
+	DW	0049CH
+	DW	004A6H
+	DW	004B0H
+	DW	004BAH
+	DW	004C4H
+	DW	004CEH
+	DW	004D8H
+	DW	004E2H
+	DW	004ECH
+	DW	004F6H
+	DW	00500H
+	DW	0050AH
+	DW	00514H
+	DW	0051EH
+	DW	00528H
+	DW	00532H
+	DW	0053CH
+	DW	00546H
+	DW	00550H
+	DW	0055AH
+	DW	00564H
+	DW	0056EH
+	DW	00578H
+
+; /*
+; 	filename	:main.c
+; 	description	:main function
+; 	author		:
+; 	date		:
+; 	
+; 	Good practice
+; 	1. Downsizing Your Variables
+; 	2. Use Unsigned Types
+; 	3. Stay Away from Floating Point
+; 	4. Make Use of bit Variables
+; 	5. Use Locals instead of Globals
+; 	6. Use Internal Memory for Variables - DATA, IDATA, PDATA, XDATA.
+; 	7. Use Macros Instead of Functions - For speed
+; 	   Use functions Instead of Macros - For Code space less
+; 	8. Never add printf in the code it uses about 1K code
+; */
+; #pragma OT(1, SIZE) // to decide on the level of optimisation
+; 
+; 
+; #include <reg52.h>
+; #include <stdio.h>                /* prototype declarations for I/O functions */
+; 
+; 
+; #include "serial_codes.h"
+; #include "main.h"
+; #include "LCD.h"
+; #include "delay.h"
+; #include "ProjectMain.h"
+; #include "PinAllocation.h"
+; //#include "keyboard.h"
+; 
+; unsigned char bdata uch_Lcd_Data;
+; unsigned char uchSerialData;
+; //extern unsigned char key_pressed[6];
+; //unsigned char keywordvalue[];
+; //unsigned char value=5;
+; 
+; 
+; void main(void)
+
+	RSEG  ?PR?main?MAIN
+main:
+	USING	0
+			; SOURCE LINE # 40
+; {
+			; SOURCE LINE # 41
+; 	Buzzer_pin=BUZZERDISABLE;
+			; SOURCE LINE # 42
+	CLR  	Buzzer_pin
+; 	fn_Initialize_Serial(BAUD_9600);
+			; SOURCE LINE # 43
+	MOV  	R7,#01H
+	LCALL	_fn_Initialize_Serial
+; 	printf(string_project_name);
+			; SOURCE LINE # 44
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (string_project_name)
+	MOV  	R1,#LOW (string_project_name)
+	LCALL	_printf
+; 
+; 
+; 
+; 	lcd_16_2_Initialisation();
+			; SOURCE LINE # 48
+	LCALL	lcd_16_2_Initialisation
+;     fn_lcd_select_line_and_location(LCD_LINE_1, LOCATION_0);
+			; SOURCE LINE # 49
+	MOV  	R5,#00H
+	MOV  	R7,#01H
+	LCALL	_fn_lcd_select_line_and_location
+;     fn_Display_String_LCD(string_project_name);
+			; SOURCE LINE # 50
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (string_project_name)
+	MOV  	R1,#LOW (string_project_name)
+	LCALL	_fn_Display_String_LCD
+;     fn_lcd_select_line_and_location(LCD_LINE_2, LOCATION_0);
+			; SOURCE LINE # 51
+	MOV  	R5,#00H
+	MOV  	R7,#02H
+	LCALL	_fn_lcd_select_line_and_location
+;     fn_Display_String_LCD(string_welcome);
+			; SOURCE LINE # 52
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (string_welcome)
+	MOV  	R1,#LOW (string_welcome)
+	LCALL	_fn_Display_String_LCD
+;     delay_in_seconds(1);
+			; SOURCE LINE # 53
+	MOV  	R7,#01H
+	LCALL	_delay_in_seconds
+; //	while(1)
+; //	{
+; //
+; //	fn_keyboard_12x1for_password(value)	;
+; //	 //keywordvalue[6]=key_pressed;
+; //	 printf(keywordvalue);
+; //	delay_in_seconds(5);
+; //	 }
+; 
+; fnProjectMain();
+			; SOURCE LINE # 63
+	LCALL	fnProjectMain
+; 
+; }
+			; SOURCE LINE # 65
+	RET  	
+; END OF main
+
+	END

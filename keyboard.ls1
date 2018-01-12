@@ -1,0 +1,1053 @@
+A51 MACRO ASSEMBLER  KEYBOARD                                                             11/09/2012 17:30:05 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02
+OBJECT MODULE PLACED IN keyboard.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE keyboard.src PR(.\keyboard.ls1) EP DEBUG
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ; .\keyboard.SRC generated from: keyboard.c
+                       2     ; COMPILER INVOKED BY:
+                       3     ;        C:\Keil\C51\BIN\C51.EXE keyboard.c LARGE BROWSE DEBUG OBJECTEXTEND SRC(.\keyboard.
+                             SRC)
+                       4     
+                       5     $nomod51 
+                       6     
+                       7     NAME    KEYBOARD
+                       8     
+  00B7                 9     ModuleSelect0   BIT     0B0H.7
+  00B6                10     ModuleSelect1   BIT     0B0H.6
+  0080                11     P0      DATA    080H
+  0090                12     P1      DATA    090H
+  00A0                13     P2      DATA    0A0H
+  00B0                14     P3      DATA    0B0H
+  00B4                15     T0      BIT     0B0H.4
+  00D6                16     AC      BIT     0D0H.6
+  00B5                17     T1      BIT     0B0H.5
+  00AF                18     EA      BIT     0A8H.7
+  00A8                19     IE      DATA    0A8H
+  00B7                20     RD      BIT     0B0H.7
+  00AC                21     ES      BIT     0A8H.4
+  00B8                22     IP      DATA    0B8H
+  0098                23     RI      BIT     098H.0
+  00B2                24     INT0    BIT     0B0H.2
+  00D7                25     CY      BIT     0D0H.7
+  0099                26     TI      BIT     098H.1
+  00B3                27     INT1    BIT     0B0H.3
+  0086                28     Keyboard_key_10 BIT     080H.6
+  00BC                29     PS      BIT     0B8H.4
+  0081                30     SP      DATA    081H
+  0085                31     Keyboard_key_11 BIT     080H.5
+  0084                32     Keyboard_key_12 BIT     080H.4
+  00D2                33     OV      BIT     0D0H.2
+  00B6                34     WR      BIT     0B0H.6
+  0095                35     lcd_d5  BIT     090H.5
+  0080                36     Buzzer_pin      BIT     080H.0
+  0096                37     lcd_d6  BIT     090H.6
+  0099                38     SBUF    DATA    099H
+  0087                39     PCON    DATA    087H
+  0098                40     SCON    DATA    098H
+  0089                41     TMOD    DATA    089H
+  0088                42     TCON    DATA    088H
+  0092                43     RS_lcd  BIT     090H.2
+  0089                44     IE0     BIT     088H.1
+  008B                45     IE1     BIT     088H.3
+  00F0                46     B       DATA    0F0H
+  0083                47     EM_lock_pin     BIT     080H.3
+  00E0                48     ACC     DATA    0E0H
+  00A9                49     ET0     BIT     0A8H.1
+  00AB                50     ET1     BIT     0A8H.3
+  008D                51     TF0     BIT     088H.5
+  008F                52     TF1     BIT     088H.7
+  009A                53     RB8     BIT     098H.2
+  008C                54     TH0     DATA    08CH
+  00A8                55     EX0     BIT     0A8H.0
+  0088                56     IT0     BIT     088H.0
+  008D                57     TH1     DATA    08DH
+A51 MACRO ASSEMBLER  KEYBOARD                                                             11/09/2012 17:30:05 PAGE     2
+
+  009B                58     TB8     BIT     098H.3
+  00AA                59     EX1     BIT     0A8H.2
+  008A                60     IT1     BIT     088H.2
+  00D0                61     P       BIT     0D0H.0
+  0094                62     lcd_d4_lsb      BIT     090H.4
+  009F                63     SM0     BIT     098H.7
+  008A                64     TL0     DATA    08AH
+  009E                65     SM1     BIT     098H.6
+  008B                66     TL1     DATA    08BH
+  009D                67     SM2     BIT     098H.5
+  0097                68     lcd_d7_msb      BIT     090H.7
+  00B9                69     PT0     BIT     0B8H.1
+  00BB                70     PT1     BIT     0B8H.3
+  00D3                71     RS0     BIT     0D0H.3
+  008C                72     TR0     BIT     088H.4
+  00D4                73     RS1     BIT     0D0H.4
+  008E                74     TR1     BIT     088H.6
+  00B8                75     PX0     BIT     0B8H.0
+  00BA                76     PX1     BIT     0B8H.2
+  0083                77     DPH     DATA    083H
+  0093                78     Enable_lcd      BIT     090H.3
+  0082                79     DPL     DATA    082H
+  009C                80     REN     BIT     098H.4
+  00B0                81     RXD     BIT     0B0H.0
+  00B1                82     TXD     BIT     0B0H.1
+  00A0                83     Keyboard_key_1  BIT     0A0H.0
+  00A1                84     Keyboard_key_2  BIT     0A0H.1
+  00A2                85     Keyboard_key_3  BIT     0A0H.2
+  00A3                86     Keyboard_key_4  BIT     0A0H.3
+  00D5                87     F0      BIT     0D0H.5
+  00A4                88     Keyboard_key_5  BIT     0A0H.4
+  00A5                89     Keyboard_key_6  BIT     0A0H.5
+  00A6                90     Keyboard_key_7  BIT     0A0H.6
+  00A7                91     Keyboard_key_8  BIT     0A0H.7
+  0087                92     Keyboard_key_9  BIT     080H.7
+  00D0                93     PSW     DATA    0D0H
+  0082                94     EM_lock_enabe_button    BIT     080H.2
+                      95     ?PR?_fn_keyboard_12x1for_password?KEYBOARD SEGMENT CODE 
+                      96     ?XD?_fn_keyboard_12x1for_password?KEYBOARD SEGMENT XDATA OVERLAYABLE 
+                      97     ?PR?chfn_keyboard_12x1?KEYBOARD          SEGMENT CODE 
+                      98     ?CO?KEYBOARD         SEGMENT CODE 
+                      99     ?C_INITSEG           SEGMENT CODE 
+                     100     ?XD?KEYBOARD         SEGMENT XDATA 
+                     101             EXTRN   CODE (_delay_in_ms)
+                     102             EXTRN   CODE (_printf)
+                     103             EXTRN   XDATA (?_printf?BYTE)
+                     104             EXTRN   CODE (_fn_Display_String_LCD)
+                     105             EXTRN   CODE (_fnModuleSelect)
+                     106             EXTRN   CODE (_fn_lcd_select_line_and_location)
+                     107             PUBLIC  Keypad
+                     108             PUBLIC  password_length
+                     109             PUBLIC  key_pressed
+                     110             PUBLIC  Keyboard_key_no
+                     111             PUBLIC  length
+                     112             PUBLIC  chfn_keyboard_12x1
+                     113             PUBLIC  _fn_keyboard_12x1for_password
+                     114     
+----                 115             RSEG  ?XD?_fn_keyboard_12x1for_password?KEYBOARD
+0000                 116     ?_fn_keyboard_12x1for_password?BYTE:
+0000                 117     password_length?040:   DS   1
+                     118     
+----                 119             RSEG  ?XD?KEYBOARD
+0000                 120              length:   DS   1
+0001                 121     Keyboard_key_no:   DS   1
+0002                 122         key_pressed:   DS   7
+0009                 123     password_length:   DS   1
+A51 MACRO ASSEMBLER  KEYBOARD                                                             11/09/2012 17:30:05 PAGE     3
+
+000A                 124              Keypad:   DS   12
+                     125     
+----                 126             RSEG  ?CO?KEYBOARD
+0000                 127     ?SC_0:
+0000 20202020        128             DB  ' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' 
+0004 20202020                
+0008 2020                    
+000A 20202020        129             DB  ' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,000H
+000E 20202000                
+                     130     
+0012                 131     ?SC_18:
+0012 20456E74        132             DB  ' ' ,'E' ,'n' ,'t' ,'e' ,'r' ,' ' ,'p' ,'a' ,'s' 
+0016 65722070                
+001A 6173                    
+001C 73776F72        133             DB  's' ,'w' ,'o' ,'r' ,'d' ,000H
+0020 6400                    
+                     134     
+0022                 135     ?SC_34:
+0022 2A00            136             DB  '*' ,000H
+                     137     
+0024                 138     ?SC_36:
+0024 0A6B6579        139             DB  00AH,'k' ,'e' ,'y' ,' ' ,'p' ,'r' ,'e' ,'s' ,'s' 
+0028 20707265                
+002C 7373                    
+002E 65642069        140             DB  'e' ,'d' ,' ' ,'i' ,'s' ,'=' ,' ' ,'%' ,'C' ,00AH
+0032 733D2025                
+0036 430A                    
+0038 00              141             DB  000H
+                     142     
+0039                 143     ?SC_57:
+0039 254300          144             DB  '%' ,'C' ,000H
+                     145     
+                     146     
+----                 147             RSEG  ?C_INITSEG
+0000 4C              148             DB      04CH
+0001 0000     F      149             DW      Keypad
+0003 31              150             DB      031H
+0004 32              151             DB      032H
+0005 33              152             DB      033H
+0006 34              153             DB      034H
+0007 35              154             DB      035H
+0008 36              155             DB      036H
+0009 37              156             DB      037H
+000A 38              157             DB      038H
+000B 39              158             DB      039H
+000C 2A              159             DB      02AH
+000D 30              160             DB      030H
+000E 23              161             DB      023H
+                     162     
+                     163     ; /*
+                     164     ;               File name                               :       keyboard.c
+                     165     ;               Discription                             :       12x1 keyboard
+                     166     ;               Date of creation                :       4-11-2011
+                     167     ;               Author                                  :       Arjun Singh
+                     168     ;               Code last update on             :
+                     169     ;               Code last updated by    :       Arjun Singh
+                     170     ; 
+                     171     ; */
+                     172     ; 
+                     173     ; 
+                     174     ; 
+                     175     ; #include <reg51.h>
+                     176     ; #include <stdio.h>
+                     177     ; #include <string.h>
+                     178     ; #include <stdlib.h>
+                     179     ; #include "keyboard.h"
+A51 MACRO ASSEMBLER  KEYBOARD                                                             11/09/2012 17:30:05 PAGE     4
+
+                     180     ; #include "delay.h"
+                     181     ; #include "pinallocation.h"
+                     182     ; #include "ProjectMain.h"
+                     183     ; #include "LCD.h"
+                     184     ; 
+                     185     ; 
+                     186     ; unsigned char Keypad[12]=     {'1','2','3','4','5','6','7','8','9','*','0','#'};
+                     187     ; unsigned char  Keyboard_key_no;
+                     188     ; unsigned char password_length ;
+                     189     ; //char string_passwd[]={123456};
+                     190     ; unsigned char key_pressed[7];
+                     191     ; 
+                     192     ; unsigned char length ;
+                     193     ; //int passwordvalue;
+                     194     ; //unsigned char key_pressed[6];
+                     195     ; //unsigned char pointer_key_pressed[];
+                     196     ; 
+                     197     ; 
+                     198     ; 
+                     199     ; 
+                     200     ; 
+                     201     ; void fn_keyboard_12x1for_password(unsigned char password_length)
+                     202     
+----                 203             RSEG  ?PR?_fn_keyboard_12x1for_password?KEYBOARD
+0000                 204     _fn_keyboard_12x1for_password:
+                     205             USING   0
+                     206                             ; SOURCE LINE # 39
+0000 900000   F      207             MOV     DPTR,#password_length?040
+0003 EF              208             MOV     A,R7
+0004 F0              209             MOVX    @DPTR,A
+                     210     ; {
+                     211                             ; SOURCE LINE # 40
+                     212     ;               fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+                     213                             ; SOURCE LINE # 41
+0005 E4              214             CLR     A
+0006 FD              215             MOV     R5,A
+0007 7F01            216             MOV     R7,#01H
+0009 120000   F      217             LCALL   _fn_lcd_select_line_and_location
+                     218     ;               fn_Display_String_LCD("                 ");
+                     219                             ; SOURCE LINE # 42
+000C 7BFF            220             MOV     R3,#0FFH
+000E 7A00     F      221             MOV     R2,#HIGH (?SC_0)
+0010 7900     F      222             MOV     R1,#LOW (?SC_0)
+0012 120000   F      223             LCALL   _fn_Display_String_LCD
+                     224     ;               fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+                     225                             ; SOURCE LINE # 43
+0015 E4              226             CLR     A
+0016 FD              227             MOV     R5,A
+0017 7F02            228             MOV     R7,#02H
+0019 120000   F      229             LCALL   _fn_lcd_select_line_and_location
+                     230     ;               fn_Display_String_LCD("                 ");
+                     231                             ; SOURCE LINE # 44
+001C 7BFF            232             MOV     R3,#0FFH
+001E 7A00     F      233             MOV     R2,#HIGH (?SC_0)
+0020 7900     F      234             MOV     R1,#LOW (?SC_0)
+0022 120000   F      235             LCALL   _fn_Display_String_LCD
+                     236     ;               fnModuleSelect(SELECT_PC_ON_UART);
+                     237                             ; SOURCE LINE # 45
+0025 7F03            238             MOV     R7,#03H
+0027 120000   F      239             LCALL   _fnModuleSelect
+                     240     ;               //delay_in_seconds(1);
+                     241     ;     
+                     242     ;       for(length=0;length<password_length;length++)
+                     243                             ; SOURCE LINE # 48
+002A E4              244             CLR     A
+002B 900000   F      245             MOV     DPTR,#length
+A51 MACRO ASSEMBLER  KEYBOARD                                                             11/09/2012 17:30:05 PAGE     5
+
+002E F0              246             MOVX    @DPTR,A
+002F                 247     ?C0001:
+002F 900000   F      248             MOV     DPTR,#password_length?040
+0032 E0              249             MOVX    A,@DPTR
+0033 FF              250             MOV     R7,A
+0034 900000   F      251             MOV     DPTR,#length
+0037 E0              252             MOVX    A,@DPTR
+0038 C3              253             CLR     C
+0039 9F              254             SUBB    A,R7
+003A 505E            255             JNC     ?C0002
+                     256     ;       {
+                     257                             ; SOURCE LINE # 49
+                     258     ;               fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+                     259                             ; SOURCE LINE # 50
+003C E4              260             CLR     A
+003D FD              261             MOV     R5,A
+003E 7F01            262             MOV     R7,#01H
+0040 120000   F      263             LCALL   _fn_lcd_select_line_and_location
+                     264     ;               fn_Display_String_LCD(" Enter password");
+                     265                             ; SOURCE LINE # 51
+0043 7BFF            266             MOV     R3,#0FFH
+0045 7A00     F      267             MOV     R2,#HIGH (?SC_18)
+0047 7900     F      268             MOV     R1,#LOW (?SC_18)
+0049 120000   F      269             LCALL   _fn_Display_String_LCD
+                     270     ;               chfn_keyboard_12x1();
+                     271                             ; SOURCE LINE # 52
+004C 120000   F      272             LCALL   chfn_keyboard_12x1
+                     273     ;           key_pressed[length]= Keyboard_key_no;
+                     274                             ; SOURCE LINE # 53
+004F 900000   F      275             MOV     DPTR,#Keyboard_key_no
+0052 E0              276             MOVX    A,@DPTR
+0053 FF              277             MOV     R7,A
+0054 900000   F      278             MOV     DPTR,#length
+0057 E0              279             MOVX    A,@DPTR
+0058 2400     F      280             ADD     A,#LOW (key_pressed)
+005A F582            281             MOV     DPL,A
+005C E4              282             CLR     A
+005D 3400     F      283             ADDC    A,#HIGH (key_pressed)
+005F F583            284             MOV     DPH,A
+0061 EF              285             MOV     A,R7
+0062 F0              286             MOVX    @DPTR,A
+                     287     ;               delay_in_ms(500)        ;
+                     288                             ; SOURCE LINE # 54
+0063 7FF4            289             MOV     R7,#0F4H
+0065 120000   F      290             LCALL   _delay_in_ms
+                     291     ;               fn_lcd_select_line_and_location(LCD_LINE_2,length);
+                     292                             ; SOURCE LINE # 55
+0068 900000   F      293             MOV     DPTR,#length
+006B E0              294             MOVX    A,@DPTR
+006C FD              295             MOV     R5,A
+006D 7F02            296             MOV     R7,#02H
+006F 120000   F      297             LCALL   _fn_lcd_select_line_and_location
+                     298     ;               fn_Display_String_LCD("*");
+                     299                             ; SOURCE LINE # 56
+0072 7BFF            300             MOV     R3,#0FFH
+0074 7A00     F      301             MOV     R2,#HIGH (?SC_34)
+0076 7900     F      302             MOV     R1,#LOW (?SC_34)
+0078 120000   F      303             LCALL   _fn_Display_String_LCD
+                     304     ;               printf("\nkey pressed is= %C\n",key_pressed)     ;
+                     305                             ; SOURCE LINE # 57
+007B 900000   F      306             MOV     DPTR,#?_printf?BYTE+03H
+007E 7401            307             MOV     A,#01H
+0080 F0              308             MOVX    @DPTR,A
+0081 A3              309             INC     DPTR
+0082 7400     F      310             MOV     A,#HIGH (key_pressed)
+0084 F0              311             MOVX    @DPTR,A
+A51 MACRO ASSEMBLER  KEYBOARD                                                             11/09/2012 17:30:05 PAGE     6
+
+0085 A3              312             INC     DPTR
+0086 7400     F      313             MOV     A,#LOW (key_pressed)
+0088 F0              314             MOVX    @DPTR,A
+0089 7BFF            315             MOV     R3,#0FFH
+008B 7A00     F      316             MOV     R2,#HIGH (?SC_36)
+008D 7900     F      317             MOV     R1,#LOW (?SC_36)
+008F 120000   F      318             LCALL   _printf
+                     319     ; 
+                     320     ;       }
+                     321                             ; SOURCE LINE # 59
+0092 900000   F      322             MOV     DPTR,#length
+0095 E0              323             MOVX    A,@DPTR
+0096 04              324             INC     A
+0097 F0              325             MOVX    @DPTR,A
+0098 8095            326             SJMP    ?C0001
+009A                 327     ?C0002:
+                     328     ; //    length=length+1         ;
+                     329     ;       key_pressed[length]= '\0';
+                     330                             ; SOURCE LINE # 61
+009A 900000   F      331             MOV     DPTR,#length
+009D E0              332             MOVX    A,@DPTR
+009E 2400     F      333             ADD     A,#LOW (key_pressed)
+00A0 F582            334             MOV     DPL,A
+00A2 E4              335             CLR     A
+00A3 3400     F      336             ADDC    A,#HIGH (key_pressed)
+00A5 F583            337             MOV     DPH,A
+00A7 E4              338             CLR     A
+00A8 F0              339             MOVX    @DPTR,A
+                     340     ;       
+                     341     ; //    passwordvalue=strcmp(string_passwd,key_pressed);
+                     342     ; //    if(passwordvalue==0)
+                     343     ; //    {
+                     344     ; //            printf("password matched");
+                     345     ; //            EM_lock_pin=LOCKENABLED;
+                     346     ; //            fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+                     347     ; //            fn_Display_String_LCD("Password matched");
+                     348     ; //
+                     349     ; //    }
+                     350     ; //    else
+                     351     ; //    {
+                     352     ; //            Buzzer_pin=BUZZERENABLED;
+                     353     ; //            fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+                     354     ; //            fn_Display_String_LCD(" Wrong password ");
+                     355     ; //            printf("Wrong password");
+                     356     ; //    }
+                     357     ;               
+                     358     ;               
+                     359     ; }
+                     360                             ; SOURCE LINE # 81
+00A9 22              361             RET     
+                     362     ; END OF _fn_keyboard_12x1for_password
+                     363     
+                     364     ; 
+                     365     ; 
+                     366     ; 
+                     367     ; 
+                     368     ; 
+                     369     ; void chfn_keyboard_12x1(void)
+                     370     
+----                 371             RSEG  ?PR?chfn_keyboard_12x1?KEYBOARD
+0000                 372     chfn_keyboard_12x1:
+                     373             USING   0
+                     374                             ; SOURCE LINE # 87
+                     375     ; {
+                     376                             ; SOURCE LINE # 88
+                     377     ;       unsigned char i;
+A51 MACRO ASSEMBLER  KEYBOARD                                                             11/09/2012 17:30:05 PAGE     7
+
+                     378     ;       Keyboard_key_9=1;
+                     379                             ; SOURCE LINE # 90
+0000 D287            380             SETB    Keyboard_key_9
+                     381     ;       Keyboard_key_10=1;
+                     382                             ; SOURCE LINE # 91
+0002 D286            383             SETB    Keyboard_key_10
+                     384     ;       Keyboard_key_11=1;
+                     385                             ; SOURCE LINE # 92
+0004 D285            386             SETB    Keyboard_key_11
+                     387     ;       Keyboard_key_12=1;
+                     388                             ; SOURCE LINE # 93
+0006 D284            389             SETB    Keyboard_key_12
+                     390     ;       P2=0xff ;
+                     391                             ; SOURCE LINE # 94
+0008 75A0FF          392             MOV     P2,#0FFH
+                     393     ;       i=((P2==0xff)&&Keyboard_key_9==1&& Keyboard_key_10==1&&Keyboard_key_11==1&&Keyboard
+                             _key_12==1 );
+                     394                             ; SOURCE LINE # 95
+000B E5A0            395             MOV     A,P2
+000D B4FF10          396             CJNE    A,#0FFH,?C0005
+0010 30870D          397             JNB     Keyboard_key_9,?C0005
+0013 30860A          398             JNB     Keyboard_key_10,?C0005
+0016 308507          399             JNB     Keyboard_key_11,?C0005
+0019 308404          400             JNB     Keyboard_key_12,?C0005
+001C 7F01            401             MOV     R7,#01H
+001E 8002            402             SJMP    ?C0006
+0020                 403     ?C0005:
+0020 7F00            404             MOV     R7,#00H
+0022                 405     ?C0006:
+                     406     ;---- Variable 'i?141' assigned to Register 'R7' ----
+0022                 407     ?C0007:
+                     408     ;       while(i!=0)
+                     409                             ; SOURCE LINE # 96
+0022 EF              410             MOV     A,R7
+0023 601B            411             JZ      ?C0008
+                     412     ;       {
+                     413                             ; SOURCE LINE # 97
+                     414     ;       i=((P2==0xff)&&Keyboard_key_9==1&& Keyboard_key_10==1&&Keyboard_key_11==1&&Keyboard
+                             _key_12==1 );
+                     415                             ; SOURCE LINE # 98
+0025 E5A0            416             MOV     A,P2
+0027 B4FF10          417             CJNE    A,#0FFH,?C0009
+002A 30870D          418             JNB     Keyboard_key_9,?C0009
+002D 30860A          419             JNB     Keyboard_key_10,?C0009
+0030 308507          420             JNB     Keyboard_key_11,?C0009
+0033 308404          421             JNB     Keyboard_key_12,?C0009
+0036 7E01            422             MOV     R6,#01H
+0038 8002            423             SJMP    ?C0010
+003A                 424     ?C0009:
+003A 7E00            425             MOV     R6,#00H
+003C                 426     ?C0010:
+003C AF06            427             MOV     R7,AR6
+                     428     ;       }
+                     429                             ; SOURCE LINE # 99
+003E 80E2            430             SJMP    ?C0007
+0040                 431     ?C0008:
+                     432     ;       
+                     433     ;       if(Keyboard_key_1==KEYBOARD_KEY_PRESSED)
+                     434                             ; SOURCE LINE # 101
+0040 20A021          435             JB      Keyboard_key_1,?C0011
+                     436     ;               {
+                     437                             ; SOURCE LINE # 102
+                     438     ;               delay_in_ms(100);
+                     439                             ; SOURCE LINE # 103
+0043 7F64            440             MOV     R7,#064H
+0045 120000   F      441             LCALL   _delay_in_ms
+A51 MACRO ASSEMBLER  KEYBOARD                                                             11/09/2012 17:30:05 PAGE     8
+
+                     442     ;               if(Keyboard_key_1==KEYBOARD_KEY_PRESSED)
+                     443                             ; SOURCE LINE # 104
+0048 20A008          444             JB      Keyboard_key_1,?C0012
+                     445     ;               Keyboard_key_no=Keypad[0];
+                     446                             ; SOURCE LINE # 105
+004B 900000   F      447             MOV     DPTR,#Keypad
+004E E0              448             MOVX    A,@DPTR
+004F 900000   F      449             MOV     DPTR,#Keyboard_key_no
+0052 F0              450             MOVX    @DPTR,A
+0053                 451     ?C0012:
+                     452     ;               printf("%C",Keyboard_key_no);
+                     453                             ; SOURCE LINE # 106
+0053 7BFF            454             MOV     R3,#0FFH
+0055 7A00     F      455             MOV     R2,#HIGH (?SC_57)
+0057 7900     F      456             MOV     R1,#LOW (?SC_57)
+0059 900000   F      457             MOV     DPTR,#Keyboard_key_no
+005C E0              458             MOVX    A,@DPTR
+005D 900000   F      459             MOV     DPTR,#?_printf?BYTE+03H
+0060 F0              460             MOVX    @DPTR,A
+0061 120000   F      461             LCALL   _printf
+                     462     ; //            break;
+                     463     ;               }
+                     464                             ; SOURCE LINE # 108
+0064                 465     ?C0011:
+                     466     ;       if(Keyboard_key_2==KEYBOARD_KEY_PRESSED)
+                     467                             ; SOURCE LINE # 109
+0064 20A121          468             JB      Keyboard_key_2,?C0013
+                     469     ;               {
+                     470                             ; SOURCE LINE # 110
+                     471     ;               delay_in_ms(100);
+                     472                             ; SOURCE LINE # 111
+0067 7F64            473             MOV     R7,#064H
+0069 120000   F      474             LCALL   _delay_in_ms
+                     475     ;               if(Keyboard_key_2==KEYBOARD_KEY_PRESSED)
+                     476                             ; SOURCE LINE # 112
+006C 20A108          477             JB      Keyboard_key_2,?C0014
+                     478     ;               Keyboard_key_no=Keypad[1];
+                     479                             ; SOURCE LINE # 113
+006F 900000   F      480             MOV     DPTR,#Keypad+01H
+0072 E0              481             MOVX    A,@DPTR
+0073 900000   F      482             MOV     DPTR,#Keyboard_key_no
+0076 F0              483             MOVX    @DPTR,A
+0077                 484     ?C0014:
+                     485     ;               printf("%C",Keyboard_key_no);
+                     486                             ; SOURCE LINE # 114
+0077 7BFF            487             MOV     R3,#0FFH
+0079 7A00     F      488             MOV     R2,#HIGH (?SC_57)
+007B 7900     F      489             MOV     R1,#LOW (?SC_57)
+007D 900000   F      490             MOV     DPTR,#Keyboard_key_no
+0080 E0              491             MOVX    A,@DPTR
+0081 900000   F      492             MOV     DPTR,#?_printf?BYTE+03H
+0084 F0              493             MOVX    @DPTR,A
+0085 120000   F      494             LCALL   _printf
+                     495     ; //            break;
+                     496     ;               }
+                     497                             ; SOURCE LINE # 116
+0088                 498     ?C0013:
+                     499     ;       if(Keyboard_key_3==KEYBOARD_KEY_PRESSED)
+                     500                             ; SOURCE LINE # 117
+0088 20A221          501             JB      Keyboard_key_3,?C0015
+                     502     ;               {
+                     503                             ; SOURCE LINE # 118
+                     504     ;               delay_in_ms(100);
+                     505                             ; SOURCE LINE # 119
+008B 7F64            506             MOV     R7,#064H
+008D 120000   F      507             LCALL   _delay_in_ms
+A51 MACRO ASSEMBLER  KEYBOARD                                                             11/09/2012 17:30:05 PAGE     9
+
+                     508     ;               if(Keyboard_key_3==KEYBOARD_KEY_PRESSED)
+                     509                             ; SOURCE LINE # 120
+0090 20A208          510             JB      Keyboard_key_3,?C0016
+                     511     ;               Keyboard_key_no=Keypad[2];
+                     512                             ; SOURCE LINE # 121
+0093 900000   F      513             MOV     DPTR,#Keypad+02H
+0096 E0              514             MOVX    A,@DPTR
+0097 900000   F      515             MOV     DPTR,#Keyboard_key_no
+009A F0              516             MOVX    @DPTR,A
+009B                 517     ?C0016:
+                     518     ;               printf("%C",Keyboard_key_no);
+                     519                             ; SOURCE LINE # 122
+009B 7BFF            520             MOV     R3,#0FFH
+009D 7A00     F      521             MOV     R2,#HIGH (?SC_57)
+009F 7900     F      522             MOV     R1,#LOW (?SC_57)
+00A1 900000   F      523             MOV     DPTR,#Keyboard_key_no
+00A4 E0              524             MOVX    A,@DPTR
+00A5 900000   F      525             MOV     DPTR,#?_printf?BYTE+03H
+00A8 F0              526             MOVX    @DPTR,A
+00A9 120000   F      527             LCALL   _printf
+                     528     ; //            break;
+                     529     ;               }
+                     530                             ; SOURCE LINE # 124
+00AC                 531     ?C0015:
+                     532     ;       if(Keyboard_key_4==KEYBOARD_KEY_PRESSED)
+                     533                             ; SOURCE LINE # 125
+00AC 20A321          534             JB      Keyboard_key_4,?C0017
+                     535     ;               {
+                     536                             ; SOURCE LINE # 126
+                     537     ;               delay_in_ms(100);
+                     538                             ; SOURCE LINE # 127
+00AF 7F64            539             MOV     R7,#064H
+00B1 120000   F      540             LCALL   _delay_in_ms
+                     541     ;               if(Keyboard_key_4==KEYBOARD_KEY_PRESSED)
+                     542                             ; SOURCE LINE # 128
+00B4 20A308          543             JB      Keyboard_key_4,?C0018
+                     544     ;               Keyboard_key_no=Keypad[3];
+                     545                             ; SOURCE LINE # 129
+00B7 900000   F      546             MOV     DPTR,#Keypad+03H
+00BA E0              547             MOVX    A,@DPTR
+00BB 900000   F      548             MOV     DPTR,#Keyboard_key_no
+00BE F0              549             MOVX    @DPTR,A
+00BF                 550     ?C0018:
+                     551     ;               printf("%C",Keyboard_key_no);
+                     552                             ; SOURCE LINE # 130
+00BF 7BFF            553             MOV     R3,#0FFH
+00C1 7A00     F      554             MOV     R2,#HIGH (?SC_57)
+00C3 7900     F      555             MOV     R1,#LOW (?SC_57)
+00C5 900000   F      556             MOV     DPTR,#Keyboard_key_no
+00C8 E0              557             MOVX    A,@DPTR
+00C9 900000   F      558             MOV     DPTR,#?_printf?BYTE+03H
+00CC F0              559             MOVX    @DPTR,A
+00CD 120000   F      560             LCALL   _printf
+                     561     ; //            break;
+                     562     ;               }
+                     563                             ; SOURCE LINE # 132
+00D0                 564     ?C0017:
+                     565     ;       if(Keyboard_key_5==KEYBOARD_KEY_PRESSED)
+                     566                             ; SOURCE LINE # 133
+00D0 20A421          567             JB      Keyboard_key_5,?C0019
+                     568     ;               {
+                     569                             ; SOURCE LINE # 134
+                     570     ;               delay_in_ms(100);
+                     571                             ; SOURCE LINE # 135
+00D3 7F64            572             MOV     R7,#064H
+00D5 120000   F      573             LCALL   _delay_in_ms
+A51 MACRO ASSEMBLER  KEYBOARD                                                             11/09/2012 17:30:05 PAGE    10
+
+                     574     ;               if(Keyboard_key_5==KEYBOARD_KEY_PRESSED)
+                     575                             ; SOURCE LINE # 136
+00D8 20A408          576             JB      Keyboard_key_5,?C0020
+                     577     ;               Keyboard_key_no=Keypad[4];
+                     578                             ; SOURCE LINE # 137
+00DB 900000   F      579             MOV     DPTR,#Keypad+04H
+00DE E0              580             MOVX    A,@DPTR
+00DF 900000   F      581             MOV     DPTR,#Keyboard_key_no
+00E2 F0              582             MOVX    @DPTR,A
+00E3                 583     ?C0020:
+                     584     ;               printf("%C",Keyboard_key_no);
+                     585                             ; SOURCE LINE # 138
+00E3 7BFF            586             MOV     R3,#0FFH
+00E5 7A00     F      587             MOV     R2,#HIGH (?SC_57)
+00E7 7900     F      588             MOV     R1,#LOW (?SC_57)
+00E9 900000   F      589             MOV     DPTR,#Keyboard_key_no
+00EC E0              590             MOVX    A,@DPTR
+00ED 900000   F      591             MOV     DPTR,#?_printf?BYTE+03H
+00F0 F0              592             MOVX    @DPTR,A
+00F1 120000   F      593             LCALL   _printf
+                     594     ; //            break;
+                     595     ;               }
+                     596                             ; SOURCE LINE # 140
+00F4                 597     ?C0019:
+                     598     ;       if(Keyboard_key_6==KEYBOARD_KEY_PRESSED)
+                     599                             ; SOURCE LINE # 141
+00F4 20A521          600             JB      Keyboard_key_6,?C0021
+                     601     ;               {
+                     602                             ; SOURCE LINE # 142
+                     603     ;               delay_in_ms(100);
+                     604                             ; SOURCE LINE # 143
+00F7 7F64            605             MOV     R7,#064H
+00F9 120000   F      606             LCALL   _delay_in_ms
+                     607     ;               if(Keyboard_key_6==KEYBOARD_KEY_PRESSED)
+                     608                             ; SOURCE LINE # 144
+00FC 20A508          609             JB      Keyboard_key_6,?C0022
+                     610     ;               Keyboard_key_no=Keypad[5];
+                     611                             ; SOURCE LINE # 145
+00FF 900000   F      612             MOV     DPTR,#Keypad+05H
+0102 E0              613             MOVX    A,@DPTR
+0103 900000   F      614             MOV     DPTR,#Keyboard_key_no
+0106 F0              615             MOVX    @DPTR,A
+0107                 616     ?C0022:
+                     617     ;               printf("%C",Keyboard_key_no);
+                     618                             ; SOURCE LINE # 146
+0107 7BFF            619             MOV     R3,#0FFH
+0109 7A00     F      620             MOV     R2,#HIGH (?SC_57)
+010B 7900     F      621             MOV     R1,#LOW (?SC_57)
+010D 900000   F      622             MOV     DPTR,#Keyboard_key_no
+0110 E0              623             MOVX    A,@DPTR
+0111 900000   F      624             MOV     DPTR,#?_printf?BYTE+03H
+0114 F0              625             MOVX    @DPTR,A
+0115 120000   F      626             LCALL   _printf
+                     627     ; //            break;
+                     628     ;               }
+                     629                             ; SOURCE LINE # 148
+0118                 630     ?C0021:
+                     631     ;       if(Keyboard_key_7==KEYBOARD_KEY_PRESSED)
+                     632                             ; SOURCE LINE # 149
+0118 20A621          633             JB      Keyboard_key_7,?C0023
+                     634     ;               {
+                     635                             ; SOURCE LINE # 150
+                     636     ;               delay_in_ms(100);
+                     637                             ; SOURCE LINE # 151
+011B 7F64            638             MOV     R7,#064H
+011D 120000   F      639             LCALL   _delay_in_ms
+A51 MACRO ASSEMBLER  KEYBOARD                                                             11/09/2012 17:30:05 PAGE    11
+
+                     640     ;               if(Keyboard_key_7==KEYBOARD_KEY_PRESSED)
+                     641                             ; SOURCE LINE # 152
+0120 20A608          642             JB      Keyboard_key_7,?C0024
+                     643     ;               Keyboard_key_no=Keypad[6];
+                     644                             ; SOURCE LINE # 153
+0123 900000   F      645             MOV     DPTR,#Keypad+06H
+0126 E0              646             MOVX    A,@DPTR
+0127 900000   F      647             MOV     DPTR,#Keyboard_key_no
+012A F0              648             MOVX    @DPTR,A
+012B                 649     ?C0024:
+                     650     ;               printf("%C",Keyboard_key_no);
+                     651                             ; SOURCE LINE # 154
+012B 7BFF            652             MOV     R3,#0FFH
+012D 7A00     F      653             MOV     R2,#HIGH (?SC_57)
+012F 7900     F      654             MOV     R1,#LOW (?SC_57)
+0131 900000   F      655             MOV     DPTR,#Keyboard_key_no
+0134 E0              656             MOVX    A,@DPTR
+0135 900000   F      657             MOV     DPTR,#?_printf?BYTE+03H
+0138 F0              658             MOVX    @DPTR,A
+0139 120000   F      659             LCALL   _printf
+                     660     ; //            break;
+                     661     ;               }
+                     662                             ; SOURCE LINE # 156
+013C                 663     ?C0023:
+                     664     ;       if(Keyboard_key_8==KEYBOARD_KEY_PRESSED)
+                     665                             ; SOURCE LINE # 157
+013C 20A721          666             JB      Keyboard_key_8,?C0025
+                     667     ;               {
+                     668                             ; SOURCE LINE # 158
+                     669     ;               delay_in_ms(100);
+                     670                             ; SOURCE LINE # 159
+013F 7F64            671             MOV     R7,#064H
+0141 120000   F      672             LCALL   _delay_in_ms
+                     673     ;               if(Keyboard_key_8==KEYBOARD_KEY_PRESSED)
+                     674                             ; SOURCE LINE # 160
+0144 20A708          675             JB      Keyboard_key_8,?C0026
+                     676     ;               Keyboard_key_no=Keypad[7];
+                     677                             ; SOURCE LINE # 161
+0147 900000   F      678             MOV     DPTR,#Keypad+07H
+014A E0              679             MOVX    A,@DPTR
+014B 900000   F      680             MOV     DPTR,#Keyboard_key_no
+014E F0              681             MOVX    @DPTR,A
+014F                 682     ?C0026:
+                     683     ;               printf("%C",Keyboard_key_no);
+                     684                             ; SOURCE LINE # 162
+014F 7BFF            685             MOV     R3,#0FFH
+0151 7A00     F      686             MOV     R2,#HIGH (?SC_57)
+0153 7900     F      687             MOV     R1,#LOW (?SC_57)
+0155 900000   F      688             MOV     DPTR,#Keyboard_key_no
+0158 E0              689             MOVX    A,@DPTR
+0159 900000   F      690             MOV     DPTR,#?_printf?BYTE+03H
+015C F0              691             MOVX    @DPTR,A
+015D 120000   F      692             LCALL   _printf
+                     693     ; //            break;
+                     694     ;               }
+                     695                             ; SOURCE LINE # 164
+0160                 696     ?C0025:
+                     697     ;       if(Keyboard_key_9==KEYBOARD_KEY_PRESSED)
+                     698                             ; SOURCE LINE # 165
+0160 208721          699             JB      Keyboard_key_9,?C0027
+                     700     ;               {
+                     701                             ; SOURCE LINE # 166
+                     702     ;               delay_in_ms(100);
+                     703                             ; SOURCE LINE # 167
+0163 7F64            704             MOV     R7,#064H
+0165 120000   F      705             LCALL   _delay_in_ms
+A51 MACRO ASSEMBLER  KEYBOARD                                                             11/09/2012 17:30:05 PAGE    12
+
+                     706     ;               if(Keyboard_key_9==KEYBOARD_KEY_PRESSED)
+                     707                             ; SOURCE LINE # 168
+0168 208708          708             JB      Keyboard_key_9,?C0028
+                     709     ;               Keyboard_key_no=Keypad[8];
+                     710                             ; SOURCE LINE # 169
+016B 900000   F      711             MOV     DPTR,#Keypad+08H
+016E E0              712             MOVX    A,@DPTR
+016F 900000   F      713             MOV     DPTR,#Keyboard_key_no
+0172 F0              714             MOVX    @DPTR,A
+0173                 715     ?C0028:
+                     716     ;               printf("%C",Keyboard_key_no);
+                     717                             ; SOURCE LINE # 170
+0173 7BFF            718             MOV     R3,#0FFH
+0175 7A00     F      719             MOV     R2,#HIGH (?SC_57)
+0177 7900     F      720             MOV     R1,#LOW (?SC_57)
+0179 900000   F      721             MOV     DPTR,#Keyboard_key_no
+017C E0              722             MOVX    A,@DPTR
+017D 900000   F      723             MOV     DPTR,#?_printf?BYTE+03H
+0180 F0              724             MOVX    @DPTR,A
+0181 120000   F      725             LCALL   _printf
+                     726     ; //            break;
+                     727     ;               }
+                     728                             ; SOURCE LINE # 172
+0184                 729     ?C0027:
+                     730     ;       if(Keyboard_key_10==KEYBOARD_KEY_PRESSED)
+                     731                             ; SOURCE LINE # 173
+0184 208621          732             JB      Keyboard_key_10,?C0029
+                     733     ;               {
+                     734                             ; SOURCE LINE # 174
+                     735     ;               delay_in_ms(100);
+                     736                             ; SOURCE LINE # 175
+0187 7F64            737             MOV     R7,#064H
+0189 120000   F      738             LCALL   _delay_in_ms
+                     739     ;               if(Keyboard_key_10==KEYBOARD_KEY_PRESSED)
+                     740                             ; SOURCE LINE # 176
+018C 208608          741             JB      Keyboard_key_10,?C0030
+                     742     ;               Keyboard_key_no=Keypad[9];
+                     743                             ; SOURCE LINE # 177
+018F 900000   F      744             MOV     DPTR,#Keypad+09H
+0192 E0              745             MOVX    A,@DPTR
+0193 900000   F      746             MOV     DPTR,#Keyboard_key_no
+0196 F0              747             MOVX    @DPTR,A
+0197                 748     ?C0030:
+                     749     ;               printf("%C",Keyboard_key_no);
+                     750                             ; SOURCE LINE # 178
+0197 7BFF            751             MOV     R3,#0FFH
+0199 7A00     F      752             MOV     R2,#HIGH (?SC_57)
+019B 7900     F      753             MOV     R1,#LOW (?SC_57)
+019D 900000   F      754             MOV     DPTR,#Keyboard_key_no
+01A0 E0              755             MOVX    A,@DPTR
+01A1 900000   F      756             MOV     DPTR,#?_printf?BYTE+03H
+01A4 F0              757             MOVX    @DPTR,A
+01A5 120000   F      758             LCALL   _printf
+                     759     ;               //break;
+                     760     ;               }
+                     761                             ; SOURCE LINE # 180
+01A8                 762     ?C0029:
+                     763     ;       if(Keyboard_key_11==KEYBOARD_KEY_PRESSED)
+                     764                             ; SOURCE LINE # 181
+01A8 208521          765             JB      Keyboard_key_11,?C0031
+                     766     ;               {
+                     767                             ; SOURCE LINE # 182
+                     768     ;               delay_in_ms(100);
+                     769                             ; SOURCE LINE # 183
+01AB 7F64            770             MOV     R7,#064H
+01AD 120000   F      771             LCALL   _delay_in_ms
+A51 MACRO ASSEMBLER  KEYBOARD                                                             11/09/2012 17:30:05 PAGE    13
+
+                     772     ;               if(Keyboard_key_11==KEYBOARD_KEY_PRESSED)
+                     773                             ; SOURCE LINE # 184
+01B0 208508          774             JB      Keyboard_key_11,?C0032
+                     775     ;               Keyboard_key_no=Keypad[10];
+                     776                             ; SOURCE LINE # 185
+01B3 900000   F      777             MOV     DPTR,#Keypad+0AH
+01B6 E0              778             MOVX    A,@DPTR
+01B7 900000   F      779             MOV     DPTR,#Keyboard_key_no
+01BA F0              780             MOVX    @DPTR,A
+01BB                 781     ?C0032:
+                     782     ;               printf("%C",Keyboard_key_no);
+                     783                             ; SOURCE LINE # 186
+01BB 7BFF            784             MOV     R3,#0FFH
+01BD 7A00     F      785             MOV     R2,#HIGH (?SC_57)
+01BF 7900     F      786             MOV     R1,#LOW (?SC_57)
+01C1 900000   F      787             MOV     DPTR,#Keyboard_key_no
+01C4 E0              788             MOVX    A,@DPTR
+01C5 900000   F      789             MOV     DPTR,#?_printf?BYTE+03H
+01C8 F0              790             MOVX    @DPTR,A
+01C9 120000   F      791             LCALL   _printf
+                     792     ;         //  break;
+                     793     ;               }
+                     794                             ; SOURCE LINE # 188
+01CC                 795     ?C0031:
+                     796     ;       if(Keyboard_key_12==KEYBOARD_KEY_PRESSED)
+                     797                             ; SOURCE LINE # 189
+01CC 208421          798             JB      Keyboard_key_12,?C0035
+                     799     ;               {
+                     800                             ; SOURCE LINE # 190
+                     801     ;               delay_in_ms(100);
+                     802                             ; SOURCE LINE # 191
+01CF 7F64            803             MOV     R7,#064H
+01D1 120000   F      804             LCALL   _delay_in_ms
+                     805     ;               if(Keyboard_key_12==KEYBOARD_KEY_PRESSED)
+                     806                             ; SOURCE LINE # 192
+01D4 208408          807             JB      Keyboard_key_12,?C0034
+                     808     ;               Keyboard_key_no=Keypad[11];
+                     809                             ; SOURCE LINE # 193
+01D7 900000   F      810             MOV     DPTR,#Keypad+0BH
+01DA E0              811             MOVX    A,@DPTR
+01DB 900000   F      812             MOV     DPTR,#Keyboard_key_no
+01DE F0              813             MOVX    @DPTR,A
+01DF                 814     ?C0034:
+                     815     ;               printf("%C",Keyboard_key_no);
+                     816                             ; SOURCE LINE # 194
+01DF 7BFF            817             MOV     R3,#0FFH
+01E1 7A00     F      818             MOV     R2,#HIGH (?SC_57)
+01E3 7900     F      819             MOV     R1,#LOW (?SC_57)
+01E5 900000   F      820             MOV     DPTR,#Keyboard_key_no
+01E8 E0              821             MOVX    A,@DPTR
+01E9 900000   F      822             MOV     DPTR,#?_printf?BYTE+03H
+01EC F0              823             MOVX    @DPTR,A
+01ED 120000   F      824             LCALL   _printf
+                     825     ;       //      break;
+                     826     ;               }
+                     827                             ; SOURCE LINE # 196
+                     828     ;       
+                     829     ;       //while((P2==0xff)&&KEYBOARD_KEY_9==1&& KEYBOARD_KEY_10==1&&KEYBOARD_KEY_11==1&&Key
+                             board_key_12 );
+                     830     ;       //      return  Keyboard_key_no;
+                     831     ;       
+                     832     ;       
+                     833     ; 
+                     834     ; }
+                     835                             ; SOURCE LINE # 203
+01F0                 836     ?C0035:
+A51 MACRO ASSEMBLER  KEYBOARD                                                             11/09/2012 17:30:05 PAGE    14
+
+01F0 22              837             RET     
+                     838     ; END OF chfn_keyboard_12x1
+                     839     
+                     840             END
+A51 MACRO ASSEMBLER  KEYBOARD                                                             11/09/2012 17:30:05 PAGE    15
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                                    T Y P E  V A L U E   ATTRIBUTES
+
+?C0001. . . . . . . . . . . . . . . . .    C ADDR   002FH   R   SEG=?PR?_FN_KEYBOARD_12X1FOR_PASSWORD?KEYBOARD
+?C0002. . . . . . . . . . . . . . . . .    C ADDR   009AH   R   SEG=?PR?_FN_KEYBOARD_12X1FOR_PASSWORD?KEYBOARD
+?C0005. . . . . . . . . . . . . . . . .    C ADDR   0020H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0006. . . . . . . . . . . . . . . . .    C ADDR   0022H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0007. . . . . . . . . . . . . . . . .    C ADDR   0022H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0008. . . . . . . . . . . . . . . . .    C ADDR   0040H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0009. . . . . . . . . . . . . . . . .    C ADDR   003AH   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0010. . . . . . . . . . . . . . . . .    C ADDR   003CH   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0011. . . . . . . . . . . . . . . . .    C ADDR   0064H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0012. . . . . . . . . . . . . . . . .    C ADDR   0053H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0013. . . . . . . . . . . . . . . . .    C ADDR   0088H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0014. . . . . . . . . . . . . . . . .    C ADDR   0077H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0015. . . . . . . . . . . . . . . . .    C ADDR   00ACH   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0016. . . . . . . . . . . . . . . . .    C ADDR   009BH   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0017. . . . . . . . . . . . . . . . .    C ADDR   00D0H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0018. . . . . . . . . . . . . . . . .    C ADDR   00BFH   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0019. . . . . . . . . . . . . . . . .    C ADDR   00F4H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0020. . . . . . . . . . . . . . . . .    C ADDR   00E3H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0021. . . . . . . . . . . . . . . . .    C ADDR   0118H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0022. . . . . . . . . . . . . . . . .    C ADDR   0107H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0023. . . . . . . . . . . . . . . . .    C ADDR   013CH   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0024. . . . . . . . . . . . . . . . .    C ADDR   012BH   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0025. . . . . . . . . . . . . . . . .    C ADDR   0160H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0026. . . . . . . . . . . . . . . . .    C ADDR   014FH   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0027. . . . . . . . . . . . . . . . .    C ADDR   0184H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0028. . . . . . . . . . . . . . . . .    C ADDR   0173H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0029. . . . . . . . . . . . . . . . .    C ADDR   01A8H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0030. . . . . . . . . . . . . . . . .    C ADDR   0197H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0031. . . . . . . . . . . . . . . . .    C ADDR   01CCH   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0032. . . . . . . . . . . . . . . . .    C ADDR   01BBH   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0034. . . . . . . . . . . . . . . . .    C ADDR   01DFH   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?C0035. . . . . . . . . . . . . . . . .    C ADDR   01F0H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+?CO?KEYBOARD. . . . . . . . . . . . . .    C SEG    003CH       REL=UNIT
+?C_INITSEG. . . . . . . . . . . . . . .    C SEG    000FH       REL=UNIT
+?PR?CHFN_KEYBOARD_12X1?KEYBOARD . . . .    C SEG    01F1H       REL=UNIT
+?PR?_FN_KEYBOARD_12X1FOR_PASSWORD?KEYBOARD C SEG    00AAH       REL=UNIT
+?SC_0 . . . . . . . . . . . . . . . . .    C ADDR   0000H   R   SEG=?CO?KEYBOARD
+?SC_18. . . . . . . . . . . . . . . . .    C ADDR   0012H   R   SEG=?CO?KEYBOARD
+?SC_34. . . . . . . . . . . . . . . . .    C ADDR   0022H   R   SEG=?CO?KEYBOARD
+?SC_36. . . . . . . . . . . . . . . . .    C ADDR   0024H   R   SEG=?CO?KEYBOARD
+?SC_57. . . . . . . . . . . . . . . . .    C ADDR   0039H   R   SEG=?CO?KEYBOARD
+?XD?KEYBOARD. . . . . . . . . . . . . .    X SEG    0016H       REL=UNIT
+?XD?_FN_KEYBOARD_12X1FOR_PASSWORD?KEYBOARD X SEG    0001H       REL=UNIT
+?_FN_KEYBOARD_12X1FOR_PASSWORD?BYTE . .    X ADDR   0000H   R   SEG=?XD?_FN_KEYBOARD_12X1FOR_PASSWORD?KEYBOARD
+?_PRINTF?BYTE . . . . . . . . . . . . .    X ADDR   -----       EXT
+AC. . . . . . . . . . . . . . . . . . .    B ADDR   00D0H.6 A   
+ACC . . . . . . . . . . . . . . . . . .    D ADDR   00E0H   A   
+AR6 . . . . . . . . . . . . . . . . . .    D ADDR   0006H   A   
+B . . . . . . . . . . . . . . . . . . .    D ADDR   00F0H   A   
+BUZZER_PIN. . . . . . . . . . . . . . .    B ADDR   0080H.0 A   
+CHFN_KEYBOARD_12X1. . . . . . . . . . .    C ADDR   0000H   R   SEG=?PR?CHFN_KEYBOARD_12X1?KEYBOARD
+CY. . . . . . . . . . . . . . . . . . .    B ADDR   00D0H.7 A   
+DPH . . . . . . . . . . . . . . . . . .    D ADDR   0083H   A   
+DPL . . . . . . . . . . . . . . . . . .    D ADDR   0082H   A   
+EA. . . . . . . . . . . . . . . . . . .    B ADDR   00A8H.7 A   
+EM_LOCK_ENABE_BUTTON. . . . . . . . . .    B ADDR   0080H.2 A   
+EM_LOCK_PIN . . . . . . . . . . . . . .    B ADDR   0080H.3 A   
+ENABLE_LCD. . . . . . . . . . . . . . .    B ADDR   0090H.3 A   
+ES. . . . . . . . . . . . . . . . . . .    B ADDR   00A8H.4 A   
+ET0 . . . . . . . . . . . . . . . . . .    B ADDR   00A8H.1 A   
+A51 MACRO ASSEMBLER  KEYBOARD                                                             11/09/2012 17:30:05 PAGE    16
+
+ET1 . . . . . . . . . . . . . . . . . .    B ADDR   00A8H.3 A   
+EX0 . . . . . . . . . . . . . . . . . .    B ADDR   00A8H.0 A   
+EX1 . . . . . . . . . . . . . . . . . .    B ADDR   00A8H.2 A   
+F0. . . . . . . . . . . . . . . . . . .    B ADDR   00D0H.5 A   
+IE. . . . . . . . . . . . . . . . . . .    D ADDR   00A8H   A   
+IE0 . . . . . . . . . . . . . . . . . .    B ADDR   0088H.1 A   
+IE1 . . . . . . . . . . . . . . . . . .    B ADDR   0088H.3 A   
+INT0. . . . . . . . . . . . . . . . . .    B ADDR   00B0H.2 A   
+INT1. . . . . . . . . . . . . . . . . .    B ADDR   00B0H.3 A   
+IP. . . . . . . . . . . . . . . . . . .    D ADDR   00B8H   A   
+IT0 . . . . . . . . . . . . . . . . . .    B ADDR   0088H.0 A   
+IT1 . . . . . . . . . . . . . . . . . .    B ADDR   0088H.2 A   
+KEYBOARD. . . . . . . . . . . . . . . .    N NUMB   -----       
+KEYBOARD_KEY_1. . . . . . . . . . . . .    B ADDR   00A0H.0 A   
+KEYBOARD_KEY_10 . . . . . . . . . . . .    B ADDR   0080H.6 A   
+KEYBOARD_KEY_11 . . . . . . . . . . . .    B ADDR   0080H.5 A   
+KEYBOARD_KEY_12 . . . . . . . . . . . .    B ADDR   0080H.4 A   
+KEYBOARD_KEY_2. . . . . . . . . . . . .    B ADDR   00A0H.1 A   
+KEYBOARD_KEY_3. . . . . . . . . . . . .    B ADDR   00A0H.2 A   
+KEYBOARD_KEY_4. . . . . . . . . . . . .    B ADDR   00A0H.3 A   
+KEYBOARD_KEY_5. . . . . . . . . . . . .    B ADDR   00A0H.4 A   
+KEYBOARD_KEY_6. . . . . . . . . . . . .    B ADDR   00A0H.5 A   
+KEYBOARD_KEY_7. . . . . . . . . . . . .    B ADDR   00A0H.6 A   
+KEYBOARD_KEY_8. . . . . . . . . . . . .    B ADDR   00A0H.7 A   
+KEYBOARD_KEY_9. . . . . . . . . . . . .    B ADDR   0080H.7 A   
+KEYBOARD_KEY_NO . . . . . . . . . . . .    X ADDR   0001H   R   SEG=?XD?KEYBOARD
+KEYPAD. . . . . . . . . . . . . . . . .    X ADDR   000AH   R   SEG=?XD?KEYBOARD
+KEY_PRESSED . . . . . . . . . . . . . .    X ADDR   0002H   R   SEG=?XD?KEYBOARD
+LCD_D4_LSB. . . . . . . . . . . . . . .    B ADDR   0090H.4 A   
+LCD_D5. . . . . . . . . . . . . . . . .    B ADDR   0090H.5 A   
+LCD_D6. . . . . . . . . . . . . . . . .    B ADDR   0090H.6 A   
+LCD_D7_MSB. . . . . . . . . . . . . . .    B ADDR   0090H.7 A   
+LENGTH. . . . . . . . . . . . . . . . .    X ADDR   0000H   R   SEG=?XD?KEYBOARD
+MODULESELECT0 . . . . . . . . . . . . .    B ADDR   00B0H.7 A   
+MODULESELECT1 . . . . . . . . . . . . .    B ADDR   00B0H.6 A   
+OV. . . . . . . . . . . . . . . . . . .    B ADDR   00D0H.2 A   
+P . . . . . . . . . . . . . . . . . . .    B ADDR   00D0H.0 A   
+P0. . . . . . . . . . . . . . . . . . .    D ADDR   0080H   A   
+P1. . . . . . . . . . . . . . . . . . .    D ADDR   0090H   A   
+P2. . . . . . . . . . . . . . . . . . .    D ADDR   00A0H   A   
+P3. . . . . . . . . . . . . . . . . . .    D ADDR   00B0H   A   
+PASSWORD_LENGTH . . . . . . . . . . . .    X ADDR   0009H   R   SEG=?XD?KEYBOARD
+PASSWORD_LENGTH?040 . . . . . . . . . .    X ADDR   0000H   R   SEG=?XD?_FN_KEYBOARD_12X1FOR_PASSWORD?KEYBOARD
+PCON. . . . . . . . . . . . . . . . . .    D ADDR   0087H   A   
+PS. . . . . . . . . . . . . . . . . . .    B ADDR   00B8H.4 A   
+PSW . . . . . . . . . . . . . . . . . .    D ADDR   00D0H   A   
+PT0 . . . . . . . . . . . . . . . . . .    B ADDR   00B8H.1 A   
+PT1 . . . . . . . . . . . . . . . . . .    B ADDR   00B8H.3 A   
+PX0 . . . . . . . . . . . . . . . . . .    B ADDR   00B8H.0 A   
+PX1 . . . . . . . . . . . . . . . . . .    B ADDR   00B8H.2 A   
+RB8 . . . . . . . . . . . . . . . . . .    B ADDR   0098H.2 A   
+RD. . . . . . . . . . . . . . . . . . .    B ADDR   00B0H.7 A   
+REN . . . . . . . . . . . . . . . . . .    B ADDR   0098H.4 A   
+RI. . . . . . . . . . . . . . . . . . .    B ADDR   0098H.0 A   
+RS0 . . . . . . . . . . . . . . . . . .    B ADDR   00D0H.3 A   
+RS1 . . . . . . . . . . . . . . . . . .    B ADDR   00D0H.4 A   
+RS_LCD. . . . . . . . . . . . . . . . .    B ADDR   0090H.2 A   
+RXD . . . . . . . . . . . . . . . . . .    B ADDR   00B0H.0 A   
+SBUF. . . . . . . . . . . . . . . . . .    D ADDR   0099H   A   
+SCON. . . . . . . . . . . . . . . . . .    D ADDR   0098H   A   
+SM0 . . . . . . . . . . . . . . . . . .    B ADDR   0098H.7 A   
+SM1 . . . . . . . . . . . . . . . . . .    B ADDR   0098H.6 A   
+SM2 . . . . . . . . . . . . . . . . . .    B ADDR   0098H.5 A   
+SP. . . . . . . . . . . . . . . . . . .    D ADDR   0081H   A   
+T0. . . . . . . . . . . . . . . . . . .    B ADDR   00B0H.4 A   
+T1. . . . . . . . . . . . . . . . . . .    B ADDR   00B0H.5 A   
+A51 MACRO ASSEMBLER  KEYBOARD                                                             11/09/2012 17:30:05 PAGE    17
+
+TB8 . . . . . . . . . . . . . . . . . .    B ADDR   0098H.3 A   
+TCON. . . . . . . . . . . . . . . . . .    D ADDR   0088H   A   
+TF0 . . . . . . . . . . . . . . . . . .    B ADDR   0088H.5 A   
+TF1 . . . . . . . . . . . . . . . . . .    B ADDR   0088H.7 A   
+TH0 . . . . . . . . . . . . . . . . . .    D ADDR   008CH   A   
+TH1 . . . . . . . . . . . . . . . . . .    D ADDR   008DH   A   
+TI. . . . . . . . . . . . . . . . . . .    B ADDR   0098H.1 A   
+TL0 . . . . . . . . . . . . . . . . . .    D ADDR   008AH   A   
+TL1 . . . . . . . . . . . . . . . . . .    D ADDR   008BH   A   
+TMOD. . . . . . . . . . . . . . . . . .    D ADDR   0089H   A   
+TR0 . . . . . . . . . . . . . . . . . .    B ADDR   0088H.4 A   
+TR1 . . . . . . . . . . . . . . . . . .    B ADDR   0088H.6 A   
+TXD . . . . . . . . . . . . . . . . . .    B ADDR   00B0H.1 A   
+WR. . . . . . . . . . . . . . . . . . .    B ADDR   00B0H.6 A   
+_DELAY_IN_MS. . . . . . . . . . . . . .    C ADDR   -----       EXT
+_FNMODULESELECT . . . . . . . . . . . .    C ADDR   -----       EXT
+_FN_DISPLAY_STRING_LCD. . . . . . . . .    C ADDR   -----       EXT
+_FN_KEYBOARD_12X1FOR_PASSWORD . . . . .    C ADDR   0000H   R   SEG=?PR?_FN_KEYBOARD_12X1FOR_PASSWORD?KEYBOARD
+_FN_LCD_SELECT_LINE_AND_LOCATION. . . .    C ADDR   -----       EXT
+_PRINTF . . . . . . . . . . . . . . . .    C ADDR   -----       EXT
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

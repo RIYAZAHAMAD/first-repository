@@ -1,0 +1,10 @@
+"delay.obj",
+"GPS_NMEA.obj",
+"GSMSIM300.obj",
+"keyboard.obj",
+"LCD.obj",
+"main.obj",
+"ProjectMain.obj",
+"serial_codes.obj" 
+TO "Cargo pilferage" 
+RAMSIZE(256) 

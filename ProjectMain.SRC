@@ -1,0 +1,2883 @@
+; .\ProjectMain.SRC generated from: ProjectMain.c
+; COMPILER INVOKED BY:
+;        C:\Keil\C51\BIN\C51.EXE ProjectMain.c LARGE BROWSE DEBUG OBJECTEXTEND SRC(.\ProjectMain.SRC)
+
+$NOMOD51
+
+NAME	PROJECTMAIN
+
+ModuleSelect0	BIT	0B0H.7
+ModuleSelect1	BIT	0B0H.6
+P0	DATA	080H
+P1	DATA	090H
+P2	DATA	0A0H
+P3	DATA	0B0H
+T0	BIT	0B0H.4
+AC	BIT	0D0H.6
+T1	BIT	0B0H.5
+EA	BIT	0A8H.7
+IE	DATA	0A8H
+RD	BIT	0B0H.7
+ES	BIT	0A8H.4
+IP	DATA	0B8H
+RI	BIT	098H.0
+INT0	BIT	0B0H.2
+CY	BIT	0D0H.7
+TI	BIT	098H.1
+INT1	BIT	0B0H.3
+Keyboard_key_10	BIT	080H.6
+PS	BIT	0B8H.4
+SP	DATA	081H
+Keyboard_key_11	BIT	080H.5
+Keyboard_key_12	BIT	080H.4
+OV	BIT	0D0H.2
+WR	BIT	0B0H.6
+lcd_d5	BIT	090H.5
+Buzzer_pin	BIT	080H.0
+lcd_d6	BIT	090H.6
+SBUF	DATA	099H
+PCON	DATA	087H
+SCON	DATA	098H
+TMOD	DATA	089H
+TCON	DATA	088H
+RS_lcd	BIT	090H.2
+IE0	BIT	088H.1
+IE1	BIT	088H.3
+B	DATA	0F0H
+EM_lock_pin	BIT	080H.3
+ACC	DATA	0E0H
+ET0	BIT	0A8H.1
+ET1	BIT	0A8H.3
+TF0	BIT	088H.5
+TF1	BIT	088H.7
+RB8	BIT	098H.2
+TH0	DATA	08CH
+EX0	BIT	0A8H.0
+IT0	BIT	088H.0
+TH1	DATA	08DH
+TB8	BIT	098H.3
+EX1	BIT	0A8H.2
+IT1	BIT	088H.2
+P	BIT	0D0H.0
+lcd_d4_lsb	BIT	090H.4
+SM0	BIT	098H.7
+TL0	DATA	08AH
+SM1	BIT	098H.6
+TL1	DATA	08BH
+SM2	BIT	098H.5
+lcd_d7_msb	BIT	090H.7
+PT0	BIT	0B8H.1
+PT1	BIT	0B8H.3
+RS0	BIT	0D0H.3
+TR0	BIT	088H.4
+RS1	BIT	0D0H.4
+TR1	BIT	088H.6
+PX0	BIT	0B8H.0
+PX1	BIT	0B8H.2
+DPH	DATA	083H
+Enable_lcd	BIT	090H.3
+DPL	DATA	082H
+REN	BIT	098H.4
+RXD	BIT	0B0H.0
+TXD	BIT	0B0H.1
+Keyboard_key_1	BIT	0A0H.0
+Keyboard_key_2	BIT	0A0H.1
+Keyboard_key_3	BIT	0A0H.2
+Keyboard_key_4	BIT	0A0H.3
+F0	BIT	0D0H.5
+Keyboard_key_5	BIT	0A0H.4
+Keyboard_key_6	BIT	0A0H.5
+Keyboard_key_7	BIT	0A0H.6
+Keyboard_key_8	BIT	0A0H.7
+Keyboard_key_9	BIT	080H.7
+PSW	DATA	0D0H
+EM_lock_enabe_button	BIT	080H.2
+?PR?_fnModuleSelect?PROJECTMAIN          SEGMENT CODE 
+?PR?fnProjectMain?PROJECTMAIN            SEGMENT CODE 
+?XD?fnProjectMain?PROJECTMAIN            SEGMENT XDATA OVERLAYABLE 
+?PR?fnVehicleOnTheWay?PROJECTMAIN        SEGMENT CODE 
+?PR?chfnToCheckVehicleReachedToDestination?PROJECTMAIN SEGMENT CODE 
+?PR?fnToSendAlertMSGFromDestination?PROJECTMAIN SEGMENT CODE 
+?PR?fnInvalidAuthorisationAtDestination?PROJECTMAIN SEGMENT CODE 
+?PR?fnCargoTampered?PROJECTMAIN          SEGMENT CODE 
+?PR?fnInitialisationAtDestination?PROJECTMAIN SEGMENT CODE 
+?PR?fnToCheckInboxStatusAndDecryptCommandsIfAnySMS?PROJECTMAIN SEGMENT CODE 
+?PR?fnDecryptCommandsInSMS?PROJECTMAIN   SEGMENT CODE 
+?CO?PROJECTMAIN      SEGMENT CODE 
+?XD?PROJECTMAIN      SEGMENT XDATA 
+	EXTRN	CODE (fn_GSM_Send_Init)
+	EXTRN	CODE (uchfnCheckInboxStatus)
+	EXTRN	CODE (fnDeleteAllMessages)
+	EXTRN	CODE (fn_GETGPSCoordinates)
+	EXTRN	XDATA (guchmessagepacket)
+	EXTRN	CODE (_fnGSMSendMessage)
+	EXTRN	XDATA (?_fnGSMSendMessage?BYTE)
+	EXTRN	CODE (_strcat)
+	EXTRN	XDATA (?_strcat?BYTE)
+	EXTRN	CODE (_printf)
+	EXTRN	XDATA (?_printf?BYTE)
+	EXTRN	CODE (_fn_keyboard_12x1for_password)
+	EXTRN	CODE (_delay_in_seconds)
+	EXTRN	CODE (_fn_Display_String_LCD)
+	EXTRN	XDATA (key_pressed)
+	EXTRN	XDATA (guchCompleteGSMDataPacket)
+	EXTRN	CODE (_fn_lcd_select_line_and_location)
+	EXTRN	CODE (_strstr)
+	EXTRN	XDATA (?_strstr?BYTE)
+	EXTRN	CODE (fn_GSM_Recieve_Init)
+	EXTRN	XDATA (EWIndicator)
+	EXTRN	CODE (fn_Receive_Serial)
+	EXTRN	XDATA (NSIndicator)
+	EXTRN	CODE (fnExtractPhoneNoAndMessage)
+	EXTRN	XDATA (guchphonenumberpacket)
+	EXTRN	XDATA (guchLongitude)
+	EXTRN	XDATA (guchLatitude)
+	EXTRN	XDATA (guchGSMPhoneNumber)
+	EXTRN	CODE (?C?IMUL)
+	EXTRN	CODE (?C?STRCPY)
+	PUBLIC	uchMsgStatus
+	PUBLIC	rfid_card_no
+	PUBLIC	uchBuff
+	PUBLIC	rfid_count
+	PUBLIC	destination_update
+	PUBLIC	uchTempVariable
+	PUBLIC	PHONE_NUMBERS
+	PUBLIC	PHONE_NUMBERFOR_VB
+	PUBLIC	string_names
+	PUBLIC	string_project_Partners
+	PUBLIC	string_project_name
+	PUBLIC	string_welcome
+	PUBLIC	string_IAmActive
+	PUBLIC	fnDecryptCommandsInSMS
+	PUBLIC	fnToCheckInboxStatusAndDecryptCommandsIfAnySMS
+	PUBLIC	fnInitialisationAtDestination
+	PUBLIC	fnCargoTampered
+	PUBLIC	fnInvalidAuthorisationAtDestination
+	PUBLIC	fnToSendAlertMSGFromDestination
+	PUBLIC	chfnToCheckVehicleReachedToDestination
+	PUBLIC	fnVehicleOnTheWay
+	PUBLIC	fnProjectMain
+	PUBLIC	_fnModuleSelect
+
+	RSEG  ?XD?fnProjectMain?PROJECTMAIN
+?fnProjectMain?BYTE:
+	ORG  2
+uchserialdata?141:   DS   1
+	ORG  0
+          k?142:   DS   2
+
+	RSEG  ?XD?PROJECTMAIN
+uchTempVariable:   DS   1
+destination_update:   DS   1
+     rfid_count:   DS   1
+        uchBuff:   DS   30
+   rfid_card_no:   DS   16
+   uchMsgStatus:   DS   1
+
+	RSEG  ?CO?PROJECTMAIN
+?SC_0:
+	DB  'B' ,'o' ,'o' ,'t' ,' ' ,'U' ,'p' ,' ' ,'M' ,'e' 
+	DB  's' ,'s' ,'a' ,'g' ,'e' ,' ' ,'f' ,'r' ,'o' ,'m' 
+	DB  ' ' ,'P' ,'r' ,'o' ,'j' ,'e' ,'c' ,'t' ,' ' ,'-' 
+	DB  ' ' ,'I' ,' ' ,'a' ,'m' ,' ' ,'A' ,'c' ,'t' ,'i' 
+	DB  'v' ,'e' ,000H
+
+?SC_43:
+	DB  00AH,'M' ,'e' ,'s' ,'s' ,'a' ,'g' ,'e' ,' ' ,'S' 
+	DB  'e' ,'n' ,'t' ,' ' ,'t' ,'o' ,' ' ,'P' ,'r' ,'e' 
+	DB  'd' ,'e' ,'f' ,'i' ,'n' ,'e' ,'d' ,' ' ,'N' ,'u' 
+	DB  'm' ,'b' ,'e' ,'r' ,00AH,000H
+
+?SC_79:
+	DB  00AH,'M' ,'O' ,'D' ,'E' ,'M' ,' ' ,'S' ,'e' ,'t' 
+	DB  ' ' ,'i' ,'n' ,' ' ,'2' ,',' ,'1' ,',' ,'0' ,',' 
+	DB  '0' ,',' ,'0' ,' ' ,'M' ,'o' ,'d' ,'e' ,' ' ,'t' 
+	DB  'o' ,' ' ,'R' ,'e' ,'c' ,'i' ,'e' ,'v' ,'e' ,' ' 
+	DB  'I' ,'n' ,'c' ,'o' ,'m' ,'i' ,'n' ,'g' ,' ' ,'S' 
+	DB  'M' ,'S' ,'s' ,00AH,000H
+
+?SC_134:
+	DB  'g' ,'u' ,'c' ,'h' ,'C' ,'o' ,'m' ,'p' ,'l' ,'e' 
+	DB  't' ,'e' ,'G' ,'S' ,'M' ,'D' ,'a' ,'t' ,'a' ,'P' 
+	DB  'a' ,'c' ,'k' ,'e' ,'t' ,' ' ,'=' ,' ' ,'%' ,'s' 
+	DB  00AH,000H
+
+?SC_166:
+	DB  'L' ,'a' ,'t' ,'i' ,'t' ,'u' ,'d' ,'e' ,' ' ,'=' 
+	DB  '%' ,'s' ,',' ,'%' ,'c' ,00AH,000H
+
+?SC_183:
+	DB  'L' ,'o' ,'n' ,'g' ,'i' ,'t' ,'u' ,'d' ,'e' ,' ' 
+	DB  '=' ,'%' ,'s' ,',' ,'%' ,'c' ,00AH,000H
+
+?SC_201:
+	DB  ' ' ,'P' ,'R' ,'E' ,'S' ,'S' ,' ' ,'L' ,'O' ,'C' 
+	DB  'K' ,' ' ,'K' ,'E' ,'Y' ,' ' ,000H
+
+?SC_218:
+	DB  ' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' 
+	DB  ' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,000H
+
+?SC_236:
+	DB  'C' ,'A' ,'R' ,'G' ,'O' ,' ' ,'I' ,'S' ,' ' ,'L' 
+	DB  'O' ,'C' ,'K' ,'E' ,'D' ,' ' ,000H
+
+?SC_253:
+	DB  'c' ,'a' ,'r' ,'g' ,'o' ,' ' ,'i' ,'s' ,' ' ,'a' 
+	DB  't' ,' ' ,'s' ,'o' ,'u' ,'r' ,'c' ,'e' ,' ' ,'s' 
+	DB  't' ,'a' ,'t' ,'i' ,'o' ,'n' ,000H
+
+?SC_280:
+	DB  'C' ,'a' ,'r' ,'g' ,'o' ,' ' ,'I' ,'s' ,' ' ,'G' 
+	DB  'o' ,'i' ,'n' ,'g' ,'T' ,'o' ,000H
+
+?SC_297:
+	DB  'A' ,'c' ,'h' ,'a' ,'r' ,'y' ,'a' ,' ' ,'C' ,'o' 
+	DB  'l' ,'l' ,'e' ,'g' ,'e' ,' ' ,000H
+
+?SC_314:
+	DB  00AH,'D' ,'e' ,'s' ,'t' ,'i' ,'n' ,'a' ,'t' ,'i' 
+	DB  'o' ,'n' ,' ' ,'R' ,'e' ,'a' ,'c' ,'h' ,'e' ,'d' 
+	DB  000H
+
+?SC_335:
+	DB  'W' ,'A' ,'I' ,'T' ,'I' ,'N' ,'G' ,' ' ,'F' ,'O' 
+	DB  'R' ,' ' ,'M' ,'S' ,'G' ,' ' ,000H
+
+?SC_352:
+	DB  ' ' ,' ' ,'F' ,'R' ,'O' ,'M' ,' ' ,'S' ,'O' ,'U' 
+	DB  'R' ,'C' ,'E' ,' ' ,' ' ,' ' ,000H
+
+?SC_369:
+	DB  00AH,'W' ,'a' ,'i' ,'t' ,'i' ,'n' ,'g' ,' ' ,'f' 
+	DB  'o' ,'r' ,' ' ,'A' ,'u' ,'t' ,'h' ,'o' ,'r' ,'i' 
+	DB  's' ,'i' ,'n' ,'g' ,' ' ,'M' ,'e' ,'s' ,'s' ,'a' 
+	DB  'g' ,'e' ,' ' ,'f' ,'r' ,'o' ,'m' ,' ' ,'B' ,'a' 
+	DB  's' ,'e' ,' ' ,'S' ,'t' ,'a' ,'t' ,'i' ,'o' ,'n' 
+	DB  000H
+
+?SC_420:
+	DB  00AH,'A' ,'u' ,'t' ,'h' ,'o' ,'r' ,'i' ,'s' ,'i' 
+	DB  'n' ,'g' ,' ' ,'M' ,'e' ,'s' ,'s' ,'a' ,'g' ,'e' 
+	DB  ' ' ,'R' ,'E' ,'C' ,'I' ,'E' ,'V' ,'E' ,'D' ,000H
+
+?SC_450:
+	DB  ' ' ,'S' ,'W' ,'I' ,'P' ,'E' ,' ' ,'R' ,'F' ,'I' 
+	DB  'D' ,' ' ,'C' ,'A' ,'R' ,'D' ,' ' ,000H
+
+?SC_468:
+	DB  'r' ,'f' ,'i' ,'d' ,' ' ,'c' ,'a' ,'r' ,'d' ,' ' 
+	DB  'n' ,'o' ,' ' ,'i' ,'s' ,' ' ,'=' ,' ' ,'%' ,'s' 
+	DB  000H
+
+?SC_489:
+	DB  'r' ,'f' ,'i' ,'d' ,' ' ,'c' ,'a' ,'r' ,'d' ,' ' 
+	DB  'n' ,'o' ,' ' ,'i' ,'s' ,' ' ,'m' ,'a' ,'t' ,'c' 
+	DB  'h' ,'e' ,'d' ,' ' ,000H
+
+?SC_514:
+	DB  'k' ,'e' ,'y' ,' ' ,'p' ,'r' ,'e' ,'s' ,'s' ,'e' 
+	DB  'd' ,' ' ,'=' ,' ' ,'%' ,'s' ,000H
+
+?SC_531:
+	DB  'c' ,'a' ,'r' ,'g' ,'o' ,' ' ,'i' ,'s' ,' ' ,'o' 
+	DB  'n' ,' ' ,'t' ,'h' ,'e' ,' ' ,'w' ,'a' ,'y' ,000H
+
+?SC_551:
+	DB  'C' ,'A' ,'R' ,'G' ,'O' ,' ' ,'I' ,'s' ,'O' ,'n' 
+	DB  'W' ,'A' ,'Y' ,' ' ,'T' ,'O' ,000H
+
+?SC_568:
+	DB  'P' ,'A' ,'S' ,'S' ,'W' ,'O' ,'R' ,'D' ,' ' ,'M' 
+	DB  'A' ,'T' ,'C' ,'H' ,'E' ,'D' ,000H
+
+?SC_585:
+	DB  'C' ,'A' ,'U' ,'T' ,'I' ,'O' ,'N' ,':' ,' ' ,'Y' 
+	DB  'O' ,'U' ,'R' ,' ' ,'V' ,'E' ,'H' ,'I' ,'C' ,'L' 
+	DB  'E' ,' ' ,'n' ,'o' ,' ' ,'1' ,'1' ,'1' ,' ' ,00AH
+	DB  ' ' ,000H
+
+?SC_617:
+	DB  'L' ,'O' ,'C' ,'K' ,' ' ,'I' ,'S' ,' ' ,'O' ,'P' 
+	DB  'E' ,'N' ,'E' ,'D' ,' ' ,'S' ,'U' ,'C' ,'C' ,'E' 
+	DB  'S' ,'S' ,'F' ,'U' ,'L' ,'L' ,'Y' ,' ' ,'A' ,'T' 
+	DB  ' ' ,'D' ,'E' ,'S' ,'T' ,'I' ,'N' ,'A' ,'T' ,'I' 
+	DB  'O' ,'N' ,' ' ,000H
+
+?SC_661:
+	DB  ' ' ,'I' ,'T' ,'S' ,' ' ,'C' ,'O' ,'R' ,'D' ,'I' 
+	DB  'N' ,'A' ,'T' ,'E' ,'S' ,' ' ,'A' ,'R' ,'E' ,' ' 
+	DB  '@' ,000H
+
+?SC_683:
+	DB  'N' ,' ' ,000H
+
+?SC_686:
+	DB  'E' ,000H
+
+?SC_688:
+	DB  'L' ,'O' ,'C' ,'K' ,' ' ,'I' ,'S' ,' ' ,'O' ,'P' 
+	DB  'E' ,'N' ,'E' ,'D' ,' ' ,'S' ,'U' ,'C' ,'C' ,'E' 
+	DB  'S' ,'S' ,'F' ,'U' ,'L' ,'L' ,'Y' ,' ' ,'A' ,'T' 
+	DB  ' ' ,'D' ,'E' ,'S' ,'T' ,'I' ,'N' ,'A' ,'T' ,'I' 
+	DB  'O' ,'N' ,00AH,000H
+
+?SC_732:
+	DB  ' ' ,'I' ,'T' ,'S' ,' ' ,'C' ,'O' ,'R' ,'D' ,'I' 
+	DB  'N' ,'A' ,'T' ,'E' ,'S' ,' ' ,'A' ,'R' ,'E' ,00AH
+	DB  ' ' ,000H
+
+?SC_754:
+	DB  'N' ,00AH,000H
+
+?SC_757:
+	DB  'E' ,00AH,000H
+
+?SC_760:
+	DB  ' ' ,'A' ,'C' ,'C' ,'E' ,'S' ,'S' ,' ' ,'D' ,'E' 
+	DB  'N' ,'I' ,'E' ,'D' ,' ' ,000H
+
+?SC_776:
+	DB  'U' ,'N' ,'A' ,'U' ,'T' ,'H' ,'O' ,'R' ,'I' ,'S' 
+	DB  'E' ,'D' ,' ' ,'P' ,'E' ,'R' ,'S' ,'I' ,'O' ,'N' 
+	DB  ' ' ,'I' ,'S' ,' ' ,'T' ,'R' ,'Y' ,'I' ,'N' ,'G' 
+	DB  ' ' ,'T' ,'O' ,' ' ,'O' ,'P' ,'E' ,'N' ,' ' ,'L' 
+	DB  'O' ,'C' ,'K' ,' ' ,'A' ,'T' ,' ' ,'D' ,'E' ,'S' 
+	DB  'T' ,'I' ,'N' ,'A' ,'T' ,'I' ,'O' ,'N' ,00AH,000H
+
+?SC_836:
+	DB  'I' ,'S' ,' ' ,'T' ,'A' ,'M' ,'P' ,'E' ,'R' ,'E' 
+	DB  'D' ,'!' ,'!' ,' ' ,' ' ,00AH,000H
+
+?SC_853:
+	DB  ' ' ,00DH,' ' ,'I' ,'T' ,'S' ,' ' ,'C' ,'O' ,'R' 
+	DB  'D' ,'I' ,'N' ,'A' ,'T' ,'E' ,'S' ,' ' ,'A' ,'R' 
+	DB  'E' ,00AH,' ' ,000H
+
+?SC_877:
+	DB  'I' ,'S' ,' ' ,'T' ,'A' ,'M' ,'P' ,'E' ,'R' ,'E' 
+	DB  'D' ,'!' ,'!' ,' ' ,' ' ,000H
+
+?SC_893:
+	DB  'C' ,'A' ,'U' ,'T' ,'I' ,'O' ,'N' ,':' ,' ' ,'Y' 
+	DB  'O' ,'U' ,'R' ,' ' ,'V' ,'E' ,'H' ,'I' ,'C' ,'L' 
+	DB  'E' ,' ' ,'n' ,'o' ,' ' ,'1' ,'1' ,'1' ,' ' ,000H
+
+?SC_923:
+	DB  'H' ,'a' ,'s' ,' ' ,'R' ,'E' ,'A' ,'C' ,'H' ,'E' 
+	DB  'D' ,' ' ,'T' ,'O' ,' ' ,'D' ,'E' ,'S' ,'T' ,'I' 
+	DB  'N' ,'A' ,'T' ,'I' ,'O' ,'N' ,' ' ,000H
+
+?SC_951:
+	DB  'M' ,'S' ,'G' ,' ' ,'S' ,'e' ,'n' ,'d' ,'T' ,'o' 
+	DB  'B' ,'a' ,'s' ,'e' ,'S' ,'t' ,000H
+
+?SC_968:
+	DB  00AH,'N' ,'E' ,'W' ,' ' ,'M' ,'e' ,'s' ,'s' ,'a' 
+	DB  'g' ,'e' ,' ' ,'P' ,'r' ,'e' ,'s' ,'e' ,'n' ,'t' 
+	DB  ' ' ,'i' ,'n' ,' ' ,'I' ,'N' ,'B' ,'O' ,'X' ,000H
+
+?SC_998:
+	DB  00AH,'P' ,'h' ,'o' ,'n' ,'e' ,' ' ,'N' ,'u' ,'m' 
+	DB  'b' ,'e' ,'r' ,' ' ,'=' ,' ' ,'%' ,'s' ,00AH,000H
+
+?SC_1018:
+	DB  00AH,'M' ,'e' ,'s' ,'s' ,'a' ,'g' ,'e' ,' ' ,'=' 
+	DB  ' ' ,'%' ,'s' ,00AH,000H
+
+?SC_1033:
+	DB  00AH,'N' ,'O' ,' ' ,'n' ,'e' ,'w' ,' ' ,'m' ,'e' 
+	DB  's' ,'s' ,'a' ,'g' ,'e' ,' ' ,'i' ,'n' ,' ' ,'i' 
+	DB  'n' ,'b' ,'o' ,'x' ,000H
+
+?SC_1058:
+	DB  00AH,'I' ,'N' ,'B' ,'O' ,'X' ,' ' ,'E' ,'M' ,'P' 
+	DB  'T' ,'Y' ,00AH,000H
+
+?SC_1072:
+	DB  00AH,'E' ,'R' ,'R' ,'O' ,'R' ,' ' ,'R' ,'e' ,'a' 
+	DB  'd' ,'i' ,'n' ,'g' ,' ' ,'S' ,'t' ,'a' ,'t' ,'u' 
+	DB  's' ,000H
+
+?SC_1094:
+	DB  00AH,'I' ,'n' ,'b' ,'o' ,'x' ,' ' ,'S' ,'t' ,'a' 
+	DB  't' ,'u' ,'s' ,' ' ,'C' ,'h' ,'e' ,'c' ,'k' ,'e' 
+	DB  'd' ,' ' ,'a' ,'n' ,'d' ,' ' ,'M' ,'e' ,'s' ,'s' 
+	DB  'a' ,'g' ,'e' ,' ' ,'D' ,'e' ,'c' ,'o' ,'d' ,'e' 
+	DB  'd' ,' ' ,'i' ,'f' ,' ' ,'a' ,'n' ,'y' ,' ' ,'p' 
+	DB  'r' ,'e' ,'s' ,'e' ,'n' ,'t' ,00AH,000H
+
+?SC_1152:
+	DB  00AH,'A' ,'l' ,'l' ,' ' ,'M' ,'e' ,'s' ,'s' ,'a' 
+	DB  'g' ,'e' ,'s' ,' ' ,'D' ,'e' ,'l' ,'e' ,'t' ,'e' 
+	DB  'd' ,00AH,000H
+
+?SC_1175:
+	DB  '1' ,'2' ,'3' ,'4' ,000H
+
+?SC_1180:
+	DB  'S' ,'T' ,'A' ,'T' ,'U' ,'S' ,000H
+
+?SC_1187:
+	DB  'C' ,'A' ,'U' ,'T' ,'I' ,'O' ,'N' ,':' ,'S' ,'T' 
+	DB  'A' ,'T' ,'U' ,'S' ,':' ,' ' ,'Y' ,'O' ,'U' ,'R' 
+	DB  ' ' ,'V' ,'E' ,'H' ,'I' ,'C' ,'L' ,'E' ,' ' ,'n' 
+	DB  'o' ,' ' ,'1' ,'1' ,'1' ,' ' ,000H
+
+?SC_1224:
+	DB  ' ' ,'I' ,'T' ,027H,'S' ,' ' ,'C' ,'O' ,'R' ,'D' 
+	DB  'I' ,'N' ,'A' ,'T' ,'E' ,'S' ,' ' ,'A' ,'R' ,'E' 
+	DB  ' ' ,'@' ,000H
+
+?SC_1247:
+	DB  00AH,' ' ,'M' ,'e' ,'s' ,'s' ,'a' ,'g' ,'e' ,' ' 
+	DB  'S' ,'e' ,'n' ,'t' ,' ' ,'w' ,'i' ,'t' ,'h' ,' ' 
+	DB  't' ,'h' ,'i' ,'s' ,' ' ,'B' ,'o' ,'d' ,'y' ,' ' 
+	DB  00AH,000H
+
+?SC_1279:
+	DB  '%' ,'s' ,00AH,000H
+
+string_IAmActive:
+	DB  ' ' ,' ' ,' ' ,'I' ,' ' ,'A' ,'m' ,' ' ,'A' ,'c' 
+	DB  't' ,'i' ,'v' ,'e' ,' ' ,' ' ,000H
+
+
+string_welcome:
+	DB  ' ' ,'U' ,'S' ,'I' ,'N' ,'G' ,' ' ,'G' ,'P' ,'S' 
+	DB  ',' ,' ' ,'G' ,'S' ,'M' ,' ' ,000H
+
+
+string_project_name:
+	DB  'C' ,'A' ,'R' ,'G' ,'O' ,' ' ,'P' ,'I' ,'L' ,'F' 
+	DB  'E' ,'R' ,'A' ,'G' ,'E' ,' ' ,000H
+
+
+string_project_Partners:
+	DB  'P' ,'r' ,'o' ,'j' ,'e' ,'c' ,'t' ,' ' ,'p' ,'a' 
+	DB  'r' ,'t' ,'n' ,'e' ,'r' ,'s' ,000H
+
+
+string_names:
+	DB  ' ' ,' ' ,' ' ,' ' ,'N' ,'a' ,'m' ,'e' ,' ' ,'1' 
+	DB  ' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,000H
+
+	DB  ' ' ,' ' ,' ' ,' ' ,'N' ,'a' ,'m' ,'e' ,' ' ,'2' 
+	DB  ' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,000H
+
+	DB  ' ' ,' ' ,' ' ,' ' ,'N' ,'a' ,'m' ,'e' ,' ' ,'3' 
+	DB  ' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,000H
+
+	DB  ' ' ,' ' ,' ' ,' ' ,'N' ,'a' ,'m' ,'e' ,' ' ,'4' 
+	DB  ' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,000H
+
+
+PHONE_NUMBERFOR_VB:
+	DB  '9' ,'7' ,'3' ,'8' ,'1' ,'8' ,'3' ,'6' ,'8' ,'8' 
+	DB  000H
+
+	DB  000H,000H,000H,000H,000H,000H,000H,000H,000H
+
+
+PHONE_NUMBERS:
+	DB  '9' ,'8' ,'8' ,'0' ,'2' ,'4' ,'8' ,'5' ,'0' ,'8' 
+	DB  000H
+
+	DB  000H,000H,000H,000H,000H,000H,000H,000H,000H
+
+	DB  '9' ,'7' ,'3' ,'8' ,'1' ,'8' ,'3' ,'6' ,'8' ,'8' 
+	DB  000H
+
+	DB  000H,000H,000H,000H,000H,000H,000H,000H,000H
+
+
+; /*
+;     filename	:ProjectMain.c
+; 	description	:transmit and receive data by serial port
+; 	author		:apsis_team
+; 	date		:
+; 
+; */
+; 
+; #include <reg51.h>
+; #include <stdio.h>
+; #include <string.h>
+; #include <stdlib.h>
+; #include "ProjectMain.h"
+; #include "serial_codes.h"
+; #include "delay.h"
+; #include "strings.h"
+; #include "LCD.h"
+; #include "pinallocation.h"
+; #include "GPS_NMEA.h"
+; #include "GSMSIM300.h"
+; #include "keyboard.h"
+; 
+; 
+; #define PASSWORDLENGTH			5
+; #define REACHED_TO_DESTINATION	1
+; #define	NOT_A_DESTINATION 		0
+; #define RFID_CARD_NoLENGTH      11
+; 
+; extern unsigned char key_pressed[7];
+; extern unsigned char gdisplayuchBufffer[30];
+; extern unsigned char guchLatitude[11];
+; extern unsigned char NSIndicator;
+; extern unsigned char guchLongitude[11];
+; extern unsigned char EWIndicator;
+; extern unsigned char guchmessagepacket[40] ;
+; extern unsigned char guchphonenumberpacket[15],guchCompleteGSMDataPacket[160];
+; 
+; unsigned char uchTempVariable;
+; 
+; unsigned char uchBuff[30] ;
+; unsigned char destination_update;
+; unsigned char rfid_card_no[16];
+; unsigned char rfid_count;			  
+; 
+; 
+; 
+; 
+; unsigned char uchMsgStatus;
+; 														
+; extern unsigned char unValueFromCounter[6];
+; 
+; extern unsigned char guchGSMPhoneNumber[15];
+; //unsigned char FlagVehicleLift,FlagVehicleHit,FlagSendSMS;
+; unsigned char code PHONE_NUMBERFOR_VB[20]=	{"9738183688"};
+; unsigned char code PHONE_NUMBERS[2][20]= {	 "9880248508" ,
+; 										  	"9738183688" 
+; 										  }   ;
+; void fnModuleSelect(unsigned char uchModuleSelect)
+
+	RSEG  ?PR?_fnModuleSelect?PROJECTMAIN
+L?0054:
+	USING	0
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+	MOV  	R7,#03H
+_fnModuleSelect:
+			; SOURCE LINE # 58
+;---- Variable 'uchModuleSelect?040' assigned to Register 'R7' ----
+; {
+			; SOURCE LINE # 59
+; 	
+; 
+; 	switch(uchModuleSelect)
+			; SOURCE LINE # 62
+	MOV  	A,R7
+	JZ   	?C0005
+	DEC  	A
+	JZ   	?C0004
+	DEC  	A
+	JZ   	?C0003
+	DEC  	A
+; 	{
+			; SOURCE LINE # 63
+; 		case SELECT_PC_ON_UART:
+			; SOURCE LINE # 64
+?C0002:
+; 					ModuleSelect0	= 1;
+			; SOURCE LINE # 65
+; 					ModuleSelect1	= 1;
+			; SOURCE LINE # 66
+; 					break;
+			; SOURCE LINE # 67
+	SJMP 	?C0050
+; 		case SELECT_GPS_ON_UART:
+			; SOURCE LINE # 68
+?C0003:
+; 					ModuleSelect0	= 0;
+			; SOURCE LINE # 69
+	CLR  	ModuleSelect0
+; 					ModuleSelect1	= 1;
+			; SOURCE LINE # 70
+	SETB 	ModuleSelect1
+; 					break;
+			; SOURCE LINE # 71
+	RET  	
+; 		case SELECT_GSM_ON_UART:
+			; SOURCE LINE # 72
+?C0004:
+; 					ModuleSelect0	= 1;
+			; SOURCE LINE # 73
+	SETB 	ModuleSelect0
+; 					ModuleSelect1	= 0;
+			; SOURCE LINE # 74
+	CLR  	ModuleSelect1
+; 					break;
+			; SOURCE LINE # 75
+	RET  	
+; 		case SELECT_RFID_ON_UART:
+			; SOURCE LINE # 76
+?C0005:
+; 					ModuleSelect0	= 0;
+			; SOURCE LINE # 77
+	CLR  	ModuleSelect0
+; 					ModuleSelect1	= 0;
+			; SOURCE LINE # 78
+	CLR  	ModuleSelect1
+; 					break;
+			; SOURCE LINE # 79
+	RET  	
+; 		default:
+			; SOURCE LINE # 80
+?C0050:
+	SETB 	ModuleSelect0
+; 					ModuleSelect0	= 1;
+; 					ModuleSelect1	= 1;
+			; SOURCE LINE # 82
+	SETB 	ModuleSelect1
+; 					break;
+			; SOURCE LINE # 83
+; 	}
+			; SOURCE LINE # 84
+; }
+			; SOURCE LINE # 85
+?C0007:
+	RET  	
+; END OF _fnModuleSelect
+
+; 
+; 
+; void fnProjectMain(void)
+
+	RSEG  ?PR?fnProjectMain?PROJECTMAIN
+fnProjectMain:
+	USING	0
+			; SOURCE LINE # 88
+; {
+			; SOURCE LINE # 89
+; 	unsigned int k;
+; 	delay_in_seconds(5);
+			; SOURCE LINE # 91
+	MOV  	R7,#05H
+	LCALL	_delay_in_seconds
+; 	destination_update = NOT_A_DESTINATION;
+			; SOURCE LINE # 92
+	CLR  	A
+	MOV  	DPTR,#destination_update
+	MOVX 	@DPTR,A
+; 	fnModuleSelect(SELECT_GSM_ON_UART);// Giving time so that GSM Boots up properly	   	
+			; SOURCE LINE # 93
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	fn_GSM_Send_Init();				   //
+			; SOURCE LINE # 94
+	LCALL	fn_GSM_Send_Init
+; 	for(k=0; k<2;k++)
+			; SOURCE LINE # 95
+	CLR  	A
+	MOV  	DPTR,#k?142
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOVX 	@DPTR,A
+?C0008:
+	MOV  	DPTR,#k?142
+	MOVX 	A,@DPTR
+	MOV  	R6,A
+	INC  	DPTR
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	CLR  	C
+	SUBB 	A,#02H
+	MOV  	A,R6
+	SUBB 	A,#00H
+	JNC  	?C0009
+; 	{
+			; SOURCE LINE # 96
+;  	strcpy(guchGSMPhoneNumber,PHONE_NUMBERS[k]);
+			; SOURCE LINE # 97
+	MOV  	R4,#00H
+	MOV  	R5,#014H
+	LCALL	?C?IMUL
+	MOV  	A,#LOW (PHONE_NUMBERS)
+	ADD  	A,R7
+	MOV  	R1,A
+	MOV  	A,#HIGH (PHONE_NUMBERS)
+	ADDC 	A,R6
+	MOV  	R2,A
+	MOV  	R3,#0FFH
+	MOV  	R0,#LOW (guchGSMPhoneNumber)
+	MOV  	R4,#HIGH (guchGSMPhoneNumber)
+	MOV  	R5,#01H
+	LCALL	?C?STRCPY
+; 	strcpy(guchCompleteGSMDataPacket,"Boot Up Message from Project - I am Active");
+			; SOURCE LINE # 98
+	MOV  	R0,#LOW (guchCompleteGSMDataPacket)
+	MOV  	R4,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R5,#01H
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_0)
+	MOV  	R1,#LOW (?SC_0)
+	LCALL	?C?STRCPY
+; 	fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket);	
+			; SOURCE LINE # 99
+	MOV  	DPTR,#?_fnGSMSendMessage?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchGSMPhoneNumber)
+	MOV  	R1,#LOW (guchGSMPhoneNumber)
+	LCALL	_fnGSMSendMessage
+; 	}
+			; SOURCE LINE # 100
+	MOV  	DPTR,#k?142+01H
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+	JNZ  	?C0008
+	MOV  	DPTR,#k?142
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+?C0049:
+	SJMP 	?C0008
+?C0009:
+; //	strcpy(guchGSMPhoneNumber,PHONE_NUMBERFOR_VB);
+; //	strcpy(guchCompleteGSMDataPacket,"Boot Up Message from Project - I am Active");
+; //	fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket);	
+; 	fnModuleSelect(SELECT_PC_ON_UART);
+			; SOURCE LINE # 104
+	MOV  	R7,#03H
+	LCALL	_fnModuleSelect
+; 	printf("\nMessage Sent to Predefined Number\n");
+			; SOURCE LINE # 105
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_43)
+	MOV  	R1,#LOW (?SC_43)
+	LCALL	_printf
+; 	RI=0;
+			; SOURCE LINE # 106
+	CLR  	RI
+; 	RI=0;
+			; SOURCE LINE # 107
+	CLR  	RI
+; 	
+; 	fn_GSM_Recieve_Init();
+			; SOURCE LINE # 109
+	LCALL	fn_GSM_Recieve_Init
+; 	fnModuleSelect(SELECT_PC_ON_UART);
+			; SOURCE LINE # 110
+	MOV  	R7,#03H
+	LCALL	_fnModuleSelect
+; 	printf("\nMODEM Set in 2,1,0,0,0 Mode to Recieve Incoming SMSs\n");	
+			; SOURCE LINE # 111
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_79)
+	MOV  	R1,#LOW (?SC_79)
+	LCALL	_printf
+; 	fn_GETGPSCoordinates();
+			; SOURCE LINE # 112
+	LCALL	fn_GETGPSCoordinates
+; 	fnModuleSelect(SELECT_PC_ON_UART);
+			; SOURCE LINE # 113
+	MOV  	R7,#03H
+	LCALL	_fnModuleSelect
+; 	printf("guchCompleteGSMDataPacket = %s\n",guchCompleteGSMDataPacket);
+			; SOURCE LINE # 114
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_134)
+	MOV  	R1,#LOW (?SC_134)
+	LCALL	_printf
+; 	printf("Latitude =%s,%c\n",guchLatitude,NSIndicator);
+			; SOURCE LINE # 115
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchLatitude)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchLatitude)
+	MOVX 	@DPTR,A
+	MOV  	DPTR,#NSIndicator
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#?_printf?BYTE+06H
+	MOVX 	@DPTR,A
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_166)
+	MOV  	R1,#LOW (?SC_166)
+	LCALL	_printf
+; 	printf("Longitude =%s,%c\n",guchLongitude,EWIndicator);
+			; SOURCE LINE # 116
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchLongitude)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchLongitude)
+	MOVX 	@DPTR,A
+	MOV  	DPTR,#EWIndicator
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#?_printf?BYTE+06H
+	MOVX 	@DPTR,A
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_183)
+	MOV  	R1,#LOW (?SC_183)
+	LCALL	_printf
+; 	
+; 	fn_lcd_select_line_and_location(LCD_LINE_1, LOCATION_0);
+			; SOURCE LINE # 118
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#01H
+	LCALL	_fn_lcd_select_line_and_location
+;     fn_Display_String_LCD(string_project_name);
+			; SOURCE LINE # 119
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (string_project_name)
+	MOV  	R1,#LOW (string_project_name)
+	LCALL	_fn_Display_String_LCD
+;     fn_lcd_select_line_and_location(LCD_LINE_2, LOCATION_0);
+			; SOURCE LINE # 120
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#02H
+	LCALL	_fn_lcd_select_line_and_location
+;     fn_Display_String_LCD(string_welcome);
+			; SOURCE LINE # 121
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (string_welcome)
+	MOV  	R1,#LOW (string_welcome)
+	LCALL	_fn_Display_String_LCD
+;     
+; 
+; 
+; 	P2=0xff;
+			; SOURCE LINE # 125
+	MOV  	P2,#0FFH
+?C0011:
+; 	
+;   while(1)
+			; SOURCE LINE # 127
+;   {
+			; SOURCE LINE # 128
+;   	Buzzer_pin=BUZZERDISABLE;
+			; SOURCE LINE # 129
+	CLR  	Buzzer_pin
+; 	if(EM_lock_pin!=LOCKENABLED)
+			; SOURCE LINE # 130
+	JNB  	EM_lock_pin,?C0013
+; 
+; 	{
+			; SOURCE LINE # 132
+; 		fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+			; SOURCE LINE # 133
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#01H
+	LCALL	_fn_lcd_select_line_and_location
+;   		fn_Display_String_LCD(" PRESS LOCK KEY ");
+			; SOURCE LINE # 134
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_201)
+	MOV  	R1,#LOW (?SC_201)
+	LCALL	_fn_Display_String_LCD
+; 		fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+			; SOURCE LINE # 135
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#02H
+	LCALL	_fn_lcd_select_line_and_location
+;   		fn_Display_String_LCD("                 ");
+			; SOURCE LINE # 136
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_218)
+	MOV  	R1,#LOW (?SC_218)
+	LCALL	_fn_Display_String_LCD
+?C0014:
+; 
+; 		while(EM_lock_enabe_button==1);
+			; SOURCE LINE # 138
+	JB   	EM_lock_enabe_button,?C0014
+?C0015:
+; 		EM_lock_pin=LOCKENABLED;
+			; SOURCE LINE # 139
+	CLR  	EM_lock_pin
+; 		fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+			; SOURCE LINE # 140
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#01H
+	LCALL	_fn_lcd_select_line_and_location
+; 		fn_Display_String_LCD("CARGO IS LOCKED ");
+			; SOURCE LINE # 141
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_236)
+	MOV  	R1,#LOW (?SC_236)
+	LCALL	_fn_Display_String_LCD
+; 		fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+			; SOURCE LINE # 142
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#02H
+	LCALL	_fn_lcd_select_line_and_location
+;   		fn_Display_String_LCD("                 ");
+			; SOURCE LINE # 143
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_218)
+	MOV  	R1,#LOW (?SC_218)
+	LCALL	_fn_Display_String_LCD
+; 	   delay_in_seconds(1);
+			; SOURCE LINE # 144
+	MOV  	R7,#01H
+	LCALL	_delay_in_seconds
+; 	}
+			; SOURCE LINE # 145
+?C0013:
+; 
+; 
+; 
+; 	
+; 	strcpy(uchBuff ,"cargo is at source station") ;
+			; SOURCE LINE # 150
+	MOV  	R0,#LOW (uchBuff)
+	MOV  	R4,#HIGH (uchBuff)
+	MOV  	R5,#01H
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_253)
+	MOV  	R1,#LOW (?SC_253)
+	LCALL	?C?STRCPY
+; 	fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+			; SOURCE LINE # 151
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#01H
+	LCALL	_fn_lcd_select_line_and_location
+;   	fn_Display_String_LCD("Cargo Is GoingTo");
+			; SOURCE LINE # 152
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_280)
+	MOV  	R1,#LOW (?SC_280)
+	LCALL	_fn_Display_String_LCD
+; 	fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+			; SOURCE LINE # 153
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#02H
+	LCALL	_fn_lcd_select_line_and_location
+;   	fn_Display_String_LCD("Acharya College ");
+			; SOURCE LINE # 154
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_297)
+	MOV  	R1,#LOW (?SC_297)
+	LCALL	_fn_Display_String_LCD
+?C0016:
+; 	//delay_in_seconds(1);
+; 
+; //	fnToCheckInboxStatusAndDecryptCommandsIfAnySMS();	   /* Function to read messages if any*/ //fnToCheckInboxStatusAndDecryptIfAny
+; 	
+; 	while(!EM_lock_pin && !destination_update) 	  /* If  lock is not tampered on the way and if msg received to get status then send the status			*/
+			; SOURCE LINE # 159
+	JB   	EM_lock_pin,?C0017
+	MOV  	DPTR,#destination_update
+	MOVX 	A,@DPTR
+	JNZ  	?C0017
+; 	{
+			; SOURCE LINE # 160
+; 		destination_update=chfnToCheckVehicleReachedToDestination();
+			; SOURCE LINE # 161
+	LCALL	chfnToCheckVehicleReachedToDestination
+	MOV  	DPTR,#destination_update
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		fnVehicleOnTheWay();	
+			; SOURCE LINE # 162
+	LCALL	fnVehicleOnTheWay
+; 		delay_in_seconds(2);
+			; SOURCE LINE # 163
+	MOV  	R7,#02H
+	LCALL	_delay_in_seconds
+; 	}
+			; SOURCE LINE # 164
+	SJMP 	?C0016
+?C0017:
+; 	
+; 	if(EM_lock_pin!=0) // To detect any temper cause to cargo
+			; SOURCE LINE # 166
+	JNB  	EM_lock_pin,?C0018
+; 	{
+			; SOURCE LINE # 167
+; 		fnCargoTampered();   
+			; SOURCE LINE # 168
+	LCALL	fnCargoTampered
+; 	}	
+			; SOURCE LINE # 169
+?C0018:
+;        
+; 			
+; 	
+; 	if(destination_update==REACHED_TO_DESTINATION)
+			; SOURCE LINE # 173
+	MOV  	DPTR,#destination_update
+	MOVX 	A,@DPTR
+	XRL  	A,#01H
+	JZ   	$ + 5H
+	LJMP 	?C0011
+; 	{	
+			; SOURCE LINE # 174
+; 		unsigned char uchserialdata;
+; 		fnModuleSelect(SELECT_PC_ON_UART);		
+			; SOURCE LINE # 176
+	MOV  	R7,#03H
+	LCALL	_fnModuleSelect
+; 		delay_in_seconds(1);
+			; SOURCE LINE # 177
+	MOV  	R7,#01H
+	LCALL	_delay_in_seconds
+; 		printf("\nDestination Reached");
+			; SOURCE LINE # 178
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_314)
+	MOV  	R1,#LOW (?SC_314)
+	LCALL	_printf
+; 		fnInitialisationAtDestination();
+			; SOURCE LINE # 179
+	LCALL	fnInitialisationAtDestination
+; 		fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 180
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 		fnDeleteAllMessages();
+			; SOURCE LINE # 181
+	LCALL	fnDeleteAllMessages
+; 		uchMsgStatus=uchfnCheckInboxStatus();
+			; SOURCE LINE # 182
+	LCALL	uchfnCheckInboxStatus
+	MOV  	DPTR,#uchMsgStatus
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+			; SOURCE LINE # 183
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#01H
+	LCALL	_fn_lcd_select_line_and_location
+; 		fn_Display_String_LCD("WAITING FOR MSG ");
+			; SOURCE LINE # 184
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_335)
+	MOV  	R1,#LOW (?SC_335)
+	LCALL	_fn_Display_String_LCD
+; 		fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+			; SOURCE LINE # 185
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#02H
+	LCALL	_fn_lcd_select_line_and_location
+; 		fn_Display_String_LCD("  FROM SOURCE   ");
+			; SOURCE LINE # 186
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_352)
+	MOV  	R1,#LOW (?SC_352)
+	LCALL	_fn_Display_String_LCD
+?C0020:
+; 
+; 		while(uchMsgStatus!=NEWMESSAGE)
+			; SOURCE LINE # 188
+	MOV  	DPTR,#uchMsgStatus
+	MOVX 	A,@DPTR
+	JZ   	?C0021
+; 		{
+			; SOURCE LINE # 189
+; 			fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 190
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 			delay_in_seconds(1);
+			; SOURCE LINE # 191
+	LCALL	_delay_in_seconds
+; 			uchMsgStatus=uchfnCheckInboxStatus();	
+			; SOURCE LINE # 192
+	LCALL	uchfnCheckInboxStatus
+	MOV  	DPTR,#uchMsgStatus
+; 			fnModuleSelect(SELECT_PC_ON_UART);		
+			; SOURCE LINE # 193
+	LCALL	L?0054
+; 			delay_in_seconds(1);
+			; SOURCE LINE # 194
+	MOV  	R7,#01H
+	LCALL	_delay_in_seconds
+; 			
+; 			printf("\nWaiting for Authorising Message from Base Station");
+			; SOURCE LINE # 196
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_369)
+	MOV  	R1,#LOW (?SC_369)
+	LCALL	_printf
+; 			delay_in_seconds(1);
+			; SOURCE LINE # 197
+	MOV  	R7,#01H
+	LCALL	_delay_in_seconds
+; 		}
+			; SOURCE LINE # 198
+	SJMP 	?C0020
+?C0021:
+; 		fnModuleSelect(SELECT_PC_ON_UART);
+			; SOURCE LINE # 199
+	MOV  	R7,#03H
+	LCALL	_fnModuleSelect
+; 		printf("\nAuthorising Message RECIEVED");
+			; SOURCE LINE # 200
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_420)
+	MOV  	R1,#LOW (?SC_420)
+	LCALL	_printf
+; 		RI=0;
+			; SOURCE LINE # 201
+	CLR  	RI
+; 		RI=0;
+			; SOURCE LINE # 202
+	CLR  	RI
+; 		fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+			; SOURCE LINE # 203
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#01H
+	LCALL	_fn_lcd_select_line_and_location
+; 		fn_Display_String_LCD(" SWIPE RFID CARD ");
+			; SOURCE LINE # 204
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_450)
+	MOV  	R1,#LOW (?SC_450)
+	LCALL	_fn_Display_String_LCD
+; 		fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+			; SOURCE LINE # 205
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#02H
+	LCALL	_fn_lcd_select_line_and_location
+; 		fn_Display_String_LCD("                 ");
+			; SOURCE LINE # 206
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_218)
+	MOV  	R1,#LOW (?SC_218)
+	LCALL	_fn_Display_String_LCD
+; 		delay_in_seconds(1);
+			; SOURCE LINE # 207
+	MOV  	R7,#01H
+	LCALL	_delay_in_seconds
+; 
+; 		fnModuleSelect(SELECT_RFID_ON_UART);
+			; SOURCE LINE # 209
+	CLR  	A
+	MOV  	R7,A
+	LCALL	_fnModuleSelect
+?C0022:
+; 		while((fn_Receive_Serial())!=0x03);
+			; SOURCE LINE # 210
+	LCALL	fn_Receive_Serial
+	CJNE 	R7,#03H,?C0022
+?C0023:
+; 		rfid_count=0;
+			; SOURCE LINE # 211
+	CLR  	A
+	MOV  	DPTR,#rfid_count
+	MOVX 	@DPTR,A
+?C0024:
+; 		
+; 		while(uchserialdata!=0x0a)										 
+			; SOURCE LINE # 213
+	MOV  	DPTR,#uchserialdata?141
+	MOVX 	A,@DPTR
+	XRL  	A,#0AH
+	JZ   	?C0025
+; 		{
+			; SOURCE LINE # 214
+; 			uchserialdata=fn_Receive_Serial();							   
+			; SOURCE LINE # 215
+	LCALL	fn_Receive_Serial
+	MOV  	DPTR,#uchserialdata?141
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 			rfid_card_no[rfid_count]=uchserialdata;
+			; SOURCE LINE # 216
+	MOV  	DPTR,#rfid_count
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (rfid_card_no)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (rfid_card_no)
+	MOV  	DPH,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 			rfid_count++ ;
+			; SOURCE LINE # 217
+	MOV  	DPTR,#rfid_count
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+; 		}
+			; SOURCE LINE # 218
+	SJMP 	?C0024
+?C0025:
+; 		rfid_card_no[rfid_count-2]='\0';
+			; SOURCE LINE # 219
+	MOV  	DPTR,#rfid_count
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (rfid_card_no+0FFFEH)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (rfid_card_no+0FFFEH)
+	MOV  	DPH,A
+	CLR  	A
+	MOVX 	@DPTR,A
+; 		fnModuleSelect(SELECT_PC_ON_UART);
+			; SOURCE LINE # 220
+	MOV  	R7,#03H
+	LCALL	_fnModuleSelect
+; 		printf("rfid card no is = %s",rfid_card_no);
+			; SOURCE LINE # 221
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (rfid_card_no)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (rfid_card_no)
+	MOVX 	@DPTR,A
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_468)
+	MOV  	R1,#LOW (?SC_468)
+	LCALL	_printf
+; 		RI=0;
+			; SOURCE LINE # 222
+	CLR  	RI
+; 		RI=0;
+			; SOURCE LINE # 223
+	CLR  	RI
+; 		
+;    		fnExtractPhoneNoAndMessage();
+			; SOURCE LINE # 225
+	LCALL	fnExtractPhoneNoAndMessage
+; 		if(strstr( guchmessagepacket,rfid_card_no)) // RFID card detection
+			; SOURCE LINE # 226
+	MOV  	DPTR,#?_strstr?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (rfid_card_no)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (rfid_card_no)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchmessagepacket)
+	MOV  	R1,#LOW (guchmessagepacket)
+	LCALL	_strstr
+	MOV  	A,R2
+	ORL  	A,R1
+	ORL  	A,R3
+	JZ   	?C0026
+; 		{
+			; SOURCE LINE # 227
+; 			fnModuleSelect(SELECT_PC_ON_UART);
+			; SOURCE LINE # 228
+	MOV  	R7,#03H
+	LCALL	_fnModuleSelect
+; 			printf("rfid card no is matched ");
+			; SOURCE LINE # 229
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_489)
+	MOV  	R1,#LOW (?SC_489)
+	LCALL	_printf
+; 			delay_in_seconds(2);
+			; SOURCE LINE # 230
+	MOV  	R7,#02H
+	LCALL	_delay_in_seconds
+; 			fn_keyboard_12x1for_password(PASSWORDLENGTH);
+			; SOURCE LINE # 231
+	MOV  	R7,#05H
+	LCALL	_fn_keyboard_12x1for_password
+; 			printf("key pressed = %s",key_pressed);
+			; SOURCE LINE # 232
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (key_pressed)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (key_pressed)
+	MOVX 	@DPTR,A
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_514)
+	MOV  	R1,#LOW (?SC_514)
+	LCALL	_printf
+; 			if(strstr( guchmessagepacket,key_pressed))   // password detection
+			; SOURCE LINE # 233
+	MOV  	DPTR,#?_strstr?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (key_pressed)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (key_pressed)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchmessagepacket)
+	MOV  	R1,#LOW (guchmessagepacket)
+	LCALL	_strstr
+	MOV  	A,R2
+	ORL  	A,R1
+	ORL  	A,R3
+	JZ   	?C0051
+; 			{
+			; SOURCE LINE # 234
+; 				EM_lock_pin=LOCKDISABLE	;
+			; SOURCE LINE # 235
+	SETB 	EM_lock_pin
+; 				Buzzer_pin=BUZZERDISABLE;
+			; SOURCE LINE # 236
+	CLR  	Buzzer_pin
+; 				fnToSendAlertMSGFromDestination();				
+			; SOURCE LINE # 237
+	LCALL	fnToSendAlertMSGFromDestination
+; 			}
+			; SOURCE LINE # 238
+	SJMP 	?C0029
+?C0026:
+; 			else
+; 			{
+; 				fnInvalidAuthorisationAtDestination();	
+; 			}
+; 	     }
+; 	    else
+; 	 	{
+			; SOURCE LINE # 245
+; 			fnInvalidAuthorisationAtDestination();
+			; SOURCE LINE # 246
+?C0051:
+	LCALL	fnInvalidAuthorisationAtDestination
+; 	    }
+			; SOURCE LINE # 247
+?C0029:
+; 
+; 		RI=0;
+			; SOURCE LINE # 249
+	CLR  	RI
+; 		RI=0;
+			; SOURCE LINE # 250
+	CLR  	RI
+; 			
+; 	}
+			; SOURCE LINE # 252
+; 	
+;   }
+			; SOURCE LINE # 254
+	LJMP 	?C0011
+; END OF fnProjectMain
+
+; 
+; }
+; 		
+; 
+; 
+; 
+; void fnVehicleOnTheWay(void)
+
+	RSEG  ?PR?fnVehicleOnTheWay?PROJECTMAIN
+fnVehicleOnTheWay:
+	USING	0
+			; SOURCE LINE # 261
+; {
+			; SOURCE LINE # 262
+; 	strcpy(uchBuff, "cargo is on the way");
+			; SOURCE LINE # 263
+	MOV  	R0,#LOW (uchBuff)
+	MOV  	R4,#HIGH (uchBuff)
+	MOV  	R5,#01H
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_531)
+	MOV  	R1,#LOW (?SC_531)
+	LCALL	?C?STRCPY
+; 		if(EM_lock_pin!=0)
+			; SOURCE LINE # 264
+	JNB  	EM_lock_pin,?C0031
+; 	{
+			; SOURCE LINE # 265
+; 		fnCargoTampered();
+			; SOURCE LINE # 266
+	LCALL	fnCargoTampered
+; 	}
+			; SOURCE LINE # 267
+?C0031:
+; 	
+; 	fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+			; SOURCE LINE # 269
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#01H
+	LCALL	_fn_lcd_select_line_and_location
+; 	fn_Display_String_LCD("CARGO IsOnWAY TO");
+			; SOURCE LINE # 270
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_551)
+	MOV  	R1,#LOW (?SC_551)
+	LCALL	_fn_Display_String_LCD
+; 	fnToCheckInboxStatusAndDecryptCommandsIfAnySMS();
+			; SOURCE LINE # 271
+	LJMP 	fnToCheckInboxStatusAndDecryptCommandsIfAnySMS
+; END OF fnVehicleOnTheWay
+
+; 	
+; 
+; }		
+; 
+; 
+; unsigned char chfnToCheckVehicleReachedToDestination(void)
+
+	RSEG  ?PR?chfnToCheckVehicleReachedToDestination?PROJECTMAIN
+chfnToCheckVehicleReachedToDestination:
+	USING	0
+			; SOURCE LINE # 277
+; {
+			; SOURCE LINE # 278
+; 
+; 	if (EM_lock_enabe_button==0)
+			; SOURCE LINE # 280
+	JB   	EM_lock_enabe_button,?C0033
+; 	{
+			; SOURCE LINE # 281
+; 		return (REACHED_TO_DESTINATION);
+			; SOURCE LINE # 282
+	MOV  	R7,#01H
+	RET  	
+; 	}
+			; SOURCE LINE # 283
+?C0033:
+; 
+; 	else
+; 	return (NOT_A_DESTINATION);
+			; SOURCE LINE # 286
+	MOV  	R7,#00H
+; 
+; }
+			; SOURCE LINE # 288
+?C0034:
+	RET  	
+; END OF chfnToCheckVehicleReachedToDestination
+
+; 
+; 
+; void fnToSendAlertMSGFromDestination(void)
+
+	RSEG  ?PR?fnToSendAlertMSGFromDestination?PROJECTMAIN
+fnToSendAlertMSGFromDestination:
+	USING	0
+			; SOURCE LINE # 291
+; {
+			; SOURCE LINE # 292
+; 	fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+			; SOURCE LINE # 293
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#01H
+	LCALL	_fn_lcd_select_line_and_location
+; 	fn_Display_String_LCD("PASSWORD MATCHED");
+			; SOURCE LINE # 294
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_568)
+	MOV  	R1,#LOW (?SC_568)
+	LCALL	_fn_Display_String_LCD
+; 	fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+			; SOURCE LINE # 295
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#02H
+	LCALL	_fn_lcd_select_line_and_location
+;   	fn_Display_String_LCD("                 ");
+			; SOURCE LINE # 296
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_218)
+	MOV  	R1,#LOW (?SC_218)
+	LCALL	_fn_Display_String_LCD
+; 	delay_in_seconds(5);
+			; SOURCE LINE # 297
+	MOV  	R7,#05H
+	LCALL	_delay_in_seconds
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 298
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 
+; 	strcpy(guchGSMPhoneNumber,PHONE_NUMBERFOR_VB);
+			; SOURCE LINE # 300
+	MOV  	R0,#LOW (guchGSMPhoneNumber)
+	MOV  	R4,#HIGH (guchGSMPhoneNumber)
+	MOV  	R5,#01H
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (PHONE_NUMBERFOR_VB)
+	MOV  	R1,#LOW (PHONE_NUMBERFOR_VB)
+	LCALL	?C?STRCPY
+;     strcpy(guchCompleteGSMDataPacket,"CAUTION: YOUR VEHICLE no 111 \n ");
+			; SOURCE LINE # 301
+	MOV  	R0,#LOW (guchCompleteGSMDataPacket)
+	MOV  	R4,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R5,#01H
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_585)
+	MOV  	R1,#LOW (?SC_585)
+	LCALL	?C?STRCPY
+; 	strcat(guchCompleteGSMDataPacket, "LOCK IS OPENED SUCCESSFULLY AT DESTINATION ");
+			; SOURCE LINE # 302
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_617)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_617)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, " ITS CORDINATES ARE @");
+			; SOURCE LINE # 303
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_661)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_661)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, guchLatitude);
+			; SOURCE LINE # 304
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchLatitude)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchLatitude)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket,"N ");
+			; SOURCE LINE # 305
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_683)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_683)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, guchLongitude);
+			; SOURCE LINE # 306
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchLongitude)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchLongitude)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket,"E");
+			; SOURCE LINE # 307
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_686)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_686)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket);
+			; SOURCE LINE # 308
+	MOV  	DPTR,#?_fnGSMSendMessage?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchGSMPhoneNumber)
+	MOV  	R1,#LOW (guchGSMPhoneNumber)
+	LCALL	_fnGSMSendMessage
+; 	
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 310
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	strcpy(guchGSMPhoneNumber,PHONE_NUMBERS[0]);
+			; SOURCE LINE # 311
+	MOV  	R0,#LOW (guchGSMPhoneNumber)
+	MOV  	R4,#HIGH (guchGSMPhoneNumber)
+	MOV  	R5,#01H
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (PHONE_NUMBERS)
+	MOV  	R1,#LOW (PHONE_NUMBERS)
+	LCALL	?C?STRCPY
+;     strcpy(guchCompleteGSMDataPacket,"CAUTION: YOUR VEHICLE no 111 \n ");
+			; SOURCE LINE # 312
+	MOV  	R0,#LOW (guchCompleteGSMDataPacket)
+	MOV  	R4,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R5,#01H
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_585)
+	MOV  	R1,#LOW (?SC_585)
+	LCALL	?C?STRCPY
+; 	strcat(guchCompleteGSMDataPacket, "LOCK IS OPENED SUCCESSFULLY AT DESTINATION\n");
+			; SOURCE LINE # 313
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_688)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_688)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, " ITS CORDINATES ARE\n ");
+			; SOURCE LINE # 314
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_732)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_732)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, guchLatitude);
+			; SOURCE LINE # 315
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchLatitude)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchLatitude)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket,"N\n");
+			; SOURCE LINE # 316
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_754)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_754)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, guchLongitude);
+			; SOURCE LINE # 317
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchLongitude)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchLongitude)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket,"E\n");
+			; SOURCE LINE # 318
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_757)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_757)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket);
+			; SOURCE LINE # 319
+	MOV  	DPTR,#?_fnGSMSendMessage?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchGSMPhoneNumber)
+	MOV  	R1,#LOW (guchGSMPhoneNumber)
+	LCALL	_fnGSMSendMessage
+; 	
+; 	
+; 	fnModuleSelect(SELECT_PC_ON_UART);
+			; SOURCE LINE # 322
+	MOV  	R7,#03H
+	LCALL	_fnModuleSelect
+; 	printf("guchCompleteGSMDataPacket = %s\n",guchCompleteGSMDataPacket);
+			; SOURCE LINE # 323
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_134)
+	MOV  	R1,#LOW (?SC_134)
+	LJMP 	_printf
+; END OF fnToSendAlertMSGFromDestination
+
+; 	
+; }
+; 
+; 
+; 
+; void fnInvalidAuthorisationAtDestination(void)
+
+	RSEG  ?PR?fnInvalidAuthorisationAtDestination?PROJECTMAIN
+fnInvalidAuthorisationAtDestination:
+	USING	0
+			; SOURCE LINE # 329
+; {
+			; SOURCE LINE # 330
+; 	Buzzer_pin=BUZZERENABLED;
+			; SOURCE LINE # 331
+	SETB 	Buzzer_pin
+; 	fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+			; SOURCE LINE # 332
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#01H
+	LCALL	_fn_lcd_select_line_and_location
+; 	fn_Display_String_LCD(" ACCESS DENIED ");
+			; SOURCE LINE # 333
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_760)
+	MOV  	R1,#LOW (?SC_760)
+	LCALL	_fn_Display_String_LCD
+; 	fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+			; SOURCE LINE # 334
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#02H
+	LCALL	_fn_lcd_select_line_and_location
+;   	fn_Display_String_LCD("                 ");
+			; SOURCE LINE # 335
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_218)
+	MOV  	R1,#LOW (?SC_218)
+	LCALL	_fn_Display_String_LCD
+; 	delay_in_seconds(2);
+			; SOURCE LINE # 336
+	MOV  	R7,#02H
+	LCALL	_delay_in_seconds
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 337
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	strcpy(guchGSMPhoneNumber,PHONE_NUMBERFOR_VB);
+			; SOURCE LINE # 338
+	MOV  	R0,#LOW (guchGSMPhoneNumber)
+	MOV  	R4,#HIGH (guchGSMPhoneNumber)
+	MOV  	R5,#01H
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (PHONE_NUMBERFOR_VB)
+	MOV  	R1,#LOW (PHONE_NUMBERFOR_VB)
+	LCALL	?C?STRCPY
+;     strcpy(guchCompleteGSMDataPacket,"CAUTION: YOUR VEHICLE no 111 \n ");
+			; SOURCE LINE # 339
+	MOV  	R0,#LOW (guchCompleteGSMDataPacket)
+	MOV  	R4,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R5,#01H
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_585)
+	MOV  	R1,#LOW (?SC_585)
+	LCALL	?C?STRCPY
+; 	strcat(guchCompleteGSMDataPacket, "UNAUTHORISED PERSION IS TRYING TO OPEN LOCK AT DESTINATION\n");
+			; SOURCE LINE # 340
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_776)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_776)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, " ITS CORDINATES ARE @");
+			; SOURCE LINE # 341
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_661)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_661)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, guchLatitude);
+			; SOURCE LINE # 342
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchLatitude)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchLatitude)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket,"N ");
+			; SOURCE LINE # 343
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_683)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_683)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, guchLongitude);
+			; SOURCE LINE # 344
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchLongitude)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchLongitude)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket,"E");
+			; SOURCE LINE # 345
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_686)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_686)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket);
+			; SOURCE LINE # 346
+	MOV  	DPTR,#?_fnGSMSendMessage?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchGSMPhoneNumber)
+	MOV  	R1,#LOW (guchGSMPhoneNumber)
+	LCALL	_fnGSMSendMessage
+; 	
+; 	fnModuleSelect(SELECT_PC_ON_UART);
+			; SOURCE LINE # 348
+	MOV  	R7,#03H
+	LCALL	_fnModuleSelect
+; 	printf("guchCompleteGSMDataPacket = %s\n",guchCompleteGSMDataPacket);	
+			; SOURCE LINE # 349
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_134)
+	MOV  	R1,#LOW (?SC_134)
+	LJMP 	_printf
+; END OF fnInvalidAuthorisationAtDestination
+
+; }
+; 
+; 
+; void fnCargoTampered(void)
+
+	RSEG  ?PR?fnCargoTampered?PROJECTMAIN
+fnCargoTampered:
+	USING	0
+			; SOURCE LINE # 353
+; {
+			; SOURCE LINE # 354
+; 	Buzzer_pin=BUZZERENABLED;
+			; SOURCE LINE # 355
+	SETB 	Buzzer_pin
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 356
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	strcpy(guchGSMPhoneNumber,PHONE_NUMBERS[0]);
+			; SOURCE LINE # 357
+	MOV  	R0,#LOW (guchGSMPhoneNumber)
+	MOV  	R4,#HIGH (guchGSMPhoneNumber)
+	MOV  	R5,#01H
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (PHONE_NUMBERS)
+	MOV  	R1,#LOW (PHONE_NUMBERS)
+	LCALL	?C?STRCPY
+;     strcpy(guchCompleteGSMDataPacket,"CAUTION: YOUR VEHICLE no 111 \n ");
+			; SOURCE LINE # 358
+	MOV  	R0,#LOW (guchCompleteGSMDataPacket)
+	MOV  	R4,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R5,#01H
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_585)
+	MOV  	R1,#LOW (?SC_585)
+	LCALL	?C?STRCPY
+; 	strcat(guchCompleteGSMDataPacket, "IS TAMPERED!!  \n");
+			; SOURCE LINE # 359
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_836)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_836)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+; 	strcat(guchCompleteGSMDataPacket, uchBuff);
+			; SOURCE LINE # 360
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (uchBuff)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (uchBuff)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, " \r ITS CORDINATES ARE\n ");
+			; SOURCE LINE # 361
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_853)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_853)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, guchLatitude);
+			; SOURCE LINE # 362
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchLatitude)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchLatitude)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket,"N\n");
+			; SOURCE LINE # 363
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_754)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_754)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, guchLongitude);
+			; SOURCE LINE # 364
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchLongitude)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchLongitude)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket,"E\n");
+			; SOURCE LINE # 365
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_757)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_757)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket);
+			; SOURCE LINE # 366
+	MOV  	DPTR,#?_fnGSMSendMessage?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchGSMPhoneNumber)
+	MOV  	R1,#LOW (guchGSMPhoneNumber)
+	LCALL	_fnGSMSendMessage
+; 
+; 	strcpy(guchGSMPhoneNumber,PHONE_NUMBERFOR_VB);
+			; SOURCE LINE # 368
+	MOV  	R0,#LOW (guchGSMPhoneNumber)
+	MOV  	R4,#HIGH (guchGSMPhoneNumber)
+	MOV  	R5,#01H
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (PHONE_NUMBERFOR_VB)
+	MOV  	R1,#LOW (PHONE_NUMBERFOR_VB)
+	LCALL	?C?STRCPY
+;     strcpy(guchCompleteGSMDataPacket,"CAUTION: YOUR VEHICLE no 111 \n ");
+			; SOURCE LINE # 369
+	MOV  	R0,#LOW (guchCompleteGSMDataPacket)
+	MOV  	R4,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R5,#01H
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_585)
+	MOV  	R1,#LOW (?SC_585)
+	LCALL	?C?STRCPY
+; 	strcat(guchCompleteGSMDataPacket, "IS TAMPERED!!  ");
+			; SOURCE LINE # 370
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_877)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_877)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+; 	strcat(guchCompleteGSMDataPacket, uchBuff);
+			; SOURCE LINE # 371
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (uchBuff)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (uchBuff)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, " ITS CORDINATES ARE @");
+			; SOURCE LINE # 372
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_661)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_661)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, guchLatitude);
+			; SOURCE LINE # 373
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchLatitude)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchLatitude)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket,"N ");
+			; SOURCE LINE # 374
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_683)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_683)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, guchLongitude);
+			; SOURCE LINE # 375
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchLongitude)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchLongitude)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket,"E");
+			; SOURCE LINE # 376
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_686)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_686)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket);
+			; SOURCE LINE # 377
+	MOV  	DPTR,#?_fnGSMSendMessage?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchGSMPhoneNumber)
+	MOV  	R1,#LOW (guchGSMPhoneNumber)
+	LCALL	_fnGSMSendMessage
+; 
+; 	fnModuleSelect(SELECT_PC_ON_UART);
+			; SOURCE LINE # 379
+	MOV  	R7,#03H
+	LCALL	_fnModuleSelect
+; 	printf("guchCompleteGSMDataPacket = %s\n",guchCompleteGSMDataPacket);	
+			; SOURCE LINE # 380
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_134)
+	MOV  	R1,#LOW (?SC_134)
+	LJMP 	_printf
+; END OF fnCargoTampered
+
+; }
+; 
+; 
+; void fnInitialisationAtDestination(void)
+
+	RSEG  ?PR?fnInitialisationAtDestination?PROJECTMAIN
+fnInitialisationAtDestination:
+	USING	0
+			; SOURCE LINE # 384
+; {
+			; SOURCE LINE # 385
+; 	fnModuleSelect(SELECT_GSM_ON_UART);
+			; SOURCE LINE # 386
+	MOV  	R7,#01H
+	LCALL	_fnModuleSelect
+; 	fnDeleteAllMessages();
+			; SOURCE LINE # 387
+	LCALL	fnDeleteAllMessages
+; 	
+; 	strcpy(guchGSMPhoneNumber,PHONE_NUMBERFOR_VB);
+			; SOURCE LINE # 389
+	MOV  	R0,#LOW (guchGSMPhoneNumber)
+	MOV  	R4,#HIGH (guchGSMPhoneNumber)
+	MOV  	R5,#01H
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (PHONE_NUMBERFOR_VB)
+	MOV  	R1,#LOW (PHONE_NUMBERFOR_VB)
+	LCALL	?C?STRCPY
+;     strcpy(guchCompleteGSMDataPacket,"CAUTION: YOUR VEHICLE no 111 ");
+			; SOURCE LINE # 390
+	MOV  	R0,#LOW (guchCompleteGSMDataPacket)
+	MOV  	R4,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R5,#01H
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_893)
+	MOV  	R1,#LOW (?SC_893)
+	LCALL	?C?STRCPY
+; 	strcat(guchCompleteGSMDataPacket, "Has REACHED TO DESTINATION ");
+			; SOURCE LINE # 391
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_923)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_923)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, " ITS CORDINATES ARE @");
+			; SOURCE LINE # 392
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_661)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_661)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, guchLatitude);
+			; SOURCE LINE # 393
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchLatitude)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchLatitude)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket,"N ");
+			; SOURCE LINE # 394
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_683)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_683)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket, guchLongitude);
+			; SOURCE LINE # 395
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchLongitude)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchLongitude)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     strcat(guchCompleteGSMDataPacket,"E");
+			; SOURCE LINE # 396
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_686)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_686)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+;     fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket);	
+			; SOURCE LINE # 397
+	MOV  	DPTR,#?_fnGSMSendMessage?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchGSMPhoneNumber)
+	MOV  	R1,#LOW (guchGSMPhoneNumber)
+	LCALL	_fnGSMSendMessage
+; 
+; 	fnModuleSelect(SELECT_PC_ON_UART);
+			; SOURCE LINE # 399
+	MOV  	R7,#03H
+	LCALL	_fnModuleSelect
+; 	fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+			; SOURCE LINE # 400
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#01H
+	LCALL	_fn_lcd_select_line_and_location
+; 	fn_Display_String_LCD("MSG SendToBaseSt");	  
+			; SOURCE LINE # 401
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_951)
+	MOV  	R1,#LOW (?SC_951)
+	LCALL	_fn_Display_String_LCD
+; 	
+; 	printf("guchCompleteGSMDataPacket = %s\n",guchCompleteGSMDataPacket);	
+			; SOURCE LINE # 403
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_134)
+	MOV  	R1,#LOW (?SC_134)
+	LJMP 	_printf
+; END OF fnInitialisationAtDestination
+
+; }
+; 
+; 
+; 
+; 
+; 
+; 
+; void fnToCheckInboxStatusAndDecryptCommandsIfAnySMS(void)
+
+	RSEG  ?PR?fnToCheckInboxStatusAndDecryptCommandsIfAnySMS?PROJECTMAIN
+fnToCheckInboxStatusAndDecryptCommandsIfAnySMS:
+	USING	0
+			; SOURCE LINE # 411
+; {
+			; SOURCE LINE # 412
+; 	uchTempVariable = uchfnCheckInboxStatus();
+			; SOURCE LINE # 413
+	LCALL	uchfnCheckInboxStatus
+	MOV  	DPTR,#uchTempVariable
+; 		
+; 		fnModuleSelect(SELECT_PC_ON_UART);	
+			; SOURCE LINE # 415
+	LCALL	L?0054
+; 				 
+; 		switch(uchTempVariable)
+			; SOURCE LINE # 417
+	MOVX 	A,@DPTR
+	DEC  	A
+	JZ   	?C0042
+	ADD  	A,#0FEH
+	JNZ  	$ + 5H
+	LJMP 	?C0043
+	ADD  	A,#03H
+	JZ   	$ + 5H
+	LJMP 	?C0044
+; 		{
+			; SOURCE LINE # 418
+; 			case NEWMESSAGE:
+			; SOURCE LINE # 419
+?C0041:
+; 				printf("\nNEW Message Present in INBOX");	
+			; SOURCE LINE # 420
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_968)
+	MOV  	R1,#LOW (?SC_968)
+	LCALL	_printf
+; 				fnExtractPhoneNoAndMessage();
+			; SOURCE LINE # 421
+	LCALL	fnExtractPhoneNoAndMessage
+; 				printf("\nPhone Number = %s\n", guchphonenumberpacket);	
+			; SOURCE LINE # 422
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchphonenumberpacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchphonenumberpacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_998)
+	MOV  	R1,#LOW (?SC_998)
+	LCALL	_printf
+; 				printf("\nMessage = %s\n", guchmessagepacket);
+			; SOURCE LINE # 423
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchmessagepacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchmessagepacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_1018)
+	MOV  	R1,#LOW (?SC_1018)
+	LCALL	_printf
+; 				fnDecryptCommandsInSMS();
+			; SOURCE LINE # 424
+	LCALL	fnDecryptCommandsInSMS
+; 				break;
+			; SOURCE LINE # 425
+	SJMP 	?C0040
+; 			case NONEWMESSAGE:
+			; SOURCE LINE # 426
+?C0042:
+; 				printf("\nNO new message in inbox");	
+			; SOURCE LINE # 427
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_1033)
+	MOV  	R1,#LOW (?SC_1033)
+	LCALL	_printf
+; 				fnExtractPhoneNoAndMessage();
+			; SOURCE LINE # 428
+	LCALL	fnExtractPhoneNoAndMessage
+; 				printf("\nPhone Number = %s\n", guchphonenumberpacket);	
+			; SOURCE LINE # 429
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchphonenumberpacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchphonenumberpacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_998)
+	MOV  	R1,#LOW (?SC_998)
+	LCALL	_printf
+; 				printf("\nMessage = %s\n", guchmessagepacket);
+			; SOURCE LINE # 430
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchmessagepacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchmessagepacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_1018)
+	MOV  	R1,#LOW (?SC_1018)
+; 				break; 
+			; SOURCE LINE # 431
+	SJMP 	?C0053
+; 			case INBOXEMPTY:
+			; SOURCE LINE # 432
+?C0043:
+; 				printf("\nINBOX EMPTY\n");	
+			; SOURCE LINE # 433
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_1058)
+	MOV  	R1,#LOW (?SC_1058)
+?C0052:
+; 				break; 
+			; SOURCE LINE # 434
+	SJMP 	?C0053
+; 		   	default:
+			; SOURCE LINE # 435
+?C0044:
+; 				printf("\nERROR Reading Status");	
+			; SOURCE LINE # 436
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_1072)
+	MOV  	R1,#LOW (?SC_1072)
+?C0053:
+	LCALL	_printf
+; 				break; 								
+			; SOURCE LINE # 437
+; 		}
+			; SOURCE LINE # 438
+?C0040:
+; 		printf("\nInbox Status Checked and Message Decoded if any present\n");	
+			; SOURCE LINE # 439
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_1094)
+	MOV  	R1,#LOW (?SC_1094)
+	LCALL	_printf
+; 		RI=0;
+			; SOURCE LINE # 440
+	CLR  	RI
+; 		RI=0;
+			; SOURCE LINE # 441
+	CLR  	RI
+; 	
+; 		fnDeleteAllMessages();
+			; SOURCE LINE # 443
+	LCALL	fnDeleteAllMessages
+; 		fnModuleSelect(SELECT_PC_ON_UART);
+			; SOURCE LINE # 444
+	MOV  	R7,#03H
+	LCALL	_fnModuleSelect
+; 		printf("\nAll Messages Deleted\n"); 
+			; SOURCE LINE # 445
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_1152)
+	MOV  	R1,#LOW (?SC_1152)
+	LJMP 	_printf
+; END OF fnToCheckInboxStatusAndDecryptCommandsIfAnySMS
+
+;  	
+;  }
+; 
+;  void fnDecryptCommandsInSMS(void)
+
+	RSEG  ?PR?fnDecryptCommandsInSMS?PROJECTMAIN
+fnDecryptCommandsInSMS:
+	USING	0
+			; SOURCE LINE # 449
+; {
+			; SOURCE LINE # 450
+; 	if(strstr(guchmessagepacket,"1234"))
+			; SOURCE LINE # 451
+	MOV  	DPTR,#?_strstr?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_1175)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_1175)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchmessagepacket)
+	MOV  	R1,#LOW (guchmessagepacket)
+	LCALL	_strstr
+	MOV  	A,R2
+	ORL  	A,R1
+	ORL  	A,R3
+	JNZ  	$ + 5H
+	LJMP 	?C0048
+; 	{																
+			; SOURCE LINE # 452
+; 		if(strstr(guchmessagepacket,"STATUS"))
+			; SOURCE LINE # 453
+	MOV  	DPTR,#?_strstr?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_1180)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_1180)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchmessagepacket)
+	MOV  	R1,#LOW (guchmessagepacket)
+	LCALL	_strstr
+	MOV  	A,R2
+	ORL  	A,R1
+	ORL  	A,R3
+	JNZ  	$ + 5H
+	LJMP 	?C0048
+; 		{
+			; SOURCE LINE # 454
+; 			strcpy(guchGSMPhoneNumber,guchphonenumberpacket);
+			; SOURCE LINE # 455
+	MOV  	R0,#LOW (guchGSMPhoneNumber)
+	MOV  	R4,#HIGH (guchGSMPhoneNumber)
+	MOV  	R5,#01H
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchphonenumberpacket)
+	MOV  	R1,#LOW (guchphonenumberpacket)
+	LCALL	?C?STRCPY
+; 			strcpy(guchCompleteGSMDataPacket,"CAUTION:STATUS: YOUR VEHICLE no 111 ");
+			; SOURCE LINE # 456
+	MOV  	R0,#LOW (guchCompleteGSMDataPacket)
+	MOV  	R4,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R5,#01H
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_1187)
+	MOV  	R1,#LOW (?SC_1187)
+	LCALL	?C?STRCPY
+; 			strcat(guchCompleteGSMDataPacket, uchBuff);
+			; SOURCE LINE # 457
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (uchBuff)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (uchBuff)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+; 			strcat(guchCompleteGSMDataPacket, " IT'S CORDINATES ARE @");
+			; SOURCE LINE # 458
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_1224)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_1224)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+; 			strcat(guchCompleteGSMDataPacket, guchLatitude);
+			; SOURCE LINE # 459
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchLatitude)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchLatitude)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+; 			strcat(guchCompleteGSMDataPacket,"N ");
+			; SOURCE LINE # 460
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_683)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_683)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+; 			strcat(guchCompleteGSMDataPacket, guchLongitude);
+			; SOURCE LINE # 461
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchLongitude)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchLongitude)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+; 			strcat(guchCompleteGSMDataPacket,"E");
+			; SOURCE LINE # 462
+	MOV  	DPTR,#?_strcat?BYTE+03H
+	MOV  	A,#0FFH
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (?SC_686)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (?SC_686)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteGSMDataPacket)
+	MOV  	R1,#LOW (guchCompleteGSMDataPacket)
+	LCALL	_strcat
+; 			fnGSMSendMessage(guchGSMPhoneNumber,guchCompleteGSMDataPacket);	
+			; SOURCE LINE # 463
+	MOV  	DPTR,#?_fnGSMSendMessage?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchGSMPhoneNumber)
+	MOV  	R1,#LOW (guchGSMPhoneNumber)
+	LCALL	_fnGSMSendMessage
+; 
+; 			fnModuleSelect(SELECT_PC_ON_UART);
+			; SOURCE LINE # 465
+	MOV  	R7,#03H
+	LCALL	_fnModuleSelect
+; 			printf("\n Message Sent with this Body \n");
+			; SOURCE LINE # 466
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_1247)
+	MOV  	R1,#LOW (?SC_1247)
+	LCALL	_printf
+; 			printf("%s\n", guchCompleteGSMDataPacket);		
+			; SOURCE LINE # 467
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (guchCompleteGSMDataPacket)
+	MOVX 	@DPTR,A
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_1279)
+	MOV  	R1,#LOW (?SC_1279)
+	LCALL	_printf
+; 		
+; 		}
+			; SOURCE LINE # 469
+; 	}
+			; SOURCE LINE # 470
+; }			; SOURCE LINE # 471
+?C0048:
+	RET  	
+; END OF fnDecryptCommandsInSMS
+
+	END

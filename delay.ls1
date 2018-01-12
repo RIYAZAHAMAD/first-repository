@@ -1,0 +1,566 @@
+A51 MACRO ASSEMBLER  DELAY                                                                04/01/2013 22:01:18 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02
+OBJECT MODULE PLACED IN delay.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE delay.src PR(.\delay.ls1) EP DEBUG
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ; .\delay.SRC generated from: delay.c
+                       2     ; COMPILER INVOKED BY:
+                       3     ;        C:\Keil\C51\BIN\C51.EXE delay.c LARGE BROWSE DEBUG OBJECTEXTEND SRC(.\delay.SRC)
+                       4     
+                       5     $nomod51 
+                       6     
+                       7     NAME    DELAY
+                       8     
+  0080                 9     P0      DATA    080H
+  0090                10     P1      DATA    090H
+  00A0                11     P2      DATA    0A0H
+  00B0                12     P3      DATA    0B0H
+  00B4                13     T0      BIT     0B0H.4
+  00D6                14     AC      BIT     0D0H.6
+  00B5                15     T1      BIT     0B0H.5
+  00AF                16     EA      BIT     0A8H.7
+  00A8                17     IE      DATA    0A8H
+  00B7                18     RD      BIT     0B0H.7
+  00AC                19     ES      BIT     0A8H.4
+  00B8                20     IP      DATA    0B8H
+  0098                21     RI      BIT     098H.0
+  00B2                22     INT0    BIT     0B0H.2
+  00D7                23     CY      BIT     0D0H.7
+  0099                24     TI      BIT     098H.1
+  00B3                25     INT1    BIT     0B0H.3
+  00BC                26     PS      BIT     0B8H.4
+  0081                27     SP      DATA    081H
+  00D2                28     OV      BIT     0D0H.2
+  00B6                29     WR      BIT     0B0H.6
+  0099                30     SBUF    DATA    099H
+  0087                31     PCON    DATA    087H
+  0098                32     SCON    DATA    098H
+  0089                33     TMOD    DATA    089H
+  0088                34     TCON    DATA    088H
+  0089                35     IE0     BIT     088H.1
+  008B                36     IE1     BIT     088H.3
+  00F0                37     B       DATA    0F0H
+  00E0                38     ACC     DATA    0E0H
+  00A9                39     ET0     BIT     0A8H.1
+  00AB                40     ET1     BIT     0A8H.3
+  008D                41     TF0     BIT     088H.5
+  008F                42     TF1     BIT     088H.7
+  009A                43     RB8     BIT     098H.2
+  008C                44     TH0     DATA    08CH
+  00A8                45     EX0     BIT     0A8H.0
+  0088                46     IT0     BIT     088H.0
+  008D                47     TH1     DATA    08DH
+  009B                48     TB8     BIT     098H.3
+  00AA                49     EX1     BIT     0A8H.2
+  008A                50     IT1     BIT     088H.2
+  00D0                51     P       BIT     0D0H.0
+  009F                52     SM0     BIT     098H.7
+  008A                53     TL0     DATA    08AH
+  009E                54     SM1     BIT     098H.6
+  008B                55     TL1     DATA    08BH
+  009D                56     SM2     BIT     098H.5
+  00B9                57     PT0     BIT     0B8H.1
+  00BB                58     PT1     BIT     0B8H.3
+A51 MACRO ASSEMBLER  DELAY                                                                04/01/2013 22:01:18 PAGE     2
+
+  00D3                59     RS0     BIT     0D0H.3
+  008C                60     TR0     BIT     088H.4
+  00D4                61     RS1     BIT     0D0H.4
+  008E                62     TR1     BIT     088H.6
+  00B8                63     PX0     BIT     0B8H.0
+  00BA                64     PX1     BIT     0B8H.2
+  0083                65     DPH     DATA    083H
+  0082                66     DPL     DATA    082H
+  009C                67     REN     BIT     098H.4
+  00B0                68     RXD     BIT     0B0H.0
+  00B1                69     TXD     BIT     0B0H.1
+  00D5                70     F0      BIT     0D0H.5
+  00D0                71     PSW     DATA    0D0H
+                      72     ?PR?_delay_16us?DELAY                    SEGMENT CODE 
+                      73     ?PR?_delay_ms?DELAY  SEGMENT CODE 
+                      74     ?PR?_delay_100us?DELAY                   SEGMENT CODE 
+                      75     ?PR?_delay_in_ms?DELAY                   SEGMENT CODE 
+                      76     ?XD?_delay_in_ms?DELAY                   SEGMENT XDATA OVERLAYABLE 
+                      77     ?PR?_delay_in_half_seconds?DELAY         SEGMENT CODE 
+                      78     ?XD?_delay_in_half_seconds?DELAY         SEGMENT XDATA OVERLAYABLE 
+                      79     ?PR?_delay_in_seconds?DELAY              SEGMENT CODE 
+                      80     ?XD?_delay_in_seconds?DELAY              SEGMENT XDATA OVERLAYABLE 
+                      81             PUBLIC  _delay_in_seconds
+                      82             PUBLIC  _delay_in_half_seconds
+                      83             PUBLIC  _delay_in_ms
+                      84             PUBLIC  _delay_100us
+                      85             PUBLIC  _delay_ms
+                      86             PUBLIC  _delay_16us
+                      87     
+----                  88             RSEG  ?XD?_delay_in_ms?DELAY
+0000                  89     ?_delay_in_ms?BYTE:
+0000                  90       uch_Count?346:   DS   1
+0001                  91             ORG  1
+0001                  92               i?347:   DS   2
+                      93     
+----                  94             RSEG  ?XD?_delay_in_half_seconds?DELAY
+0000                  95     ?_delay_in_half_seconds?BYTE:
+0000                  96       uch_Count?448:   DS   1
+0001                  97             ORG  1
+0001                  98               i?449:   DS   2
+                      99     
+----                 100             RSEG  ?XD?_delay_in_seconds?DELAY
+0000                 101     ?_delay_in_seconds?BYTE:
+0000                 102       uch_Count?550:   DS   1
+0001                 103             ORG  1
+0001                 104               i?551:   DS   2
+                     105     ; /*
+                     106     ; delay.c
+                     107     ; */
+                     108     ; 
+                     109     ; #include <reg51.h>
+                     110     ; 
+                     111     ; #include "delay.h"
+                     112     ; 
+                     113     ; 
+                     114     ; 
+                     115     ; 
+                     116     ; void delay_16us(unsigned int j)
+                     117     
+----                 118             RSEG  ?PR?_delay_16us?DELAY
+0000                 119     _delay_16us:
+                     120             USING   0
+                     121                             ; SOURCE LINE # 12
+                     122     ;---- Variable 'j?040' assigned to Register 'R6/R7' ----
+                     123     ; { 
+                     124                             ; SOURCE LINE # 13
+A51 MACRO ASSEMBLER  DELAY                                                                04/01/2013 22:01:18 PAGE     3
+
+                     125     ;   unsigned int i;
+                     126     ;   for(i=0;i<j;i++);
+                     127                             ; SOURCE LINE # 15
+                     128     ;---- Variable 'i?041' assigned to Register 'R4/R5' ----
+0000 E4              129             CLR     A
+0001 FD              130             MOV     R5,A
+0002 FC              131             MOV     R4,A
+0003                 132     ?C0001:
+0003 C3              133             CLR     C
+0004 ED              134             MOV     A,R5
+0005 9F              135             SUBB    A,R7
+0006 EC              136             MOV     A,R4
+0007 9E              137             SUBB    A,R6
+0008 5007            138             JNC     ?C0004
+000A 0D              139             INC     R5
+000B BD0001          140             CJNE    R5,#00H,?C0025
+000E 0C              141             INC     R4
+000F                 142     ?C0025:
+000F 80F2            143             SJMP    ?C0001
+                     144     ; }
+                     145                             ; SOURCE LINE # 16
+0011                 146     ?C0004:
+0011 22              147             RET     
+                     148     ; END OF _delay_16us
+                     149     
+                     150     ; 
+                     151     ; void delay_ms(unsigned int j)
+                     152     
+----                 153             RSEG  ?PR?_delay_ms?DELAY
+0000                 154     _delay_ms:
+                     155             USING   0
+                     156                             ; SOURCE LINE # 18
+                     157     ;---- Variable 'j?142' assigned to Register 'R2/R3' ----
+0000 AB07            158             MOV     R3,AR7
+0002 AA06            159             MOV     R2,AR6
+                     160     ; {
+                     161                             ; SOURCE LINE # 19
+                     162     ; unsigned int i;
+                     163     ; for(i=0;i<j;i++)
+                     164                             ; SOURCE LINE # 21
+                     165     ;---- Variable 'i?143' assigned to Register 'DPTR' ----
+0004 900000          166             MOV     DPTR,#00H
+0007                 167     ?C0005:
+0007 C3              168             CLR     C
+0008 E582            169             MOV     A,DPL
+000A 9B              170             SUBB    A,R3
+000B E583            171             MOV     A,DPH
+000D 9A              172             SUBB    A,R2
+000E 500A            173             JNC     ?C0008
+                     174     ; delay_16us(60);
+                     175                             ; SOURCE LINE # 22
+0010 7F3C            176             MOV     R7,#03CH
+0012 7E00            177             MOV     R6,#00H
+0014 120000   F      178             LCALL   _delay_16us
+0017 A3              179             INC     DPTR
+0018 80ED            180             SJMP    ?C0005
+                     181     ; }
+                     182                             ; SOURCE LINE # 23
+001A                 183     ?C0008:
+001A 22              184             RET     
+                     185     ; END OF _delay_ms
+                     186     
+                     187     ; 
+                     188     ; void delay_100us(unsigned char uch_Count)
+                     189     
+----                 190             RSEG  ?PR?_delay_100us?DELAY
+A51 MACRO ASSEMBLER  DELAY                                                                04/01/2013 22:01:18 PAGE     4
+
+0000                 191     _delay_100us:
+                     192             USING   0
+                     193                             ; SOURCE LINE # 25
+                     194     ;---- Variable 'uch_Count?244' assigned to Register 'R7' ----
+                     195     ; {
+                     196                             ; SOURCE LINE # 26
+                     197     ;     unsigned int i;
+                     198     ;     for(i=0;i<uch_Count;i++)
+                     199                             ; SOURCE LINE # 28
+                     200     ;---- Variable 'i?245' assigned to Register 'R4/R5' ----
+0000 E4              201             CLR     A
+0001 FD              202             MOV     R5,A
+0002 FC              203             MOV     R4,A
+0003                 204     ?C0009:
+0003 EF              205             MOV     A,R7
+0004 FB              206             MOV     R3,A
+0005 C3              207             CLR     C
+0006 ED              208             MOV     A,R5
+0007 9B              209             SUBB    A,R3
+0008 EC              210             MOV     A,R4
+0009 9400            211             SUBB    A,#00H
+000B 5007            212             JNC     ?C0012
+                     213     ;     {  
+                     214                             ; SOURCE LINE # 29
+                     215     ;     }
+                     216                             ; SOURCE LINE # 30
+000D 0D              217             INC     R5
+000E BD0001          218             CJNE    R5,#00H,?C0026
+0011 0C              219             INC     R4
+0012                 220     ?C0026:
+0012 80EF            221             SJMP    ?C0009
+                     222     ; }
+                     223                             ; SOURCE LINE # 31
+0014                 224     ?C0012:
+0014 22              225             RET     
+                     226     ; END OF _delay_100us
+                     227     
+                     228     ; 
+                     229     ; void delay_in_ms(unsigned char uch_Count)
+                     230     
+----                 231             RSEG  ?PR?_delay_in_ms?DELAY
+0000                 232     _delay_in_ms:
+                     233             USING   0
+                     234                             ; SOURCE LINE # 33
+0000 900000   F      235             MOV     DPTR,#uch_Count?346
+0003 EF              236             MOV     A,R7
+0004 F0              237             MOVX    @DPTR,A
+                     238     ; {
+                     239                             ; SOURCE LINE # 34
+                     240     ;     unsigned int i;
+                     241     ;     for(i=0;i<uch_Count;i++)
+                     242                             ; SOURCE LINE # 36
+0005 E4              243             CLR     A
+0006 A3              244             INC     DPTR
+0007 F0              245             MOVX    @DPTR,A
+0008 A3              246             INC     DPTR
+0009 F0              247             MOVX    @DPTR,A
+000A                 248     ?C0013:
+000A 900000   F      249             MOV     DPTR,#uch_Count?346
+000D E0              250             MOVX    A,@DPTR
+000E FF              251             MOV     R7,A
+000F C3              252             CLR     C
+0010 900000   F      253             MOV     DPTR,#i?347+01H
+0013 E0              254             MOVX    A,@DPTR
+0014 9F              255             SUBB    A,R7
+0015 900000   F      256             MOV     DPTR,#i?347
+A51 MACRO ASSEMBLER  DELAY                                                                04/01/2013 22:01:18 PAGE     5
+
+0018 E0              257             MOVX    A,@DPTR
+0019 9400            258             SUBB    A,#00H
+001B 5020            259             JNC     ?C0016
+                     260     ;     {
+                     261                             ; SOURCE LINE # 37
+                     262     ;         #pragma asm 
+                     263     ;                             push 06
+001D C006            264               push 06
+                     265     ;                                       push 05
+001F C005            266               push 05
+                     267     ;                                       mov r6,#04h
+0021 7E04            268               mov r6,#04h
+                     269     ;         delay_1ms_2:          mov r5,#68h
+0023 7D68            270               delay_1ms_2:          mov r5,#68h
+                     271     ;         delay_1ms_1:          djnz r5,delay_1ms_1
+0025 DDFE            272               delay_1ms_1:          djnz r5,delay_1ms_1
+                     273     ;                                       djnz r6,delay_1ms_2
+0027 DEFA            274               djnz r6,delay_1ms_2
+                     275     ;                                       pop 05
+0029 D005            276               pop 05
+                     277     ;                                       pop 06
+002B D006            278               pop 06
+                     279     ;        
+                     280               
+                     281     ;         #pragma endasm 
+                     282     ;     }
+                     283                             ; SOURCE LINE # 49
+002D 900000   F      284             MOV     DPTR,#i?347+01H
+0030 E0              285             MOVX    A,@DPTR
+0031 04              286             INC     A
+0032 F0              287             MOVX    @DPTR,A
+0033 70D5            288             JNZ     ?C0013
+0035 900000   F      289             MOV     DPTR,#i?347
+0038 E0              290             MOVX    A,@DPTR
+0039 04              291             INC     A
+003A F0              292             MOVX    @DPTR,A
+003B                 293     ?C0027:
+003B 80CD            294             SJMP    ?C0013
+                     295     ; }
+                     296                             ; SOURCE LINE # 50
+003D                 297     ?C0016:
+003D 22              298             RET     
+                     299     ; END OF _delay_in_ms
+                     300     
+                     301     ; void delay_in_half_seconds(unsigned char uch_Count)
+                     302     
+----                 303             RSEG  ?PR?_delay_in_half_seconds?DELAY
+0000                 304     _delay_in_half_seconds:
+                     305             USING   0
+                     306                             ; SOURCE LINE # 51
+0000 900000   F      307             MOV     DPTR,#uch_Count?448
+0003 EF              308             MOV     A,R7
+0004 F0              309             MOVX    @DPTR,A
+                     310     ; {
+                     311                             ; SOURCE LINE # 52
+                     312     ;     unsigned int i;
+                     313     ;     for(i=0;i<uch_Count;i++)
+                     314                             ; SOURCE LINE # 54
+0005 E4              315             CLR     A
+0006 A3              316             INC     DPTR
+0007 F0              317             MOVX    @DPTR,A
+0008 A3              318             INC     DPTR
+0009 F0              319             MOVX    @DPTR,A
+000A                 320     ?C0017:
+000A 900000   F      321             MOV     DPTR,#uch_Count?448
+000D E0              322             MOVX    A,@DPTR
+A51 MACRO ASSEMBLER  DELAY                                                                04/01/2013 22:01:18 PAGE     6
+
+000E FF              323             MOV     R7,A
+000F C3              324             CLR     C
+0010 900000   F      325             MOV     DPTR,#i?449+01H
+0013 E0              326             MOVX    A,@DPTR
+0014 9F              327             SUBB    A,R7
+0015 900000   F      328             MOV     DPTR,#i?449
+0018 E0              329             MOVX    A,@DPTR
+0019 9400            330             SUBB    A,#00H
+001B 501F            331             JNC     ?C0020
+                     332     ;     {
+                     333                             ; SOURCE LINE # 55
+                     334     ;         delay_in_ms(200); 
+                     335                             ; SOURCE LINE # 56
+001D 7FC8            336             MOV     R7,#0C8H
+001F 120000   F      337             LCALL   _delay_in_ms
+                     338     ;         delay_in_ms(200); 
+                     339                             ; SOURCE LINE # 57
+0022 7FC8            340             MOV     R7,#0C8H
+0024 120000   F      341             LCALL   _delay_in_ms
+                     342     ;         delay_in_ms(133);
+                     343                             ; SOURCE LINE # 58
+0027 7F85            344             MOV     R7,#085H
+0029 120000   F      345             LCALL   _delay_in_ms
+                     346     ;     }
+                     347                             ; SOURCE LINE # 59
+002C 900000   F      348             MOV     DPTR,#i?449+01H
+002F E0              349             MOVX    A,@DPTR
+0030 04              350             INC     A
+0031 F0              351             MOVX    @DPTR,A
+0032 70D6            352             JNZ     ?C0017
+0034 900000   F      353             MOV     DPTR,#i?449
+0037 E0              354             MOVX    A,@DPTR
+0038 04              355             INC     A
+0039 F0              356             MOVX    @DPTR,A
+003A                 357     ?C0028:
+003A 80CE            358             SJMP    ?C0017
+                     359     ; }
+                     360                             ; SOURCE LINE # 60
+003C                 361     ?C0020:
+003C 22              362             RET     
+                     363     ; END OF _delay_in_half_seconds
+                     364     
+                     365     ; void delay_in_seconds(unsigned char uch_Count)
+                     366     
+----                 367             RSEG  ?PR?_delay_in_seconds?DELAY
+0000                 368     _delay_in_seconds:
+                     369             USING   0
+                     370                             ; SOURCE LINE # 61
+0000 900000   F      371             MOV     DPTR,#uch_Count?550
+0003 EF              372             MOV     A,R7
+0004 F0              373             MOVX    @DPTR,A
+                     374     ; {
+                     375                             ; SOURCE LINE # 62
+                     376     ;     unsigned int i;
+                     377     ;     for(i=0;i<uch_Count;i++)
+                     378                             ; SOURCE LINE # 64
+0005 E4              379             CLR     A
+0006 A3              380             INC     DPTR
+0007 F0              381             MOVX    @DPTR,A
+0008 A3              382             INC     DPTR
+0009 F0              383             MOVX    @DPTR,A
+000A                 384     ?C0021:
+000A 900000   F      385             MOV     DPTR,#uch_Count?550
+000D E0              386             MOVX    A,@DPTR
+000E FF              387             MOV     R7,A
+000F C3              388             CLR     C
+A51 MACRO ASSEMBLER  DELAY                                                                04/01/2013 22:01:18 PAGE     7
+
+0010 900000   F      389             MOV     DPTR,#i?551+01H
+0013 E0              390             MOVX    A,@DPTR
+0014 9F              391             SUBB    A,R7
+0015 900000   F      392             MOV     DPTR,#i?551
+0018 E0              393             MOVX    A,@DPTR
+0019 9400            394             SUBB    A,#00H
+001B 5015            395             JNC     ?C0024
+                     396     ;     {
+                     397                             ; SOURCE LINE # 65
+                     398     ;         delay_in_half_seconds(2);;
+                     399                             ; SOURCE LINE # 66
+001D 7F02            400             MOV     R7,#02H
+001F 120000   F      401             LCALL   _delay_in_half_seconds
+                     402     ;     }
+                     403                             ; SOURCE LINE # 67
+0022 900000   F      404             MOV     DPTR,#i?551+01H
+0025 E0              405             MOVX    A,@DPTR
+0026 04              406             INC     A
+0027 F0              407             MOVX    @DPTR,A
+0028 70E0            408             JNZ     ?C0021
+002A 900000   F      409             MOV     DPTR,#i?551
+002D E0              410             MOVX    A,@DPTR
+002E 04              411             INC     A
+002F F0              412             MOVX    @DPTR,A
+0030                 413     ?C0029:
+0030 80D8            414             SJMP    ?C0021
+                     415     ; }                     ; SOURCE LINE # 68
+0032                 416     ?C0024:
+0032 22              417             RET     
+                     418     ; END OF _delay_in_seconds
+                     419     
+                     420             END
+A51 MACRO ASSEMBLER  DELAY                                                                04/01/2013 22:01:18 PAGE     8
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                           T Y P E  V A L U E   ATTRIBUTES
+
+?C0001 . . . . . . . . . . . . .  C ADDR   0003H   R   SEG=?PR?_DELAY_16US?DELAY
+?C0004 . . . . . . . . . . . . .  C ADDR   0011H   R   SEG=?PR?_DELAY_16US?DELAY
+?C0005 . . . . . . . . . . . . .  C ADDR   0007H   R   SEG=?PR?_DELAY_MS?DELAY
+?C0008 . . . . . . . . . . . . .  C ADDR   001AH   R   SEG=?PR?_DELAY_MS?DELAY
+?C0009 . . . . . . . . . . . . .  C ADDR   0003H   R   SEG=?PR?_DELAY_100US?DELAY
+?C0012 . . . . . . . . . . . . .  C ADDR   0014H   R   SEG=?PR?_DELAY_100US?DELAY
+?C0013 . . . . . . . . . . . . .  C ADDR   000AH   R   SEG=?PR?_DELAY_IN_MS?DELAY
+?C0016 . . . . . . . . . . . . .  C ADDR   003DH   R   SEG=?PR?_DELAY_IN_MS?DELAY
+?C0017 . . . . . . . . . . . . .  C ADDR   000AH   R   SEG=?PR?_DELAY_IN_HALF_SECONDS?DELAY
+?C0020 . . . . . . . . . . . . .  C ADDR   003CH   R   SEG=?PR?_DELAY_IN_HALF_SECONDS?DELAY
+?C0021 . . . . . . . . . . . . .  C ADDR   000AH   R   SEG=?PR?_DELAY_IN_SECONDS?DELAY
+?C0024 . . . . . . . . . . . . .  C ADDR   0032H   R   SEG=?PR?_DELAY_IN_SECONDS?DELAY
+?C0025 . . . . . . . . . . . . .  C ADDR   000FH   R   SEG=?PR?_DELAY_16US?DELAY
+?C0026 . . . . . . . . . . . . .  C ADDR   0012H   R   SEG=?PR?_DELAY_100US?DELAY
+?C0027 . . . . . . . . . . . . .  C ADDR   003BH   R   SEG=?PR?_DELAY_IN_MS?DELAY
+?C0028 . . . . . . . . . . . . .  C ADDR   003AH   R   SEG=?PR?_DELAY_IN_HALF_SECONDS?DELAY
+?C0029 . . . . . . . . . . . . .  C ADDR   0030H   R   SEG=?PR?_DELAY_IN_SECONDS?DELAY
+?PR?_DELAY_100US?DELAY . . . . .  C SEG    0015H       REL=UNIT
+?PR?_DELAY_16US?DELAY. . . . . .  C SEG    0012H       REL=UNIT
+?PR?_DELAY_IN_HALF_SECONDS?DELAY  C SEG    003DH       REL=UNIT
+?PR?_DELAY_IN_MS?DELAY . . . . .  C SEG    003EH       REL=UNIT
+?PR?_DELAY_IN_SECONDS?DELAY. . .  C SEG    0033H       REL=UNIT
+?PR?_DELAY_MS?DELAY. . . . . . .  C SEG    001BH       REL=UNIT
+?XD?_DELAY_IN_HALF_SECONDS?DELAY  X SEG    0003H       REL=UNIT
+?XD?_DELAY_IN_MS?DELAY . . . . .  X SEG    0003H       REL=UNIT
+?XD?_DELAY_IN_SECONDS?DELAY. . .  X SEG    0003H       REL=UNIT
+?_DELAY_IN_HALF_SECONDS?BYTE . .  X ADDR   0000H   R   SEG=?XD?_DELAY_IN_HALF_SECONDS?DELAY
+?_DELAY_IN_MS?BYTE . . . . . . .  X ADDR   0000H   R   SEG=?XD?_DELAY_IN_MS?DELAY
+?_DELAY_IN_SECONDS?BYTE. . . . .  X ADDR   0000H   R   SEG=?XD?_DELAY_IN_SECONDS?DELAY
+AC . . . . . . . . . . . . . . .  B ADDR   00D0H.6 A   
+ACC. . . . . . . . . . . . . . .  D ADDR   00E0H   A   
+AR6. . . . . . . . . . . . . . .  D ADDR   0006H   A   
+AR7. . . . . . . . . . . . . . .  D ADDR   0007H   A   
+B. . . . . . . . . . . . . . . .  D ADDR   00F0H   A   
+CY . . . . . . . . . . . . . . .  B ADDR   00D0H.7 A   
+DELAY. . . . . . . . . . . . . .  N NUMB   -----       
+DELAY_1MS_1. . . . . . . . . . .  C ADDR   0025H   R   SEG=?PR?_DELAY_IN_MS?DELAY
+DELAY_1MS_2. . . . . . . . . . .  C ADDR   0023H   R   SEG=?PR?_DELAY_IN_MS?DELAY
+DPH. . . . . . . . . . . . . . .  D ADDR   0083H   A   
+DPL. . . . . . . . . . . . . . .  D ADDR   0082H   A   
+EA . . . . . . . . . . . . . . .  B ADDR   00A8H.7 A   
+ES . . . . . . . . . . . . . . .  B ADDR   00A8H.4 A   
+ET0. . . . . . . . . . . . . . .  B ADDR   00A8H.1 A   
+ET1. . . . . . . . . . . . . . .  B ADDR   00A8H.3 A   
+EX0. . . . . . . . . . . . . . .  B ADDR   00A8H.0 A   
+EX1. . . . . . . . . . . . . . .  B ADDR   00A8H.2 A   
+F0 . . . . . . . . . . . . . . .  B ADDR   00D0H.5 A   
+I?347. . . . . . . . . . . . . .  X ADDR   0001H   R   SEG=?XD?_DELAY_IN_MS?DELAY
+I?449. . . . . . . . . . . . . .  X ADDR   0001H   R   SEG=?XD?_DELAY_IN_HALF_SECONDS?DELAY
+I?551. . . . . . . . . . . . . .  X ADDR   0001H   R   SEG=?XD?_DELAY_IN_SECONDS?DELAY
+IE . . . . . . . . . . . . . . .  D ADDR   00A8H   A   
+IE0. . . . . . . . . . . . . . .  B ADDR   0088H.1 A   
+IE1. . . . . . . . . . . . . . .  B ADDR   0088H.3 A   
+INT0 . . . . . . . . . . . . . .  B ADDR   00B0H.2 A   
+INT1 . . . . . . . . . . . . . .  B ADDR   00B0H.3 A   
+IP . . . . . . . . . . . . . . .  D ADDR   00B8H   A   
+IT0. . . . . . . . . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . . . . . . . . .  B ADDR   0088H.2 A   
+OV . . . . . . . . . . . . . . .  B ADDR   00D0H.2 A   
+P. . . . . . . . . . . . . . . .  B ADDR   00D0H.0 A   
+A51 MACRO ASSEMBLER  DELAY                                                                04/01/2013 22:01:18 PAGE     9
+
+P0 . . . . . . . . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . . . . . . . . .  D ADDR   00B0H   A   
+PCON . . . . . . . . . . . . . .  D ADDR   0087H   A   
+PS . . . . . . . . . . . . . . .  B ADDR   00B8H.4 A   
+PSW. . . . . . . . . . . . . . .  D ADDR   00D0H   A   
+PT0. . . . . . . . . . . . . . .  B ADDR   00B8H.1 A   
+PT1. . . . . . . . . . . . . . .  B ADDR   00B8H.3 A   
+PX0. . . . . . . . . . . . . . .  B ADDR   00B8H.0 A   
+PX1. . . . . . . . . . . . . . .  B ADDR   00B8H.2 A   
+RB8. . . . . . . . . . . . . . .  B ADDR   0098H.2 A   
+RD . . . . . . . . . . . . . . .  B ADDR   00B0H.7 A   
+REN. . . . . . . . . . . . . . .  B ADDR   0098H.4 A   
+RI . . . . . . . . . . . . . . .  B ADDR   0098H.0 A   
+RS0. . . . . . . . . . . . . . .  B ADDR   00D0H.3 A   
+RS1. . . . . . . . . . . . . . .  B ADDR   00D0H.4 A   
+RXD. . . . . . . . . . . . . . .  B ADDR   00B0H.0 A   
+SBUF . . . . . . . . . . . . . .  D ADDR   0099H   A   
+SCON . . . . . . . . . . . . . .  D ADDR   0098H   A   
+SM0. . . . . . . . . . . . . . .  B ADDR   0098H.7 A   
+SM1. . . . . . . . . . . . . . .  B ADDR   0098H.6 A   
+SM2. . . . . . . . . . . . . . .  B ADDR   0098H.5 A   
+SP . . . . . . . . . . . . . . .  D ADDR   0081H   A   
+T0 . . . . . . . . . . . . . . .  B ADDR   00B0H.4 A   
+T1 . . . . . . . . . . . . . . .  B ADDR   00B0H.5 A   
+TB8. . . . . . . . . . . . . . .  B ADDR   0098H.3 A   
+TCON . . . . . . . . . . . . . .  D ADDR   0088H   A   
+TF0. . . . . . . . . . . . . . .  B ADDR   0088H.5 A   
+TF1. . . . . . . . . . . . . . .  B ADDR   0088H.7 A   
+TH0. . . . . . . . . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . . . . . . . . .  D ADDR   008DH   A   
+TI . . . . . . . . . . . . . . .  B ADDR   0098H.1 A   
+TL0. . . . . . . . . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . . . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . . . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . . . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . . . . . . . . .  B ADDR   0088H.6 A   
+TXD. . . . . . . . . . . . . . .  B ADDR   00B0H.1 A   
+UCH_COUNT?346. . . . . . . . . .  X ADDR   0000H   R   SEG=?XD?_DELAY_IN_MS?DELAY
+UCH_COUNT?448. . . . . . . . . .  X ADDR   0000H   R   SEG=?XD?_DELAY_IN_HALF_SECONDS?DELAY
+UCH_COUNT?550. . . . . . . . . .  X ADDR   0000H   R   SEG=?XD?_DELAY_IN_SECONDS?DELAY
+WR . . . . . . . . . . . . . . .  B ADDR   00B0H.6 A   
+_DELAY_100US . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?_DELAY_100US?DELAY
+_DELAY_16US. . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?_DELAY_16US?DELAY
+_DELAY_IN_HALF_SECONDS . . . . .  C ADDR   0000H   R   SEG=?PR?_DELAY_IN_HALF_SECONDS?DELAY
+_DELAY_IN_MS . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?_DELAY_IN_MS?DELAY
+_DELAY_IN_SECONDS. . . . . . . .  C ADDR   0000H   R   SEG=?PR?_DELAY_IN_SECONDS?DELAY
+_DELAY_MS. . . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?_DELAY_MS?DELAY
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,93 @@
+C51 COMPILER V9.02   DELAY                                                                 04/01/2013 22:01:18 PAGE 1   
+
+
+C51 COMPILER V9.02, COMPILATION OF MODULE DELAY
+NO OBJECT MODULE REQUESTED
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE delay.c LARGE BROWSE DEBUG OBJECTEXTEND SRC(.\delay.SRC)
+
+line level    source
+
+   1          /*
+   2          delay.c
+   3          */
+   4          
+   5          #include <reg51.h>
+   6          
+   7          #include "delay.h"
+   8          
+   9          
+  10          
+  11          
+  12          void delay_16us(unsigned int j)
+  13          { 
+  14   1        unsigned int i;
+  15   1        for(i=0;i<j;i++);
+  16   1      }
+  17          
+  18          void delay_ms(unsigned int j)
+  19          {
+  20   1      unsigned int i;
+  21   1      for(i=0;i<j;i++)
+  22   1      delay_16us(60);
+  23   1      }
+  24          
+  25          void delay_100us(unsigned char uch_Count)
+  26          {
+  27   1          unsigned int i;
+  28   1          for(i=0;i<uch_Count;i++)
+  29   1          {  
+  30   2          }
+  31   1      }
+  32          
+  33          void delay_in_ms(unsigned char uch_Count)
+  34          {
+  35   1          unsigned int i;
+  36   1          for(i=0;i<uch_Count;i++)
+  37   1          {
+  38   2              #pragma asm 
+  39   2                                  push 06
+  40   2                                              push 05
+  41   2                                              mov r6,#04h
+  42   2              delay_1ms_2:            mov r5,#68h
+  43   2              delay_1ms_1:            djnz r5,delay_1ms_1
+  44   2                                              djnz r6,delay_1ms_2
+  45   2                                              pop 05
+  46   2                                              pop 06
+  47   2             
+  48   2              #pragma endasm 
+  49   2          }
+  50   1      }
+  51          void delay_in_half_seconds(unsigned char uch_Count)
+  52          {
+  53   1          unsigned int i;
+  54   1          for(i=0;i<uch_Count;i++)
+  55   1          {
+C51 COMPILER V9.02   DELAY                                                                 04/01/2013 22:01:18 PAGE 2   
+
+  56   2              delay_in_ms(200); 
+  57   2              delay_in_ms(200); 
+  58   2              delay_in_ms(133);
+  59   2          }
+  60   1      }
+  61          void delay_in_seconds(unsigned char uch_Count)
+  62          {
+  63   1          unsigned int i;
+  64   1          for(i=0;i<uch_Count;i++)
+  65   1          {
+  66   2              delay_in_half_seconds(2);;
+  67   2          }
+  68   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    251    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----       9
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

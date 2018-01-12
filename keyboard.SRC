@@ -1,0 +1,840 @@
+; .\keyboard.SRC generated from: keyboard.c
+; COMPILER INVOKED BY:
+;        C:\Keil\C51\BIN\C51.EXE keyboard.c LARGE BROWSE DEBUG OBJECTEXTEND SRC(.\keyboard.SRC)
+
+$NOMOD51
+
+NAME	KEYBOARD
+
+ModuleSelect0	BIT	0B0H.7
+ModuleSelect1	BIT	0B0H.6
+P0	DATA	080H
+P1	DATA	090H
+P2	DATA	0A0H
+P3	DATA	0B0H
+T0	BIT	0B0H.4
+AC	BIT	0D0H.6
+T1	BIT	0B0H.5
+EA	BIT	0A8H.7
+IE	DATA	0A8H
+RD	BIT	0B0H.7
+ES	BIT	0A8H.4
+IP	DATA	0B8H
+RI	BIT	098H.0
+INT0	BIT	0B0H.2
+CY	BIT	0D0H.7
+TI	BIT	098H.1
+INT1	BIT	0B0H.3
+Keyboard_key_10	BIT	080H.6
+PS	BIT	0B8H.4
+SP	DATA	081H
+Keyboard_key_11	BIT	080H.5
+Keyboard_key_12	BIT	080H.4
+OV	BIT	0D0H.2
+WR	BIT	0B0H.6
+lcd_d5	BIT	090H.5
+Buzzer_pin	BIT	080H.0
+lcd_d6	BIT	090H.6
+SBUF	DATA	099H
+PCON	DATA	087H
+SCON	DATA	098H
+TMOD	DATA	089H
+TCON	DATA	088H
+RS_lcd	BIT	090H.2
+IE0	BIT	088H.1
+IE1	BIT	088H.3
+B	DATA	0F0H
+EM_lock_pin	BIT	080H.3
+ACC	DATA	0E0H
+ET0	BIT	0A8H.1
+ET1	BIT	0A8H.3
+TF0	BIT	088H.5
+TF1	BIT	088H.7
+RB8	BIT	098H.2
+TH0	DATA	08CH
+EX0	BIT	0A8H.0
+IT0	BIT	088H.0
+TH1	DATA	08DH
+TB8	BIT	098H.3
+EX1	BIT	0A8H.2
+IT1	BIT	088H.2
+P	BIT	0D0H.0
+lcd_d4_lsb	BIT	090H.4
+SM0	BIT	098H.7
+TL0	DATA	08AH
+SM1	BIT	098H.6
+TL1	DATA	08BH
+SM2	BIT	098H.5
+lcd_d7_msb	BIT	090H.7
+PT0	BIT	0B8H.1
+PT1	BIT	0B8H.3
+RS0	BIT	0D0H.3
+TR0	BIT	088H.4
+RS1	BIT	0D0H.4
+TR1	BIT	088H.6
+PX0	BIT	0B8H.0
+PX1	BIT	0B8H.2
+DPH	DATA	083H
+Enable_lcd	BIT	090H.3
+DPL	DATA	082H
+REN	BIT	098H.4
+RXD	BIT	0B0H.0
+TXD	BIT	0B0H.1
+Keyboard_key_1	BIT	0A0H.0
+Keyboard_key_2	BIT	0A0H.1
+Keyboard_key_3	BIT	0A0H.2
+Keyboard_key_4	BIT	0A0H.3
+F0	BIT	0D0H.5
+Keyboard_key_5	BIT	0A0H.4
+Keyboard_key_6	BIT	0A0H.5
+Keyboard_key_7	BIT	0A0H.6
+Keyboard_key_8	BIT	0A0H.7
+Keyboard_key_9	BIT	080H.7
+PSW	DATA	0D0H
+EM_lock_enabe_button	BIT	080H.2
+?PR?_fn_keyboard_12x1for_password?KEYBOARD SEGMENT CODE 
+?XD?_fn_keyboard_12x1for_password?KEYBOARD SEGMENT XDATA OVERLAYABLE 
+?PR?chfn_keyboard_12x1?KEYBOARD          SEGMENT CODE 
+?CO?KEYBOARD         SEGMENT CODE 
+?C_INITSEG           SEGMENT CODE 
+?XD?KEYBOARD         SEGMENT XDATA 
+	EXTRN	CODE (_delay_in_ms)
+	EXTRN	CODE (_printf)
+	EXTRN	XDATA (?_printf?BYTE)
+	EXTRN	CODE (_fn_Display_String_LCD)
+	EXTRN	CODE (_fnModuleSelect)
+	EXTRN	CODE (_fn_lcd_select_line_and_location)
+	PUBLIC	Keypad
+	PUBLIC	password_length
+	PUBLIC	key_pressed
+	PUBLIC	Keyboard_key_no
+	PUBLIC	length
+	PUBLIC	chfn_keyboard_12x1
+	PUBLIC	_fn_keyboard_12x1for_password
+
+	RSEG  ?XD?_fn_keyboard_12x1for_password?KEYBOARD
+?_fn_keyboard_12x1for_password?BYTE:
+password_length?040:   DS   1
+
+	RSEG  ?XD?KEYBOARD
+         length:   DS   1
+Keyboard_key_no:   DS   1
+    key_pressed:   DS   7
+password_length:   DS   1
+         Keypad:   DS   12
+
+	RSEG  ?CO?KEYBOARD
+?SC_0:
+	DB  ' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' 
+	DB  ' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,000H
+
+?SC_18:
+	DB  ' ' ,'E' ,'n' ,'t' ,'e' ,'r' ,' ' ,'p' ,'a' ,'s' 
+	DB  's' ,'w' ,'o' ,'r' ,'d' ,000H
+
+?SC_34:
+	DB  '*' ,000H
+
+?SC_36:
+	DB  00AH,'k' ,'e' ,'y' ,' ' ,'p' ,'r' ,'e' ,'s' ,'s' 
+	DB  'e' ,'d' ,' ' ,'i' ,'s' ,'=' ,' ' ,'%' ,'C' ,00AH
+	DB  000H
+
+?SC_57:
+	DB  '%' ,'C' ,000H
+
+
+	RSEG  ?C_INITSEG
+	DB	04CH
+	DW	Keypad
+	DB	031H
+	DB	032H
+	DB	033H
+	DB	034H
+	DB	035H
+	DB	036H
+	DB	037H
+	DB	038H
+	DB	039H
+	DB	02AH
+	DB	030H
+	DB	023H
+
+; /*
+; 		File name				:	keyboard.c
+; 		Discription				:	12x1 keyboard
+; 		Date of creation		:	4-11-2011
+; 		Author					:	Arjun Singh
+; 		Code last update on		:
+; 		Code last updated by	:	Arjun Singh
+; 
+; */
+; 
+; 
+; 
+; #include <reg51.h>
+; #include <stdio.h>
+; #include <string.h>
+; #include <stdlib.h>
+; #include "keyboard.h"
+; #include "delay.h"
+; #include "pinallocation.h"
+; #include "ProjectMain.h"
+; #include "LCD.h"
+; 
+; 
+; unsigned char	Keypad[12]= 	{'1','2','3','4','5','6','7','8','9','*','0','#'};
+; unsigned char  Keyboard_key_no;
+; unsigned char password_length ;
+; //char string_passwd[]={123456};
+; unsigned char key_pressed[7];
+; 
+; unsigned char length ;
+; //int passwordvalue;
+; //unsigned char key_pressed[6];
+; //unsigned char pointer_key_pressed[];
+; 
+; 
+; 
+; 
+; 
+; void fn_keyboard_12x1for_password(unsigned char password_length)
+
+	RSEG  ?PR?_fn_keyboard_12x1for_password?KEYBOARD
+_fn_keyboard_12x1for_password:
+	USING	0
+			; SOURCE LINE # 39
+	MOV  	DPTR,#password_length?040
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; {
+			; SOURCE LINE # 40
+; 		fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+			; SOURCE LINE # 41
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#01H
+	LCALL	_fn_lcd_select_line_and_location
+;   		fn_Display_String_LCD("                 ");
+			; SOURCE LINE # 42
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_0)
+	MOV  	R1,#LOW (?SC_0)
+	LCALL	_fn_Display_String_LCD
+; 		fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+			; SOURCE LINE # 43
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#02H
+	LCALL	_fn_lcd_select_line_and_location
+;   		fn_Display_String_LCD("                 ");
+			; SOURCE LINE # 44
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_0)
+	MOV  	R1,#LOW (?SC_0)
+	LCALL	_fn_Display_String_LCD
+; 		fnModuleSelect(SELECT_PC_ON_UART);
+			; SOURCE LINE # 45
+	MOV  	R7,#03H
+	LCALL	_fnModuleSelect
+; 		//delay_in_seconds(1);
+;     
+; 	for(length=0;length<password_length;length++)
+			; SOURCE LINE # 48
+	CLR  	A
+	MOV  	DPTR,#length
+	MOVX 	@DPTR,A
+?C0001:
+	MOV  	DPTR,#password_length?040
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	DPTR,#length
+	MOVX 	A,@DPTR
+	CLR  	C
+	SUBB 	A,R7
+	JNC  	?C0002
+; 	{
+			; SOURCE LINE # 49
+; 		fn_lcd_select_line_and_location(LCD_LINE_1,LOCATION_0);
+			; SOURCE LINE # 50
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,#01H
+	LCALL	_fn_lcd_select_line_and_location
+;   		fn_Display_String_LCD(" Enter password");
+			; SOURCE LINE # 51
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_18)
+	MOV  	R1,#LOW (?SC_18)
+	LCALL	_fn_Display_String_LCD
+; 		chfn_keyboard_12x1();
+			; SOURCE LINE # 52
+	LCALL	chfn_keyboard_12x1
+; 	    key_pressed[length]= Keyboard_key_no;
+			; SOURCE LINE # 53
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	DPTR,#length
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (key_pressed)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (key_pressed)
+	MOV  	DPH,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		delay_in_ms(500)	;
+			; SOURCE LINE # 54
+	MOV  	R7,#0F4H
+	LCALL	_delay_in_ms
+; 		fn_lcd_select_line_and_location(LCD_LINE_2,length);
+			; SOURCE LINE # 55
+	MOV  	DPTR,#length
+	MOVX 	A,@DPTR
+	MOV  	R5,A
+	MOV  	R7,#02H
+	LCALL	_fn_lcd_select_line_and_location
+;   		fn_Display_String_LCD("*");
+			; SOURCE LINE # 56
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_34)
+	MOV  	R1,#LOW (?SC_34)
+	LCALL	_fn_Display_String_LCD
+; 		printf("\nkey pressed is= %C\n",key_pressed)	 ;
+			; SOURCE LINE # 57
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (key_pressed)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (key_pressed)
+	MOVX 	@DPTR,A
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_36)
+	MOV  	R1,#LOW (?SC_36)
+	LCALL	_printf
+; 
+; 	}
+			; SOURCE LINE # 59
+	MOV  	DPTR,#length
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+	SJMP 	?C0001
+?C0002:
+; //	length=length+1		;
+; 	key_pressed[length]= '\0';
+			; SOURCE LINE # 61
+	MOV  	DPTR,#length
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (key_pressed)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (key_pressed)
+	MOV  	DPH,A
+	CLR  	A
+	MOVX 	@DPTR,A
+; 	
+; //	passwordvalue=strcmp(string_passwd,key_pressed);
+; //	if(passwordvalue==0)
+; //	{
+; //		printf("password matched");
+; //		EM_lock_pin=LOCKENABLED;
+; //		fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+; //  		fn_Display_String_LCD("Password matched");
+; //
+; //	}
+; //	else
+; //	{
+; //		Buzzer_pin=BUZZERENABLED;
+; //		fn_lcd_select_line_and_location(LCD_LINE_2,LOCATION_0);
+; //  		fn_Display_String_LCD(" Wrong password ");
+; //		printf("Wrong password");
+; //	}
+; 		
+; 		
+; }
+			; SOURCE LINE # 81
+	RET  	
+; END OF _fn_keyboard_12x1for_password
+
+; 
+; 
+; 
+; 
+; 
+; void chfn_keyboard_12x1(void)
+
+	RSEG  ?PR?chfn_keyboard_12x1?KEYBOARD
+chfn_keyboard_12x1:
+	USING	0
+			; SOURCE LINE # 87
+; {
+			; SOURCE LINE # 88
+; 	unsigned char i;
+; 	Keyboard_key_9=1;
+			; SOURCE LINE # 90
+	SETB 	Keyboard_key_9
+; 	Keyboard_key_10=1;
+			; SOURCE LINE # 91
+	SETB 	Keyboard_key_10
+; 	Keyboard_key_11=1;
+			; SOURCE LINE # 92
+	SETB 	Keyboard_key_11
+; 	Keyboard_key_12=1;
+			; SOURCE LINE # 93
+	SETB 	Keyboard_key_12
+; 	P2=0xff	;
+			; SOURCE LINE # 94
+	MOV  	P2,#0FFH
+; 	i=((P2==0xff)&&Keyboard_key_9==1&& Keyboard_key_10==1&&Keyboard_key_11==1&&Keyboard_key_12==1 );
+			; SOURCE LINE # 95
+	MOV  	A,P2
+	CJNE 	A,#0FFH,?C0005
+	JNB  	Keyboard_key_9,?C0005
+	JNB  	Keyboard_key_10,?C0005
+	JNB  	Keyboard_key_11,?C0005
+	JNB  	Keyboard_key_12,?C0005
+	MOV  	R7,#01H
+	SJMP 	?C0006
+?C0005:
+	MOV  	R7,#00H
+?C0006:
+;---- Variable 'i?141' assigned to Register 'R7' ----
+?C0007:
+; 	while(i!=0)
+			; SOURCE LINE # 96
+	MOV  	A,R7
+	JZ   	?C0008
+; 	{
+			; SOURCE LINE # 97
+; 	i=((P2==0xff)&&Keyboard_key_9==1&& Keyboard_key_10==1&&Keyboard_key_11==1&&Keyboard_key_12==1 );
+			; SOURCE LINE # 98
+	MOV  	A,P2
+	CJNE 	A,#0FFH,?C0009
+	JNB  	Keyboard_key_9,?C0009
+	JNB  	Keyboard_key_10,?C0009
+	JNB  	Keyboard_key_11,?C0009
+	JNB  	Keyboard_key_12,?C0009
+	MOV  	R6,#01H
+	SJMP 	?C0010
+?C0009:
+	MOV  	R6,#00H
+?C0010:
+	MOV  	R7,AR6
+; 	}
+			; SOURCE LINE # 99
+	SJMP 	?C0007
+?C0008:
+; 	
+; 	if(Keyboard_key_1==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 101
+	JB   	Keyboard_key_1,?C0011
+; 		{
+			; SOURCE LINE # 102
+; 		delay_in_ms(100);
+			; SOURCE LINE # 103
+	MOV  	R7,#064H
+	LCALL	_delay_in_ms
+; 		if(Keyboard_key_1==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 104
+	JB   	Keyboard_key_1,?C0012
+; 		Keyboard_key_no=Keypad[0];
+			; SOURCE LINE # 105
+	MOV  	DPTR,#Keypad
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	@DPTR,A
+?C0012:
+; 		printf("%C",Keyboard_key_no);
+			; SOURCE LINE # 106
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_57)
+	MOV  	R1,#LOW (?SC_57)
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOVX 	@DPTR,A
+	LCALL	_printf
+; //		break;
+; 		}
+			; SOURCE LINE # 108
+?C0011:
+;    	if(Keyboard_key_2==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 109
+	JB   	Keyboard_key_2,?C0013
+;    		{
+			; SOURCE LINE # 110
+; 		delay_in_ms(100);
+			; SOURCE LINE # 111
+	MOV  	R7,#064H
+	LCALL	_delay_in_ms
+; 		if(Keyboard_key_2==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 112
+	JB   	Keyboard_key_2,?C0014
+; 		Keyboard_key_no=Keypad[1];
+			; SOURCE LINE # 113
+	MOV  	DPTR,#Keypad+01H
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	@DPTR,A
+?C0014:
+; 		printf("%C",Keyboard_key_no);
+			; SOURCE LINE # 114
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_57)
+	MOV  	R1,#LOW (?SC_57)
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOVX 	@DPTR,A
+	LCALL	_printf
+; //		break;
+; 		}
+			; SOURCE LINE # 116
+?C0013:
+;    	if(Keyboard_key_3==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 117
+	JB   	Keyboard_key_3,?C0015
+;    		{
+			; SOURCE LINE # 118
+; 		delay_in_ms(100);
+			; SOURCE LINE # 119
+	MOV  	R7,#064H
+	LCALL	_delay_in_ms
+; 		if(Keyboard_key_3==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 120
+	JB   	Keyboard_key_3,?C0016
+; 		Keyboard_key_no=Keypad[2];
+			; SOURCE LINE # 121
+	MOV  	DPTR,#Keypad+02H
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	@DPTR,A
+?C0016:
+; 		printf("%C",Keyboard_key_no);
+			; SOURCE LINE # 122
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_57)
+	MOV  	R1,#LOW (?SC_57)
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOVX 	@DPTR,A
+	LCALL	_printf
+; //		break;
+; 		}
+			; SOURCE LINE # 124
+?C0015:
+;    	if(Keyboard_key_4==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 125
+	JB   	Keyboard_key_4,?C0017
+;    		{
+			; SOURCE LINE # 126
+; 		delay_in_ms(100);
+			; SOURCE LINE # 127
+	MOV  	R7,#064H
+	LCALL	_delay_in_ms
+; 		if(Keyboard_key_4==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 128
+	JB   	Keyboard_key_4,?C0018
+; 		Keyboard_key_no=Keypad[3];
+			; SOURCE LINE # 129
+	MOV  	DPTR,#Keypad+03H
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	@DPTR,A
+?C0018:
+; 		printf("%C",Keyboard_key_no);
+			; SOURCE LINE # 130
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_57)
+	MOV  	R1,#LOW (?SC_57)
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOVX 	@DPTR,A
+	LCALL	_printf
+; //		break;
+; 		}
+			; SOURCE LINE # 132
+?C0017:
+;    	if(Keyboard_key_5==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 133
+	JB   	Keyboard_key_5,?C0019
+;    		{
+			; SOURCE LINE # 134
+; 		delay_in_ms(100);
+			; SOURCE LINE # 135
+	MOV  	R7,#064H
+	LCALL	_delay_in_ms
+; 		if(Keyboard_key_5==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 136
+	JB   	Keyboard_key_5,?C0020
+; 		Keyboard_key_no=Keypad[4];
+			; SOURCE LINE # 137
+	MOV  	DPTR,#Keypad+04H
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	@DPTR,A
+?C0020:
+; 		printf("%C",Keyboard_key_no);
+			; SOURCE LINE # 138
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_57)
+	MOV  	R1,#LOW (?SC_57)
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOVX 	@DPTR,A
+	LCALL	_printf
+; //		break;
+; 		}
+			; SOURCE LINE # 140
+?C0019:
+; 	if(Keyboard_key_6==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 141
+	JB   	Keyboard_key_6,?C0021
+; 		{
+			; SOURCE LINE # 142
+; 		delay_in_ms(100);
+			; SOURCE LINE # 143
+	MOV  	R7,#064H
+	LCALL	_delay_in_ms
+; 		if(Keyboard_key_6==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 144
+	JB   	Keyboard_key_6,?C0022
+; 		Keyboard_key_no=Keypad[5];
+			; SOURCE LINE # 145
+	MOV  	DPTR,#Keypad+05H
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	@DPTR,A
+?C0022:
+; 		printf("%C",Keyboard_key_no);
+			; SOURCE LINE # 146
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_57)
+	MOV  	R1,#LOW (?SC_57)
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOVX 	@DPTR,A
+	LCALL	_printf
+; //		break;
+; 		}
+			; SOURCE LINE # 148
+?C0021:
+; 	if(Keyboard_key_7==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 149
+	JB   	Keyboard_key_7,?C0023
+; 		{
+			; SOURCE LINE # 150
+; 		delay_in_ms(100);
+			; SOURCE LINE # 151
+	MOV  	R7,#064H
+	LCALL	_delay_in_ms
+; 		if(Keyboard_key_7==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 152
+	JB   	Keyboard_key_7,?C0024
+; 		Keyboard_key_no=Keypad[6];
+			; SOURCE LINE # 153
+	MOV  	DPTR,#Keypad+06H
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	@DPTR,A
+?C0024:
+; 		printf("%C",Keyboard_key_no);
+			; SOURCE LINE # 154
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_57)
+	MOV  	R1,#LOW (?SC_57)
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOVX 	@DPTR,A
+	LCALL	_printf
+; //		break;
+; 		}
+			; SOURCE LINE # 156
+?C0023:
+; 	if(Keyboard_key_8==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 157
+	JB   	Keyboard_key_8,?C0025
+; 		{
+			; SOURCE LINE # 158
+; 		delay_in_ms(100);
+			; SOURCE LINE # 159
+	MOV  	R7,#064H
+	LCALL	_delay_in_ms
+; 		if(Keyboard_key_8==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 160
+	JB   	Keyboard_key_8,?C0026
+; 		Keyboard_key_no=Keypad[7];
+			; SOURCE LINE # 161
+	MOV  	DPTR,#Keypad+07H
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	@DPTR,A
+?C0026:
+; 		printf("%C",Keyboard_key_no);
+			; SOURCE LINE # 162
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_57)
+	MOV  	R1,#LOW (?SC_57)
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOVX 	@DPTR,A
+	LCALL	_printf
+; //		break;
+; 		}
+			; SOURCE LINE # 164
+?C0025:
+; 	if(Keyboard_key_9==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 165
+	JB   	Keyboard_key_9,?C0027
+; 		{
+			; SOURCE LINE # 166
+; 		delay_in_ms(100);
+			; SOURCE LINE # 167
+	MOV  	R7,#064H
+	LCALL	_delay_in_ms
+; 		if(Keyboard_key_9==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 168
+	JB   	Keyboard_key_9,?C0028
+; 		Keyboard_key_no=Keypad[8];
+			; SOURCE LINE # 169
+	MOV  	DPTR,#Keypad+08H
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	@DPTR,A
+?C0028:
+; 		printf("%C",Keyboard_key_no);
+			; SOURCE LINE # 170
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_57)
+	MOV  	R1,#LOW (?SC_57)
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOVX 	@DPTR,A
+	LCALL	_printf
+; //		break;
+; 		}
+			; SOURCE LINE # 172
+?C0027:
+; 	if(Keyboard_key_10==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 173
+	JB   	Keyboard_key_10,?C0029
+; 		{
+			; SOURCE LINE # 174
+; 		delay_in_ms(100);
+			; SOURCE LINE # 175
+	MOV  	R7,#064H
+	LCALL	_delay_in_ms
+; 		if(Keyboard_key_10==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 176
+	JB   	Keyboard_key_10,?C0030
+; 		Keyboard_key_no=Keypad[9];
+			; SOURCE LINE # 177
+	MOV  	DPTR,#Keypad+09H
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	@DPTR,A
+?C0030:
+; 		printf("%C",Keyboard_key_no);
+			; SOURCE LINE # 178
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_57)
+	MOV  	R1,#LOW (?SC_57)
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOVX 	@DPTR,A
+	LCALL	_printf
+; 		//break;
+; 		}
+			; SOURCE LINE # 180
+?C0029:
+; 	if(Keyboard_key_11==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 181
+	JB   	Keyboard_key_11,?C0031
+; 		{
+			; SOURCE LINE # 182
+; 		delay_in_ms(100);
+			; SOURCE LINE # 183
+	MOV  	R7,#064H
+	LCALL	_delay_in_ms
+; 		if(Keyboard_key_11==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 184
+	JB   	Keyboard_key_11,?C0032
+; 		Keyboard_key_no=Keypad[10];
+			; SOURCE LINE # 185
+	MOV  	DPTR,#Keypad+0AH
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	@DPTR,A
+?C0032:
+; 		printf("%C",Keyboard_key_no);
+			; SOURCE LINE # 186
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_57)
+	MOV  	R1,#LOW (?SC_57)
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOVX 	@DPTR,A
+	LCALL	_printf
+; 	  //  break;
+; 		}
+			; SOURCE LINE # 188
+?C0031:
+; 	if(Keyboard_key_12==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 189
+	JB   	Keyboard_key_12,?C0035
+; 		{
+			; SOURCE LINE # 190
+; 		delay_in_ms(100);
+			; SOURCE LINE # 191
+	MOV  	R7,#064H
+	LCALL	_delay_in_ms
+; 		if(Keyboard_key_12==KEYBOARD_KEY_PRESSED)
+			; SOURCE LINE # 192
+	JB   	Keyboard_key_12,?C0034
+; 		Keyboard_key_no=Keypad[11];
+			; SOURCE LINE # 193
+	MOV  	DPTR,#Keypad+0BH
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	@DPTR,A
+?C0034:
+; 		printf("%C",Keyboard_key_no);
+			; SOURCE LINE # 194
+	MOV  	R3,#0FFH
+	MOV  	R2,#HIGH (?SC_57)
+	MOV  	R1,#LOW (?SC_57)
+	MOV  	DPTR,#Keyboard_key_no
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#?_printf?BYTE+03H
+	MOVX 	@DPTR,A
+	LCALL	_printf
+; 	//	break;
+; 		}
+			; SOURCE LINE # 196
+; 	
+; 	//while((P2==0xff)&&KEYBOARD_KEY_9==1&& KEYBOARD_KEY_10==1&&KEYBOARD_KEY_11==1&&Keyboard_key_12 );
+; 	//	return 	Keyboard_key_no;
+; 	
+; 	
+; 
+; }
+			; SOURCE LINE # 203
+?C0035:
+	RET  	
+; END OF chfn_keyboard_12x1
+
+	END

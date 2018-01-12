@@ -1,0 +1,1686 @@
+; .\GPS_NMEA.SRC generated from: GPS_NMEA.c
+; COMPILER INVOKED BY:
+;        C:\Keil\C51\BIN\C51.EXE GPS_NMEA.c LARGE BROWSE DEBUG OBJECTEXTEND SRC(.\GPS_NMEA.SRC)
+
+$NOMOD51
+
+NAME	GPS_NMEA
+
+ModuleSelect0	BIT	0B0H.7
+ModuleSelect1	BIT	0B0H.6
+P0	DATA	080H
+P1	DATA	090H
+P2	DATA	0A0H
+P3	DATA	0B0H
+T0	BIT	0B0H.4
+AC	BIT	0D0H.6
+T1	BIT	0B0H.5
+T2	BIT	090H.0
+EA	BIT	0A8H.7
+IE	DATA	0A8H
+EXF2	BIT	0C8H.6
+RD	BIT	0B0H.7
+ES	BIT	0A8H.4
+IP	DATA	0B8H
+RI	BIT	098H.0
+INT0	BIT	0B0H.2
+CY	BIT	0D0H.7
+TI	BIT	098H.1
+INT1	BIT	0B0H.3
+RCAP2H	DATA	0CBH
+Keyboard_key_10	BIT	080H.6
+PS	BIT	0B8H.4
+SP	DATA	081H
+Keyboard_key_11	BIT	080H.5
+T2EX	BIT	090H.1
+Keyboard_key_12	BIT	080H.4
+OV	BIT	0D0H.2
+RCAP2L	DATA	0CAH
+C_T2	BIT	0C8H.1
+WR	BIT	0B0H.6
+RCLK	BIT	0C8H.5
+lcd_d5	BIT	090H.5
+Buzzer_pin	BIT	080H.0
+lcd_d6	BIT	090H.6
+TCLK	BIT	0C8H.4
+SBUF	DATA	099H
+PCON	DATA	087H
+SCON	DATA	098H
+TMOD	DATA	089H
+TCON	DATA	088H
+RS_lcd	BIT	090H.2
+IE0	BIT	088H.1
+IE1	BIT	088H.3
+B	DATA	0F0H
+CP_RL2	BIT	0C8H.0
+EM_lock_pin	BIT	080H.3
+ACC	DATA	0E0H
+ET0	BIT	0A8H.1
+ET1	BIT	0A8H.3
+TF0	BIT	088H.5
+ET2	BIT	0A8H.5
+TF1	BIT	088H.7
+TF2	BIT	0C8H.7
+RB8	BIT	098H.2
+TH0	DATA	08CH
+EX0	BIT	0A8H.0
+IT0	BIT	088H.0
+TH1	DATA	08DH
+TB8	BIT	098H.3
+EX1	BIT	0A8H.2
+IT1	BIT	088H.2
+TH2	DATA	0CDH
+P	BIT	0D0H.0
+lcd_d4_lsb	BIT	090H.4
+SM0	BIT	098H.7
+TL0	DATA	08AH
+SM1	BIT	098H.6
+TL1	DATA	08BH
+SM2	BIT	098H.5
+TL2	DATA	0CCH
+lcd_d7_msb	BIT	090H.7
+PT0	BIT	0B8H.1
+PT1	BIT	0B8H.3
+RS0	BIT	0D0H.3
+PT2	BIT	0B8H.5
+TR0	BIT	088H.4
+RS1	BIT	0D0H.4
+TR1	BIT	088H.6
+TR2	BIT	0C8H.2
+PX0	BIT	0B8H.0
+PX1	BIT	0B8H.2
+DPH	DATA	083H
+Enable_lcd	BIT	090H.3
+DPL	DATA	082H
+EXEN2	BIT	0C8H.3
+REN	BIT	098H.4
+T2CON	DATA	0C8H
+RXD	BIT	0B0H.0
+TXD	BIT	0B0H.1
+Keyboard_key_1	BIT	0A0H.0
+Keyboard_key_2	BIT	0A0H.1
+Keyboard_key_3	BIT	0A0H.2
+Keyboard_key_4	BIT	0A0H.3
+F0	BIT	0D0H.5
+Keyboard_key_5	BIT	0A0H.4
+Keyboard_key_6	BIT	0A0H.5
+Keyboard_key_7	BIT	0A0H.6
+Keyboard_key_8	BIT	0A0H.7
+Keyboard_key_9	BIT	080H.7
+PSW	DATA	0D0H
+EM_lock_enabe_button	BIT	080H.2
+?PR?fn_GPSPatternDetect?GPS_NMEA         SEGMENT CODE 
+?XD?fn_GPSPatternDetect?GPS_NMEA         SEGMENT XDATA OVERLAYABLE 
+?PR?fn_GETGPSCoordinates?GPS_NMEA        SEGMENT CODE 
+?PR?fn_DecodeGPS?GPS_NMEA                SEGMENT CODE 
+?PR?fnDecodeGPGGA?GPS_NMEA               SEGMENT CODE 
+?XD?fnDecodeGPGGA?GPS_NMEA               SEGMENT XDATA OVERLAYABLE 
+?PR?fnDecodeGPGSA?GPS_NMEA               SEGMENT CODE 
+?PR?fnDecodeGPGSV?GPS_NMEA               SEGMENT CODE 
+?XD?fnDecodeGPGSV?GPS_NMEA               SEGMENT XDATA OVERLAYABLE 
+?PR?fnDecodeGPRMC?GPS_NMEA               SEGMENT CODE 
+?XD?fnDecodeGPRMC?GPS_NMEA               SEGMENT XDATA OVERLAYABLE 
+?PR?fnDecodeGPVTG?GPS_NMEA               SEGMENT CODE 
+?XD?fnDecodeGPVTG?GPS_NMEA               SEGMENT XDATA OVERLAYABLE 
+?CO?GPS_NMEA         SEGMENT CODE 
+?C_INITSEG           SEGMENT CODE 
+?XD?GPS_NMEA         SEGMENT XDATA 
+	EXTRN	CODE (_printf)
+	EXTRN	XDATA (?_printf?BYTE)
+	EXTRN	CODE (_strncpy)
+	EXTRN	XDATA (?_strncpy?BYTE)
+	EXTRN	XDATA (uchSerialData)
+	EXTRN	CODE (_fnModuleSelect)
+	EXTRN	CODE (_atoi)
+	EXTRN	CODE (fn_Receive_Serial)
+	EXTRN	CODE (?C?STRCMP)
+	PUBLIC	guchLatitude
+	PUBLIC	guchLongitude
+	PUBLIC	GPSPattern
+	PUBLIC	NSIndicator
+	PUBLIC	guchCompleteDataPacket
+	PUBLIC	EWIndicator
+	PUBLIC	fnDecodeGPVTG
+	PUBLIC	fnDecodeGPRMC
+	PUBLIC	fnDecodeGPGSV
+	PUBLIC	fnDecodeGPGSA
+	PUBLIC	fnDecodeGPGGA
+	PUBLIC	fn_DecodeGPS
+	PUBLIC	fn_GETGPSCoordinates
+	PUBLIC	fn_GPSPatternDetect
+
+	RSEG  ?XD?fnDecodeGPGGA?GPS_NMEA
+?fnDecodeGPGGA?BYTE:
+uchGPSQualityIndicator?342:   DS   1
+	ORG  1
+uchNoSatellitesUsedArray?343:   DS   3
+	ORG  4
+uchNoSatellitesUsed?344:   DS   1
+	ORG  5
+   uchCount?345:   DS   1
+
+	RSEG  ?XD?fnDecodeGPRMC?GPS_NMEA
+?fnDecodeGPRMC?BYTE:
+uchGPSUTCTimearray?651:   DS   7
+	ORG  7
+  uchStatus?652:   DS   1
+	ORG  8
+uchGPSLatitudearray?653:   DS   11
+	ORG  19
+uchN_S_Indicator?654:   DS   1
+	ORG  20
+uchGPSLongitudearray?655:   DS   11
+	ORG  31
+uchE_W_Indicator?656:   DS   1
+	ORG  32
+uchGPSUTCDatearray?657:   DS   7
+	ORG  39
+   uchCount?658:   DS   1
+	ORG  40
+    uchTemp?659:   DS   1
+
+	RSEG  ?XD?fnDecodeGPGSV?GPS_NMEA
+?fnDecodeGPGSV?BYTE:
+uchGPSNoOfSatellitesInView?547:   DS   1
+	ORG  1
+uchGPSNoOfSatellitesInViewArray?548:   DS   3
+	ORG  4
+   uchCount?549:   DS   1
+
+	RSEG  ?XD?fnDecodeGPVTG?GPS_NMEA
+?fnDecodeGPVTG?BYTE:
+uchGPSSpeedInKnotsarray?760:   DS   6
+	ORG  6
+uchGPSSpeedInKMPHarray?761:   DS   7
+	ORG  13
+   uchCount?762:   DS   1
+
+	RSEG  ?XD?fn_GPSPatternDetect?GPS_NMEA
+?fn_GPSPatternDetect?BYTE:
+   uchCount?040:   DS   1
+	ORG  1
+uchPatternReceived?041:   DS   6
+
+	RSEG  ?XD?GPS_NMEA
+    EWIndicator:   DS   1
+guchCompleteDataPacket:   DS   65
+    NSIndicator:   DS   1
+     GPSPattern:   DS   30
+  guchLongitude:   DS   11
+   guchLatitude:   DS   11
+
+	RSEG  ?CO?GPS_NMEA
+?SC_0:
+	DB  'g' ,'u' ,'c' ,'h' ,'C' ,'o' ,'m' ,'p' ,'l' ,'e' 
+	DB  't' ,'e' ,'D' ,'a' ,'t' ,'a' ,'P' ,'a' ,'c' ,'k' 
+	DB  'e' ,'t' ,' ' ,'=' ,' ' ,'%' ,'s' ,00AH,000H
+
+?SC_29:
+	DB  'L' ,'a' ,'t' ,'i' ,'t' ,'u' ,'d' ,'e' ,' ' ,'=' 
+	DB  '%' ,'s' ,',' ,'%' ,'c' ,00AH,000H
+
+?SC_46:
+	DB  'L' ,'o' ,'n' ,'g' ,'i' ,'t' ,'u' ,'d' ,'e' ,' ' 
+	DB  '=' ,'%' ,'s' ,',' ,'%' ,'c' ,00AH,000H
+
+?SC_64:
+	DB  'A' ,000H
+
+?SC_66:
+	DB  'S' ,000H
+
+?SC_68:
+	DB  'V' ,000H
+
+?SC_70:
+	DB  'R' ,000H
+
+?SC_72:
+	DB  'G' ,000H
+
+?SC_74:
+	DB  '$' ,'G' ,'P' ,'G' ,'G' ,'A' ,'S' ,'A' ,'T' ,'U' 
+	DB  's' ,'e' ,'d' ,'=' ,'%' ,'d' ,00AH,000H
+
+
+	RSEG  ?C_INITSEG
+	DB	05EH
+	DW	GPSPattern
+	DB  'G' ,'P' ,'G' ,'G' ,'A' ,000H
+
+	DB  'G' ,'P' ,'G' ,'S' ,'A' ,000H
+
+	DB  'G' ,'P' ,'G' ,'S' ,'V' ,000H
+
+	DB  'G' ,'P' ,'R' ,'M' ,'C' ,000H
+
+	DB  'G' ,'P' ,'V' ,'T' ,'G' ,000H
+
+
+; /*
+;     filename	:serial_codes.c
+; 	description	:transmit and receive data by serial port
+; 	author		:apsis_team
+; 	date		:11.08.07
+; 
+; 
+; */
+; 
+; 
+; #include <reg52.h>
+; #include <stdio.h>                /* prototype declarations for I/O functions */
+; #include <string.h>
+; #include <stdlib.h>
+; 
+; #include "PinAllocation.h"
+; #include "delay.h"
+; #include "serial_codes.h"
+; #include "GPS_NMEA.h"
+; #include "ProjectMain.h"
+; 
+; extern unsigned char uchSerialData;
+; unsigned char guchCompleteDataPacket[65];
+; 
+; unsigned char guchLatitude[11];
+; unsigned char NSIndicator;
+; unsigned char guchLongitude[11];
+; unsigned char EWIndicator;
+; 
+; #define GPSQualityIndicatorPOSITIONINPACKET 	0
+; #define NoSatellitesUsedPOSITIONINPACKET 		1
+; #define GPSNoOfSatellitesInViewPOSITIONINPACKET 3
+; #define GPSUTCTimePOSITIONINPACKET 				28
+; #define GPSStatusPOSITIONINPACKET 				5
+; #define GPSLatitudePOSITIONINPACKET 			6
+; #define GPSN_SPOSITIONINPACKET 					16
+; #define GPSLongitudePOSITIONINPACKET 			17
+; #define GPSE_WPOSITIONINPACKET 					27
+; #define GPSUTCDatePOSITIONINPACKET 				34
+; #define GPSSpeedInKnotsPOSITIONINPACKET 		40
+; #define GPSSpeedInKMPHPOSITIONINPACKET 			45
+; #define GPSModePOSITIONINPACKET 				51
+; 
+; 
+; 
+; #define GPGGAGPSQUALITYINDICATORFIELD 		6
+; #define GPGGANOOFSATELLITESUSEDFIELD  		7
+; #define GPGSVNOOFSATELLITESINVIEWFIELD		3
+; #define GPVTGSPEEDINKNOTSFIELD				3
+; #define GPVTGSPEEDINKMPHFIELD				4
+; #define GPRMCUTCTIMEFIELD					1
+; #define GPRMCSTATUSFIELD					2
+; #define GPRMCLATITUDEFIELD					3
+; #define GPRMCNSINDICATORFIELD				4
+; #define GPRMCLONGITUDEFIELD					5
+; #define GPRMCEWINDICATORFIELD				6
+; #define GPRMCUTCDATEFIELD					9
+; 
+; 
+; 
+; #define LENGTHOFGPSPATTERN 6
+; #define NOOFGPSPATTERN 5
+; #define GPGGA 	1
+; #define GPGSA 	2
+; #define GPGSV 	3
+; #define GPRMC 	4
+; #define GPVTG 	5
+; char GPSPattern[NOOFGPSPATTERN][LENGTHOFGPSPATTERN] = 
+; 					{
+; 						"GPGGA", // Pattern 0 LATITUDE AND LONGITUDE, WITH TIME OF POSITION FIX AND STATUS
+; 						"GPGSA", // Pattern 1 GPS DOP AND ACTIVE SATELLITES
+; 						"GPGSV", // Pattern 2 GPS SATELLITE IN VIEW
+; 						"GPRMC", // Pattern 3 RECOMMENDED MINIMUM SPECIFIC GPS/TRANSIT DATA
+; 						"GPVTG"  // Pattern 4 COURSE OVER GROUND AND GROUND SPEED
+; 					};
+; 
+; 
+; 
+; unsigned char fn_GPSPatternDetect(void)
+
+	RSEG  ?PR?fn_GPSPatternDetect?GPS_NMEA
+fn_GPSPatternDetect:
+	USING	0
+			; SOURCE LINE # 79
+; {
+			; SOURCE LINE # 80
+; 	unsigned char uchCount=0;
+			; SOURCE LINE # 81
+	CLR  	A
+	MOV  	DPTR,#uchCount?040
+	MOVX 	@DPTR,A
+; 	unsigned char uchPatternReceived[6];
+; 
+; 	for(uchCount=0; uchCount<GPSPatternLength;uchCount++)
+			; SOURCE LINE # 84
+	MOVX 	@DPTR,A
+?C0001:
+; 	{
+			; SOURCE LINE # 85
+; 		uchPatternReceived[uchCount]= fn_Receive_Serial();
+			; SOURCE LINE # 86
+	LCALL	fn_Receive_Serial
+	MOV  	DPTR,#uchCount?040
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (uchPatternReceived?041)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchPatternReceived?041)
+	MOV  	DPH,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	}
+			; SOURCE LINE # 87
+	MOV  	DPTR,#uchCount?040
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+	MOVX 	A,@DPTR
+	CLR  	C
+	SUBB 	A,#05H
+	JC   	?C0001
+?C0002:
+; 	uchPatternReceived[uchCount]= 0;
+			; SOURCE LINE # 88
+	MOV  	DPTR,#uchCount?040
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (uchPatternReceived?041)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchPatternReceived?041)
+	MOV  	DPH,A
+	CLR  	A
+	MOVX 	@DPTR,A
+; 
+; 	for (uchCount=0; uchCount < NOOFGPSPATTERN;uchCount++)
+			; SOURCE LINE # 90
+	MOV  	DPTR,#uchCount?040
+	MOVX 	@DPTR,A
+?C0004:
+	MOV  	DPTR,#uchCount?040
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	CLR  	C
+	SUBB 	A,#05H
+	JNC  	?C0005
+; 	{
+			; SOURCE LINE # 91
+; 		if (!strcmp(uchPatternReceived, GPSPattern[uchCount]))
+			; SOURCE LINE # 92
+	MOV  	A,R7
+	MOV  	B,#06H
+	MUL  	AB
+	ADD  	A,#LOW (GPSPattern)
+	MOV  	R1,A
+	MOV  	A,#HIGH (GPSPattern)
+	ADDC 	A,B
+	MOV  	R2,A
+	MOV  	R3,#01H
+	MOV  	R0,#LOW (uchPatternReceived?041)
+	MOV  	R4,#HIGH (uchPatternReceived?041)
+	MOV  	R5,#01H
+	LCALL	?C?STRCMP
+	MOV  	A,R7
+	JNZ  	?C0006
+; 			return (uchCount+1);
+			; SOURCE LINE # 93
+	MOV  	DPTR,#uchCount?040
+	MOVX 	A,@DPTR
+	INC  	A
+	MOV  	R7,A
+	RET  	
+; 			
+; 	}
+			; SOURCE LINE # 95
+?C0006:
+	MOV  	DPTR,#uchCount?040
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+	SJMP 	?C0004
+?C0005:
+; 	return 20;
+			; SOURCE LINE # 96
+	MOV  	R7,#014H
+; }
+			; SOURCE LINE # 97
+?C0008:
+	RET  	
+; END OF fn_GPSPatternDetect
+
+; /*
+; The GPS locations are in minutes and seconds while google maps uses degrees. 
+; for example,
+; S 40°48.452' 
+; E 147°37.843' 
+; In google map it should be: 
+; -(40 + 48.452/60) = -40.8075 
+; 147 + 37.843/60 = 147.6307 
+; 
+; N 17°18.3806' 
+; E 78°44.6059'
+; College in Hyd
+; In google map it should be: 
+; 17 + 18.3806/60 = 17.3063 
+; 78 + 44.6059/60 = 78.7434 
+; */
+; void fn_GETGPSCoordinates(void)
+
+	RSEG  ?PR?fn_GETGPSCoordinates?GPS_NMEA
+fn_GETGPSCoordinates:
+	USING	0
+			; SOURCE LINE # 114
+; {
+			; SOURCE LINE # 115
+; 	fnModuleSelect(SELECT_GPS_ON_UART);
+			; SOURCE LINE # 116
+	MOV  	R7,#02H
+	LCALL	_fnModuleSelect
+; 	fn_DecodeGPS();
+			; SOURCE LINE # 117
+	LCALL	fn_DecodeGPS
+; 	fn_DecodeGPS();
+			; SOURCE LINE # 118
+	LCALL	fn_DecodeGPS
+; 	fn_DecodeGPS();
+			; SOURCE LINE # 119
+	LCALL	fn_DecodeGPS
+; 	fn_DecodeGPS();
+			; SOURCE LINE # 120
+	LCALL	fn_DecodeGPS
+; 	fn_DecodeGPS();
+			; SOURCE LINE # 121
+	LCALL	fn_DecodeGPS
+; 	fn_DecodeGPS();
+			; SOURCE LINE # 122
+	LCALL	fn_DecodeGPS
+; 	fn_DecodeGPS();
+			; SOURCE LINE # 123
+	LCALL	fn_DecodeGPS
+; 	fn_DecodeGPS();
+			; SOURCE LINE # 124
+	LCALL	fn_DecodeGPS
+; 	GPSDBGPRINTF("guchCompleteDataPacket = %s\n",guchCompleteDataPacket);
+			; SOURCE LINE # 125
+; 	GPSDBGPRINTF("Latitude =%s,%c\n",guchLatitude,NSIndicator);
+			; SOURCE LINE # 126
+; 	GPSDBGPRINTF("Longitude =%s,%c\n",guchLongitude,EWIndicator);
+			; SOURCE LINE # 127
+; 
+; 
+; }
+			; SOURCE LINE # 130
+?C0012:
+	RET  	
+; END OF fn_GETGPSCoordinates
+
+; 
+; 
+; void fn_DecodeGPS(void)
+
+	RSEG  ?PR?fn_DecodeGPS?GPS_NMEA
+fn_DecodeGPS:
+	USING	0
+			; SOURCE LINE # 133
+; {
+			; SOURCE LINE # 134
+?C0013:
+; 
+; 	while((fn_Receive_Serial())!='$');  // Waiting for '$' Symbol to appear from the GPS
+			; SOURCE LINE # 136
+	LCALL	fn_Receive_Serial
+	CJNE 	R7,#024H,?C0013
+?C0014:
+; 
+; 	uchSerialData = fn_GPSPatternDetect();
+			; SOURCE LINE # 138
+	LCALL	fn_GPSPatternDetect
+	MOV  	DPTR,#uchSerialData
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 
+; 	switch(uchSerialData)
+			; SOURCE LINE # 140
+	ADD  	A,#0FEH
+	JZ   	?C0018
+	DEC  	A
+	JZ   	?C0020
+	DEC  	A
+	JZ   	?C0022
+	DEC  	A
+	JZ   	?C0024
+	ADD  	A,#04H
+	JNZ  	?C0028
+; 	{
+			; SOURCE LINE # 141
+; 		case GPGGA:
+			; SOURCE LINE # 142
+?C0016:
+; 					fnDecodeGPGGA();
+			; SOURCE LINE # 143
+	LJMP 	fnDecodeGPGGA
+; 					GPSDBGPRINTF("A");
+			; SOURCE LINE # 144
+; 					break;
+			; SOURCE LINE # 145
+; 		case GPGSA:
+			; SOURCE LINE # 146
+?C0018:
+; 					fnDecodeGPGSA();
+			; SOURCE LINE # 147
+	LJMP 	fnDecodeGPGSA
+; 					GPSDBGPRINTF("S");
+			; SOURCE LINE # 148
+; 					break;
+			; SOURCE LINE # 149
+; 		case GPGSV:
+			; SOURCE LINE # 150
+?C0020:
+; 					fnDecodeGPGSV();
+			; SOURCE LINE # 151
+	LJMP 	fnDecodeGPGSV
+; 					GPSDBGPRINTF("V");
+			; SOURCE LINE # 152
+; 					break;
+			; SOURCE LINE # 153
+; 		case GPRMC:
+			; SOURCE LINE # 154
+?C0022:
+; 					fnDecodeGPRMC();
+			; SOURCE LINE # 155
+	LJMP 	fnDecodeGPRMC
+; 					GPSDBGPRINTF("R");
+			; SOURCE LINE # 156
+; 					break;
+			; SOURCE LINE # 157
+; 		case GPVTG:
+			; SOURCE LINE # 158
+?C0024:
+; 					fnDecodeGPVTG();
+			; SOURCE LINE # 159
+	LCALL	fnDecodeGPVTG
+; 					GPSDBGPRINTF("guchCompleteDataPacket = %s\n",guchCompleteDataPacket);
+			; SOURCE LINE # 160
+; 					GPSDBGPRINTF("G");
+			; SOURCE LINE # 161
+; 					break;
+			; SOURCE LINE # 162
+; 		default:
+			; SOURCE LINE # 163
+; 					break;
+			; SOURCE LINE # 164
+; 	}
+			; SOURCE LINE # 165
+; }
+			; SOURCE LINE # 166
+?C0028:
+	RET  	
+; END OF fn_DecodeGPS
+
+; 
+; 
+; 
+; 
+; void fnDecodeGPGGA(void) //9.1 GGA-GLOBAL POSITIONING SYSTEM FIX DATA
+
+	RSEG  ?PR?fnDecodeGPGGA?GPS_NMEA
+fnDecodeGPGGA:
+	USING	0
+			; SOURCE LINE # 171
+; // From here we will pick GPS Quality Indicator (Field 6)
+; // No of satellites used (Field 7)
+; {
+			; SOURCE LINE # 174
+; 	unsigned char uchGPSQualityIndicator;
+; 	unsigned char uchNoSatellitesUsedArray[3];
+; 	unsigned char uchNoSatellitesUsed;
+; 	unsigned char uchCount=0;
+			; SOURCE LINE # 178
+	CLR  	A
+	MOV  	DPTR,#uchCount?345
+	MOVX 	@DPTR,A
+; 	unsigned char uchTemp;
+; 	uchNoSatellitesUsedArray[0] = '0';
+			; SOURCE LINE # 180
+	MOV  	DPTR,#uchNoSatellitesUsedArray?343
+	MOV  	A,#030H
+	MOVX 	@DPTR,A
+; 	uchNoSatellitesUsedArray[1] = '0';
+			; SOURCE LINE # 181
+	INC  	DPTR
+	MOVX 	@DPTR,A
+; 	uchNoSatellitesUsedArray[2] = 0;
+			; SOURCE LINE # 182
+	CLR  	A
+	INC  	DPTR
+	MOVX 	@DPTR,A
+; 
+; 
+; 	for (uchCount=0; uchCount < GPGGAGPSQUALITYINDICATORFIELD;uchCount++)
+			; SOURCE LINE # 185
+	MOV  	DPTR,#uchCount?345
+	MOVX 	@DPTR,A
+?C0029:
+?C0032:
+; 		while((fn_Receive_Serial())!=',');  // Waiting for ',' Symbol to appear from the GPS
+			; SOURCE LINE # 186
+	LCALL	fn_Receive_Serial
+	CJNE 	R7,#02CH,?C0032
+?C0033:
+?C0031:
+	MOV  	DPTR,#uchCount?345
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+	MOVX 	A,@DPTR
+	CLR  	C
+	SUBB 	A,#06H
+	JC   	?C0029
+?C0030:
+; 	uchGPSQualityIndicator = fn_Receive_Serial();
+			; SOURCE LINE # 187
+	LCALL	fn_Receive_Serial
+	MOV  	DPTR,#uchGPSQualityIndicator?342
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	//DBGPRINTF("uchGPSQualityIndicator = %c\n",uchGPSQualityIndicator);
+; 	uchCount=0;
+			; SOURCE LINE # 189
+	CLR  	A
+	MOV  	DPTR,#uchCount?345
+	MOVX 	@DPTR,A
+; 	uchTemp = fn_Receive_Serial(); // To take care of the ',' symbol 
+			; SOURCE LINE # 190
+	LCALL	fn_Receive_Serial
+;---- Variable 'uchTemp?346' assigned to Register 'R7' ----
+; 	uchTemp = fn_Receive_Serial();
+			; SOURCE LINE # 191
+	SJMP 	?C0084
+?C0034:
+; 	while(uchTemp!=',')  // Fill No of satellites till ',' Symbol appears
+			; SOURCE LINE # 192
+	MOV  	A,R7
+	XRL  	A,#02CH
+	JZ   	?C0035
+; 	{
+			; SOURCE LINE # 193
+; 		uchNoSatellitesUsedArray[uchCount] = uchTemp;	
+			; SOURCE LINE # 194
+	MOV  	DPTR,#uchCount?345
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (uchNoSatellitesUsedArray?343)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchNoSatellitesUsedArray?343)
+	MOV  	DPH,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		uchCount++;
+			; SOURCE LINE # 195
+	MOV  	DPTR,#uchCount?345
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+; 		uchTemp = fn_Receive_Serial();
+			; SOURCE LINE # 196
+?C0084:
+	LCALL	fn_Receive_Serial
+; 	}
+			; SOURCE LINE # 197
+	SJMP 	?C0034
+?C0035:
+; 	
+; 	//DBGPRINTF("$GPGGA uchGPSQualityIndicator = %c\n",uchGPSQualityIndicator);
+; 	uchNoSatellitesUsed = (char)atoi(uchNoSatellitesUsedArray);
+			; SOURCE LINE # 200
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (uchNoSatellitesUsedArray?343)
+	MOV  	R1,#LOW (uchNoSatellitesUsedArray?343)
+	LCALL	_atoi
+	MOV  	DPTR,#uchNoSatellitesUsed?344
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	GPSDBGPRINTF("$GPGGASATUsed=%d\n",(int)uchNoSatellitesUsed);
+			; SOURCE LINE # 201
+?C0036:
+; 	
+; 	guchCompleteDataPacket[GPSQualityIndicatorPOSITIONINPACKET]= uchGPSQualityIndicator;
+			; SOURCE LINE # 203
+	MOV  	DPTR,#uchGPSQualityIndicator?342
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#guchCompleteDataPacket
+	MOVX 	@DPTR,A
+; 	strncpy(&guchCompleteDataPacket[NoSatellitesUsedPOSITIONINPACKET],uchNoSatellitesUsedArray, 2);
+			; SOURCE LINE # 204
+	MOV  	DPTR,#?_strncpy?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (uchNoSatellitesUsedArray?343)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (uchNoSatellitesUsedArray?343)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	CLR  	A
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#02H
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteDataPacket+01H)
+	MOV  	R1,#LOW (guchCompleteDataPacket+01H)
+	LJMP 	_strncpy
+; END OF fnDecodeGPGGA
+
+; 	//DBGPRINTF("guchCompleteDataPacket = %s\n",guchCompleteDataPacket);
+; 
+; 	
+; }
+; void fnDecodeGPGSA(void) //9.3 GSA - GPS DOP AND ACTIVE SATELLITES
+
+	RSEG  ?PR?fnDecodeGPGSA?GPS_NMEA
+fnDecodeGPGSA:
+			; SOURCE LINE # 209
+; {
+			; SOURCE LINE # 210
+; 	// Nothing to pick now
+; }
+			; SOURCE LINE # 212
+	RET  	
+; END OF fnDecodeGPGSA
+
+; void fnDecodeGPGSV(void) //9.4 GSV - GPS SATELLITE IN VIEW
+
+	RSEG  ?PR?fnDecodeGPGSV?GPS_NMEA
+fnDecodeGPGSV:
+	USING	0
+			; SOURCE LINE # 213
+; {
+			; SOURCE LINE # 214
+; 	unsigned char uchGPSNoOfSatellitesInView; 
+; 	unsigned char uchGPSNoOfSatellitesInViewArray[3];
+; 	unsigned char uchCount=0;
+			; SOURCE LINE # 217
+	CLR  	A
+	MOV  	DPTR,#uchCount?549
+	MOVX 	@DPTR,A
+; 	unsigned char uchTemp;
+; 
+; 	uchGPSNoOfSatellitesInViewArray[0] = '0';
+			; SOURCE LINE # 220
+	MOV  	DPTR,#uchGPSNoOfSatellitesInViewArray?548
+	MOV  	A,#030H
+	MOVX 	@DPTR,A
+; 	uchGPSNoOfSatellitesInViewArray[1] = '0';
+			; SOURCE LINE # 221
+	INC  	DPTR
+	MOVX 	@DPTR,A
+; 	uchGPSNoOfSatellitesInViewArray[2] = 0;
+			; SOURCE LINE # 222
+	CLR  	A
+	INC  	DPTR
+	MOVX 	@DPTR,A
+; 
+; 	for (uchCount=0; uchCount < GPGSVNOOFSATELLITESINVIEWFIELD;uchCount++)
+			; SOURCE LINE # 224
+	INC  	DPTR
+	MOVX 	@DPTR,A
+?C0039:
+?C0042:
+; 		while((fn_Receive_Serial())!=',');  // Waiting for ',' Symbol to appear from the GPS
+			; SOURCE LINE # 225
+	LCALL	fn_Receive_Serial
+	CJNE 	R7,#02CH,?C0042
+?C0043:
+?C0041:
+	MOV  	DPTR,#uchCount?549
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+	MOVX 	A,@DPTR
+	CLR  	C
+	SUBB 	A,#03H
+	JC   	?C0039
+?C0040:
+; 	uchCount=0;
+			; SOURCE LINE # 226
+	CLR  	A
+	MOV  	DPTR,#uchCount?549
+; 	uchTemp = fn_Receive_Serial(); 	
+			; SOURCE LINE # 227
+;---- Variable 'uchTemp?550' assigned to Register 'R7' ----
+	SJMP 	?C0085
+?C0044:
+; 	while(uchTemp!=',')  // Fill No of satellites till ',' Symbol appears
+			; SOURCE LINE # 228
+	MOV  	A,R7
+	XRL  	A,#02CH
+	JZ   	?C0045
+; 	{
+			; SOURCE LINE # 229
+; 		uchGPSNoOfSatellitesInViewArray[uchCount] = uchTemp;
+			; SOURCE LINE # 230
+	MOV  	DPTR,#uchCount?549
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (uchGPSNoOfSatellitesInViewArray?548)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchGPSNoOfSatellitesInViewArray?548)
+	MOV  	DPH,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		uchCount++;
+			; SOURCE LINE # 231
+	MOV  	DPTR,#uchCount?549
+	MOVX 	A,@DPTR
+	INC  	A
+?C0085:
+	MOVX 	@DPTR,A
+; 		uchTemp = fn_Receive_Serial(); 	
+			; SOURCE LINE # 232
+	LCALL	fn_Receive_Serial
+; 	}
+			; SOURCE LINE # 233
+	SJMP 	?C0044
+?C0045:
+; 	uchGPSNoOfSatellitesInViewArray[2] = 0;
+			; SOURCE LINE # 234
+	CLR  	A
+	MOV  	DPTR,#uchGPSNoOfSatellitesInViewArray?548+02H
+	MOVX 	@DPTR,A
+; 	uchGPSNoOfSatellitesInView = (char)atoi(uchGPSNoOfSatellitesInViewArray);
+			; SOURCE LINE # 235
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (uchGPSNoOfSatellitesInViewArray?548)
+	MOV  	R1,#LOW (uchGPSNoOfSatellitesInViewArray?548)
+	LCALL	_atoi
+	MOV  	DPTR,#uchGPSNoOfSatellitesInView?547
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	//uchGPSNoOfSatellitesInView = (char)atoi(uchGPSNoOfSatellitesInViewArray);
+; 	//DBGPRINTF("$GPGSV uchGPSNoOfSatellitesInView = %d\n",(int)uchGPSNoOfSatellitesInView);
+; 	//DBGPRINTF("$GPGSV uchGPSNoOfSatellitesInViewArray = %s\n",uchGPSNoOfSatellitesInViewArray);
+; 
+; 
+; 	strncpy(&guchCompleteDataPacket[GPSNoOfSatellitesInViewPOSITIONINPACKET],uchGPSNoOfSatellitesInViewArray, 2);
+			; SOURCE LINE # 241
+	MOV  	DPTR,#?_strncpy?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (uchGPSNoOfSatellitesInViewArray?548)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (uchGPSNoOfSatellitesInViewArray?548)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	CLR  	A
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#02H
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteDataPacket+03H)
+	MOV  	R1,#LOW (guchCompleteDataPacket+03H)
+	LJMP 	_strncpy
+; END OF fnDecodeGPGSV
+
+; 	//DBGPRINTF("guchCompleteDataPacket = %s\n",guchCompleteDataPacket);
+; }
+; void fnDecodeGPRMC(void) //9.5 RMC - RECOMMANDED MINIMUM SPECIFIC GPS/TRANSIT DATA
+
+	RSEG  ?PR?fnDecodeGPRMC?GPS_NMEA
+fnDecodeGPRMC:
+	USING	0
+			; SOURCE LINE # 244
+; //Time, date, position, course and speed data provided by a GNSS navigation receiver.
+; {
+			; SOURCE LINE # 246
+; 	unsigned char uchGPSUTCTimearray[7]; 
+; 	unsigned char uchStatus=0;
+			; SOURCE LINE # 248
+	CLR  	A
+	MOV  	DPTR,#uchStatus?652
+	MOVX 	@DPTR,A
+; 	unsigned char uchGPSLatitudearray[11];
+; 	unsigned char uchN_S_Indicator=0;
+			; SOURCE LINE # 250
+	MOV  	DPTR,#uchN_S_Indicator?654
+	MOVX 	@DPTR,A
+; 	unsigned char uchGPSLongitudearray[11];
+; 	unsigned char uchE_W_Indicator=0;
+			; SOURCE LINE # 252
+	MOV  	DPTR,#uchE_W_Indicator?656
+	MOVX 	@DPTR,A
+; 	unsigned char uchGPSUTCDatearray[7]; 
+; 
+; 	unsigned char uchCount=0;
+			; SOURCE LINE # 255
+	MOV  	DPTR,#uchCount?658
+	MOVX 	@DPTR,A
+; 	unsigned char uchTemp;
+; 
+; 	for(uchCount=0; uchCount < 11;uchCount++)
+			; SOURCE LINE # 258
+	MOVX 	@DPTR,A
+?C0047:
+	MOV  	DPTR,#uchCount?658
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	CLR  	C
+	SUBB 	A,#0BH
+	JNC  	?C0048
+; 	{
+			; SOURCE LINE # 259
+; 		uchGPSLatitudearray[uchCount]='0';
+			; SOURCE LINE # 260
+	MOV  	A,#LOW (uchGPSLatitudearray?653)
+	ADD  	A,R7
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchGPSLatitudearray?653)
+	MOV  	DPH,A
+	MOV  	A,#030H
+	MOVX 	@DPTR,A
+; 		uchGPSLongitudearray[uchCount]='0';
+			; SOURCE LINE # 261
+	MOV  	A,#LOW (uchGPSLongitudearray?655)
+	ADD  	A,R7
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchGPSLongitudearray?655)
+	MOV  	DPH,A
+	MOV  	A,#030H
+	MOVX 	@DPTR,A
+; 		if (uchCount < 6)
+			; SOURCE LINE # 262
+	MOV  	A,R7
+	CLR  	C
+	SUBB 	A,#06H
+	JNC  	?C0049
+; 		{
+			; SOURCE LINE # 263
+; 			uchGPSUTCTimearray[uchCount]='0';
+			; SOURCE LINE # 264
+	MOV  	A,#LOW (uchGPSUTCTimearray?651)
+	ADD  	A,R7
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchGPSUTCTimearray?651)
+	MOV  	DPH,A
+	MOV  	A,#030H
+	MOVX 	@DPTR,A
+; 			uchGPSUTCDatearray[uchCount]='0';
+			; SOURCE LINE # 265
+	MOV  	A,#LOW (uchGPSUTCDatearray?657)
+	ADD  	A,R7
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchGPSUTCDatearray?657)
+	MOV  	DPH,A
+	MOV  	A,#030H
+	MOVX 	@DPTR,A
+; 		}
+			; SOURCE LINE # 266
+; 	}
+			; SOURCE LINE # 267
+?C0049:
+	MOV  	DPTR,#uchCount?658
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+	SJMP 	?C0047
+?C0048:
+; 	uchGPSLatitudearray[10]=0;
+			; SOURCE LINE # 268
+	CLR  	A
+	MOV  	DPTR,#uchGPSLatitudearray?653+0AH
+	MOVX 	@DPTR,A
+; 	uchGPSLongitudearray[10]=0;
+			; SOURCE LINE # 269
+	MOV  	DPTR,#uchGPSLongitudearray?655+0AH
+	MOVX 	@DPTR,A
+; 	uchGPSUTCTimearray[6]=0;
+			; SOURCE LINE # 270
+	MOV  	DPTR,#uchGPSUTCTimearray?651+06H
+	MOVX 	@DPTR,A
+; 	uchGPSUTCDatearray[6]=0;
+			; SOURCE LINE # 271
+	MOV  	DPTR,#uchGPSUTCDatearray?657+06H
+	MOVX 	@DPTR,A
+; 
+; 	uchTemp = fn_Receive_Serial(); 	// Compensate for the first ',' symbol
+			; SOURCE LINE # 273
+	LCALL	fn_Receive_Serial
+	MOV  	DPTR,#uchTemp?659
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	for(uchCount=0; uchCount < 6;uchCount++)
+			; SOURCE LINE # 274
+	CLR  	A
+	MOV  	DPTR,#uchCount?658
+	MOVX 	@DPTR,A
+?C0051:
+; 	{
+			; SOURCE LINE # 275
+; 		uchGPSUTCTimearray[uchCount]=fn_Receive_Serial(); 
+			; SOURCE LINE # 276
+	LCALL	fn_Receive_Serial
+	MOV  	DPTR,#uchCount?658
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (uchGPSUTCTimearray?651)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchGPSUTCTimearray?651)
+	MOV  	DPH,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	}
+			; SOURCE LINE # 277
+	MOV  	DPTR,#uchCount?658
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+	MOVX 	A,@DPTR
+	CLR  	C
+	SUBB 	A,#06H
+	JC   	?C0051
+?C0054:
+; 	while((fn_Receive_Serial())!=',');  // Waiting for ',' Symbol to appear from the GPS
+			; SOURCE LINE # 278
+	LCALL	fn_Receive_Serial
+	CJNE 	R7,#02CH,?C0054
+?C0055:
+; 
+; 	uchStatus = fn_Receive_Serial(); 
+			; SOURCE LINE # 280
+	LCALL	fn_Receive_Serial
+	MOV  	DPTR,#uchStatus?652
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 
+; 	uchTemp = fn_Receive_Serial(); 	// Compensate for the  ',' symbol
+			; SOURCE LINE # 282
+	LCALL	fn_Receive_Serial
+	MOV  	DPTR,#uchTemp?659
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 
+; 	uchCount=0;
+			; SOURCE LINE # 284
+	CLR  	A
+	MOV  	DPTR,#uchCount?658
+; 	uchTemp = fn_Receive_Serial(); 	// First char of Latitude
+			; SOURCE LINE # 285
+	SJMP 	?C0086
+?C0056:
+; 	while(uchTemp!=',')  // Fill Latitude till ',' Symbol appears
+			; SOURCE LINE # 286
+	MOV  	DPTR,#uchTemp?659
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	XRL  	A,#02CH
+	JZ   	?C0057
+; 	{
+			; SOURCE LINE # 287
+; 		uchGPSLatitudearray[uchCount] = uchTemp;
+			; SOURCE LINE # 288
+	MOV  	DPTR,#uchCount?658
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (uchGPSLatitudearray?653)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchGPSLatitudearray?653)
+	MOV  	DPH,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		uchCount++;
+			; SOURCE LINE # 289
+	MOV  	DPTR,#uchCount?658
+	MOVX 	A,@DPTR
+	INC  	A
+?C0086:
+	MOVX 	@DPTR,A
+; 		uchTemp = fn_Receive_Serial(); 	
+			; SOURCE LINE # 290
+	LCALL	fn_Receive_Serial
+	MOV  	DPTR,#uchTemp?659
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	}
+			; SOURCE LINE # 291
+	SJMP 	?C0056
+?C0057:
+; 	uchN_S_Indicator = fn_Receive_Serial(); 
+			; SOURCE LINE # 292
+	LCALL	fn_Receive_Serial
+	MOV  	DPTR,#uchN_S_Indicator?654
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+?C0058:
+; 	while((fn_Receive_Serial())!=',');  // Waiting for ',' Symbol to appear from the GPS
+			; SOURCE LINE # 293
+	LCALL	fn_Receive_Serial
+	CJNE 	R7,#02CH,?C0058
+?C0059:
+; 	uchCount=0;
+			; SOURCE LINE # 294
+	CLR  	A
+	MOV  	DPTR,#uchCount?658
+; 	uchTemp = fn_Receive_Serial(); 	// First char of Longitude
+			; SOURCE LINE # 295
+	SJMP 	?C0087
+?C0060:
+; 	while(uchTemp!=',')  // Fill Longitude till ',' Symbol appears
+			; SOURCE LINE # 296
+	MOV  	DPTR,#uchTemp?659
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	XRL  	A,#02CH
+	JZ   	?C0061
+; 	{
+			; SOURCE LINE # 297
+; 		uchGPSLongitudearray[uchCount] = uchTemp;
+			; SOURCE LINE # 298
+	MOV  	DPTR,#uchCount?658
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (uchGPSLongitudearray?655)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchGPSLongitudearray?655)
+	MOV  	DPH,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		uchCount++;
+			; SOURCE LINE # 299
+	MOV  	DPTR,#uchCount?658
+	MOVX 	A,@DPTR
+	INC  	A
+?C0087:
+	MOVX 	@DPTR,A
+; 		uchTemp = fn_Receive_Serial(); 	
+			; SOURCE LINE # 300
+	LCALL	fn_Receive_Serial
+	MOV  	DPTR,#uchTemp?659
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	}
+			; SOURCE LINE # 301
+	SJMP 	?C0060
+?C0061:
+; 	uchGPSLongitudearray[uchCount] = 0;
+			; SOURCE LINE # 302
+	MOV  	DPTR,#uchCount?658
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (uchGPSLongitudearray?655)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchGPSLongitudearray?655)
+	MOV  	DPH,A
+	CLR  	A
+	MOVX 	@DPTR,A
+; 	uchE_W_Indicator = fn_Receive_Serial(); 
+			; SOURCE LINE # 303
+	LCALL	fn_Receive_Serial
+	MOV  	DPTR,#uchE_W_Indicator?656
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+?C0062:
+; 
+; 	while((fn_Receive_Serial())!=',');  // Waiting for ',' Symbol to appear from the GPS
+			; SOURCE LINE # 305
+	LCALL	fn_Receive_Serial
+	CJNE 	R7,#02CH,?C0062
+?C0063:
+?C0064:
+; 	while((fn_Receive_Serial())!=',');  // Waiting for ',' Symbol to appear from the GPS
+			; SOURCE LINE # 306
+	LCALL	fn_Receive_Serial
+	CJNE 	R7,#02CH,?C0064
+?C0065:
+?C0066:
+; 	while((fn_Receive_Serial())!=',');  // Waiting for ',' Symbol to appear from the GPS
+			; SOURCE LINE # 307
+	LCALL	fn_Receive_Serial
+	CJNE 	R7,#02CH,?C0066
+?C0067:
+; 
+; 	uchCount=0;
+			; SOURCE LINE # 309
+	CLR  	A
+	MOV  	DPTR,#uchCount?658
+; 	uchTemp = fn_Receive_Serial(); 	// First char of UTCDate
+			; SOURCE LINE # 310
+	SJMP 	?C0088
+?C0068:
+; 	while(uchTemp!=',')  // Fill UTCDate till ',' Symbol appears
+			; SOURCE LINE # 311
+	MOV  	DPTR,#uchTemp?659
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	XRL  	A,#02CH
+	JZ   	?C0069
+; 	{
+			; SOURCE LINE # 312
+; 		uchGPSUTCDatearray[uchCount] = uchTemp;
+			; SOURCE LINE # 313
+	MOV  	DPTR,#uchCount?658
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (uchGPSUTCDatearray?657)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchGPSUTCDatearray?657)
+	MOV  	DPH,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		uchCount++;
+			; SOURCE LINE # 314
+	MOV  	DPTR,#uchCount?658
+	MOVX 	A,@DPTR
+	INC  	A
+?C0088:
+	MOVX 	@DPTR,A
+; 		uchTemp = fn_Receive_Serial(); 	
+			; SOURCE LINE # 315
+	LCALL	fn_Receive_Serial
+	MOV  	DPTR,#uchTemp?659
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	}
+			; SOURCE LINE # 316
+	SJMP 	?C0068
+?C0069:
+; 
+; 	strncpy(&guchCompleteDataPacket[GPSUTCTimePOSITIONINPACKET],uchGPSUTCTimearray, 6);
+			; SOURCE LINE # 318
+	MOV  	DPTR,#?_strncpy?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (uchGPSUTCTimearray?651)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (uchGPSUTCTimearray?651)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	CLR  	A
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#06H
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteDataPacket+01CH)
+	MOV  	R1,#LOW (guchCompleteDataPacket+01CH)
+	LCALL	_strncpy
+; 	guchCompleteDataPacket[GPSStatusPOSITIONINPACKET]= uchStatus;
+			; SOURCE LINE # 319
+	MOV  	DPTR,#uchStatus?652
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#guchCompleteDataPacket+05H
+	MOVX 	@DPTR,A
+; 	strncpy(&guchCompleteDataPacket[GPSLatitudePOSITIONINPACKET],uchGPSLatitudearray, 10);
+			; SOURCE LINE # 320
+	MOV  	DPTR,#?_strncpy?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (uchGPSLatitudearray?653)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (uchGPSLatitudearray?653)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	CLR  	A
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#0AH
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteDataPacket+06H)
+	MOV  	R1,#LOW (guchCompleteDataPacket+06H)
+	LCALL	_strncpy
+; 
+; 	strncpy(&guchLatitude[0],uchGPSLatitudearray, 10);
+			; SOURCE LINE # 322
+	MOV  	DPTR,#?_strncpy?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (uchGPSLatitudearray?653)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (uchGPSLatitudearray?653)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	CLR  	A
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#0AH
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchLatitude)
+	MOV  	R1,#LOW (guchLatitude)
+	LCALL	_strncpy
+; 	guchLatitude[10] = 0;
+			; SOURCE LINE # 323
+	CLR  	A
+	MOV  	DPTR,#guchLatitude+0AH
+	MOVX 	@DPTR,A
+; 
+; 	guchCompleteDataPacket[GPSN_SPOSITIONINPACKET]= uchN_S_Indicator;
+			; SOURCE LINE # 325
+	MOV  	DPTR,#uchN_S_Indicator?654
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#guchCompleteDataPacket+010H
+	MOVX 	@DPTR,A
+; 	NSIndicator = uchN_S_Indicator;
+			; SOURCE LINE # 326
+	MOV  	DPTR,#NSIndicator
+	MOVX 	@DPTR,A
+; 
+; 	strncpy(&guchCompleteDataPacket[GPSLongitudePOSITIONINPACKET],uchGPSLongitudearray, 10);
+			; SOURCE LINE # 328
+	MOV  	DPTR,#?_strncpy?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (uchGPSLongitudearray?655)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (uchGPSLongitudearray?655)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	CLR  	A
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#0AH
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteDataPacket+011H)
+	MOV  	R1,#LOW (guchCompleteDataPacket+011H)
+	LCALL	_strncpy
+; 
+; 	strncpy(&guchLongitude[0],uchGPSLongitudearray, 10);
+			; SOURCE LINE # 330
+	MOV  	DPTR,#?_strncpy?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (uchGPSLongitudearray?655)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (uchGPSLongitudearray?655)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	CLR  	A
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#0AH
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchLongitude)
+	MOV  	R1,#LOW (guchLongitude)
+	LCALL	_strncpy
+; 	guchLongitude[10] = 0;
+			; SOURCE LINE # 331
+	CLR  	A
+	MOV  	DPTR,#guchLongitude+0AH
+	MOVX 	@DPTR,A
+; 
+; 	guchCompleteDataPacket[GPSE_WPOSITIONINPACKET]= uchE_W_Indicator;
+			; SOURCE LINE # 333
+	MOV  	DPTR,#uchE_W_Indicator?656
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#guchCompleteDataPacket+01BH
+	MOVX 	@DPTR,A
+; 	EWIndicator = uchE_W_Indicator;
+			; SOURCE LINE # 334
+	MOV  	DPTR,#EWIndicator
+	MOVX 	@DPTR,A
+; 	strncpy(&guchCompleteDataPacket[GPSUTCDatePOSITIONINPACKET],uchGPSUTCDatearray, 6);
+			; SOURCE LINE # 335
+	MOV  	DPTR,#?_strncpy?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (uchGPSUTCDatearray?657)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (uchGPSUTCDatearray?657)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	CLR  	A
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#06H
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteDataPacket+022H)
+	MOV  	R1,#LOW (guchCompleteDataPacket+022H)
+	LJMP 	_strncpy
+; END OF fnDecodeGPRMC
+
+; 	
+; }
+; void fnDecodeGPVTG(void)// 9.6 VTG - COURSE OVER GROUND AND GROUND SPEED
+
+	RSEG  ?PR?fnDecodeGPVTG?GPS_NMEA
+fnDecodeGPVTG:
+	USING	0
+			; SOURCE LINE # 338
+; {
+			; SOURCE LINE # 339
+; 	unsigned char uchGPSSpeedInKnotsarray[6]; 
+; 	unsigned char uchGPSSpeedInKMPHarray[7];
+; 	unsigned char uchCount=0;
+			; SOURCE LINE # 342
+	CLR  	A
+	MOV  	DPTR,#uchCount?762
+	MOVX 	@DPTR,A
+; 	unsigned char uchTemp;
+; 
+; 	for(uchCount=0; uchCount < 5;uchCount++)
+			; SOURCE LINE # 345
+	MOVX 	@DPTR,A
+?C0071:
+	MOV  	DPTR,#uchCount?762
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	CLR  	C
+	SUBB 	A,#05H
+	JNC  	?C0072
+; 	{
+			; SOURCE LINE # 346
+; 		uchGPSSpeedInKnotsarray[uchCount]='0';
+			; SOURCE LINE # 347
+	MOV  	A,#LOW (uchGPSSpeedInKnotsarray?760)
+	ADD  	A,R7
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchGPSSpeedInKnotsarray?760)
+	MOV  	DPH,A
+	MOV  	A,#030H
+	MOVX 	@DPTR,A
+; 		uchGPSSpeedInKMPHarray[uchCount]='0';
+			; SOURCE LINE # 348
+	MOV  	A,#LOW (uchGPSSpeedInKMPHarray?761)
+	ADD  	A,R7
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchGPSSpeedInKMPHarray?761)
+	MOV  	DPH,A
+	MOV  	A,#030H
+	MOVX 	@DPTR,A
+; 	}
+			; SOURCE LINE # 349
+	MOV  	DPTR,#uchCount?762
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+	SJMP 	?C0071
+?C0072:
+; 	uchGPSSpeedInKMPHarray[5]='0';
+			; SOURCE LINE # 350
+	MOV  	DPTR,#uchGPSSpeedInKMPHarray?761+05H
+	MOV  	A,#030H
+	MOVX 	@DPTR,A
+; 	uchGPSSpeedInKMPHarray[6]=0;
+			; SOURCE LINE # 351
+	CLR  	A
+	INC  	DPTR
+	MOVX 	@DPTR,A
+; 	uchGPSSpeedInKnotsarray[5]=0;
+			; SOURCE LINE # 352
+	MOV  	DPTR,#uchGPSSpeedInKnotsarray?760+05H
+	MOVX 	@DPTR,A
+; 
+; 	for (uchCount=0; uchCount < GPVTGSPEEDINKNOTSFIELD;uchCount++)
+			; SOURCE LINE # 354
+	MOV  	DPTR,#uchCount?762
+	MOVX 	@DPTR,A
+?C0074:
+?C0077:
+; 		while((fn_Receive_Serial())!=',');  // Waiting for ',' Symbol to appear from the GPS
+			; SOURCE LINE # 355
+	LCALL	fn_Receive_Serial
+	CJNE 	R7,#02CH,?C0077
+?C0078:
+?C0076:
+	MOV  	DPTR,#uchCount?762
+	MOVX 	A,@DPTR
+	INC  	A
+	MOVX 	@DPTR,A
+	MOVX 	A,@DPTR
+	CLR  	C
+	SUBB 	A,#03H
+	JC   	?C0074
+?C0075:
+; 	uchCount=0;
+			; SOURCE LINE # 356
+	CLR  	A
+	MOV  	DPTR,#uchCount?762
+; 	uchTemp = fn_Receive_Serial(); 	
+			; SOURCE LINE # 357
+;---- Variable 'uchTemp?763' assigned to Register 'R7' ----
+	SJMP 	?C0089
+?C0079:
+; 	while(uchTemp!=',')  // Fill Speed in Knots till ',' Symbol appears
+			; SOURCE LINE # 358
+	MOV  	A,R7
+	XRL  	A,#02CH
+	JZ   	?C0080
+; 	{
+			; SOURCE LINE # 359
+; 		uchGPSSpeedInKnotsarray[uchCount] = uchTemp;
+			; SOURCE LINE # 360
+	MOV  	DPTR,#uchCount?762
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (uchGPSSpeedInKnotsarray?760)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchGPSSpeedInKnotsarray?760)
+	MOV  	DPH,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		uchCount++;
+			; SOURCE LINE # 361
+	MOV  	DPTR,#uchCount?762
+	MOVX 	A,@DPTR
+	INC  	A
+?C0089:
+	MOVX 	@DPTR,A
+; 		uchTemp = fn_Receive_Serial(); 	
+			; SOURCE LINE # 362
+	LCALL	fn_Receive_Serial
+; 	}
+			; SOURCE LINE # 363
+	SJMP 	?C0079
+?C0080:
+; 	uchCount=0;
+			; SOURCE LINE # 364
+	CLR  	A
+	MOV  	DPTR,#uchCount?762
+; 	uchTemp = fn_Receive_Serial(); 	
+			; SOURCE LINE # 365
+	SJMP 	?C0090
+?C0081:
+; 	while(uchTemp!=',')  // Fill Speed in KMPH till ',' Symbol appears
+			; SOURCE LINE # 366
+	MOV  	A,R7
+	XRL  	A,#02CH
+	JZ   	?C0082
+; 	{
+			; SOURCE LINE # 367
+; 		uchGPSSpeedInKMPHarray[uchCount] = uchTemp;
+			; SOURCE LINE # 368
+	MOV  	DPTR,#uchCount?762
+	MOVX 	A,@DPTR
+	ADD  	A,#LOW (uchGPSSpeedInKMPHarray?761)
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,#HIGH (uchGPSSpeedInKMPHarray?761)
+	MOV  	DPH,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		uchCount++;
+			; SOURCE LINE # 369
+	MOV  	DPTR,#uchCount?762
+	MOVX 	A,@DPTR
+	INC  	A
+?C0090:
+	MOVX 	@DPTR,A
+; 		uchTemp = fn_Receive_Serial(); 	
+			; SOURCE LINE # 370
+	LCALL	fn_Receive_Serial
+; 	}
+			; SOURCE LINE # 371
+	SJMP 	?C0081
+?C0082:
+; 	//DBGPRINTF("$GPVTG uchGPSSpeedInKnotsarray = %s\n",uchGPSSpeedInKnotsarray);
+; 	//DBGPRINTF("$GPVTG uchGPSSpeedInKMPHarray = %s\n",uchGPSSpeedInKMPHarray);
+; 
+; 	strncpy(&guchCompleteDataPacket[GPSSpeedInKnotsPOSITIONINPACKET],uchGPSSpeedInKnotsarray, 6);
+			; SOURCE LINE # 375
+	MOV  	DPTR,#?_strncpy?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (uchGPSSpeedInKnotsarray?760)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (uchGPSSpeedInKnotsarray?760)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	CLR  	A
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#06H
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteDataPacket+028H)
+	MOV  	R1,#LOW (guchCompleteDataPacket+028H)
+	LCALL	_strncpy
+; 	strncpy(&guchCompleteDataPacket[GPSSpeedInKMPHPOSITIONINPACKET],uchGPSSpeedInKMPHarray, 7);
+			; SOURCE LINE # 376
+	MOV  	DPTR,#?_strncpy?BYTE+03H
+	MOV  	A,#01H
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#HIGH (uchGPSSpeedInKMPHarray?761)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#LOW (uchGPSSpeedInKMPHarray?761)
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	CLR  	A
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,#07H
+	MOVX 	@DPTR,A
+	MOV  	R3,#01H
+	MOV  	R2,#HIGH (guchCompleteDataPacket+02DH)
+	MOV  	R1,#LOW (guchCompleteDataPacket+02DH)
+	LJMP 	_strncpy
+; END OF fnDecodeGPVTG
+
+	END

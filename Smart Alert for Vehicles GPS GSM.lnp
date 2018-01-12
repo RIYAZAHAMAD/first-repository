@@ -1,0 +1,10 @@
+"delay.obj",
+"GPS_NMEA.obj",
+"GSMSIM300.obj",
+"LCD.obj",
+"main.obj",
+"ProjectMain.obj",
+"serial_codes.obj" 
+TO "Smart Alert for Vehicles GPS GSM" 
+RAMSIZE(256) 
+XDATA( 0X0000-0X06FF )

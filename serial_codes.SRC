@@ -1,0 +1,252 @@
+; .\serial_codes.SRC generated from: serial_codes.c
+; COMPILER INVOKED BY:
+;        C:\Keil\C51\BIN\C51.EXE serial_codes.c LARGE BROWSE DEBUG OBJECTEXTEND SRC(.\serial_codes.SRC)
+
+$NOMOD51
+
+NAME	SERIAL_CODES
+
+P0	DATA	080H
+P1	DATA	090H
+P2	DATA	0A0H
+P3	DATA	0B0H
+T0	BIT	0B0H.4
+AC	BIT	0D0H.6
+T1	BIT	0B0H.5
+EA	BIT	0A8H.7
+IE	DATA	0A8H
+RD	BIT	0B0H.7
+ES	BIT	0A8H.4
+IP	DATA	0B8H
+RI	BIT	098H.0
+INT0	BIT	0B0H.2
+CY	BIT	0D0H.7
+TI	BIT	098H.1
+INT1	BIT	0B0H.3
+PS	BIT	0B8H.4
+SP	DATA	081H
+OV	BIT	0D0H.2
+WR	BIT	0B0H.6
+SBUF	DATA	099H
+PCON	DATA	087H
+SCON	DATA	098H
+TMOD	DATA	089H
+TCON	DATA	088H
+IE0	BIT	088H.1
+IE1	BIT	088H.3
+B	DATA	0F0H
+ACC	DATA	0E0H
+ET0	BIT	0A8H.1
+ET1	BIT	0A8H.3
+TF0	BIT	088H.5
+TF1	BIT	088H.7
+RB8	BIT	098H.2
+TH0	DATA	08CH
+EX0	BIT	0A8H.0
+IT0	BIT	088H.0
+TH1	DATA	08DH
+TB8	BIT	098H.3
+EX1	BIT	0A8H.2
+IT1	BIT	088H.2
+P	BIT	0D0H.0
+SM0	BIT	098H.7
+TL0	DATA	08AH
+SM1	BIT	098H.6
+TL1	DATA	08BH
+SM2	BIT	098H.5
+PT0	BIT	0B8H.1
+PT1	BIT	0B8H.3
+RS0	BIT	0D0H.3
+TR0	BIT	088H.4
+RS1	BIT	0D0H.4
+TR1	BIT	088H.6
+PX0	BIT	0B8H.0
+PX1	BIT	0B8H.2
+DPH	DATA	083H
+DPL	DATA	082H
+REN	BIT	098H.4
+RXD	BIT	0B0H.0
+TXD	BIT	0B0H.1
+F0	BIT	0D0H.5
+PSW	DATA	0D0H
+?PR?fn_Receive_Serial?SERIAL_CODES       SEGMENT CODE 
+?PR?_fn_Transmit_Serial?SERIAL_CODES     SEGMENT CODE 
+?PR?_fn_Initialize_Serial?SERIAL_CODES   SEGMENT CODE 
+	PUBLIC	_fn_Initialize_Serial
+	PUBLIC	_fn_Transmit_Serial
+	PUBLIC	fn_Receive_Serial
+; /*																				    
+;     filename	:serial_codes.c
+; 	description	:transmit and receive data by serial port
+; 	author		:apsis_team
+; 	date		:11.08.07
+; 
+; 
+; */
+; 
+; #include <reg51.h>
+; 
+; #include "serial_codes.h"
+; 
+; 
+; 
+; 
+; 
+; /*
+; To be used incase we wish to avoid printf
+; void fn_Display_String_Serial_Port(unsigned char *generic_ptr)
+; {   
+;     unsigned char uchSerialData;
+;     //generic_ptr =  string_IAmActive;
+; 	while (*generic_ptr) 
+; 	{
+; 	    uchSerialData =*generic_ptr;
+; 		fn_Transmit_Serial(uchSerialData);
+; 		generic_ptr++;
+; 	}
+; }
+; */					                                       
+; 
+; //	Receiving the characters through the serial port
+; char fn_Receive_Serial(void)
+
+	RSEG  ?PR?fn_Receive_Serial?SERIAL_CODES
+fn_Receive_Serial:
+	USING	0
+			; SOURCE LINE # 34
+; {
+			; SOURCE LINE # 35
+?C0001:
+; 	unsigned char RECV_DATA;
+; 
+; 	while(RI==0);
+			; SOURCE LINE # 38
+	JNB  	RI,?C0001
+?C0002:
+; 	RECV_DATA=SBUF;
+			; SOURCE LINE # 39
+;---- Variable 'RECV_DATA?040' assigned to Register 'R7' ----
+	MOV  	R7,SBUF
+; 	RI=0;
+			; SOURCE LINE # 40
+	CLR  	RI
+; 	return RECV_DATA;
+			; SOURCE LINE # 41
+; }
+			; SOURCE LINE # 42
+?C0003:
+	RET  	
+; END OF fn_Receive_Serial
+
+; 
+; //	Transmitting the characters	through the serial port	
+; void fn_Transmit_Serial(unsigned char TRANS_DATA )
+
+	RSEG  ?PR?_fn_Transmit_Serial?SERIAL_CODES
+_fn_Transmit_Serial:
+			; SOURCE LINE # 45
+;---- Variable 'TRANS_DATA?141' assigned to Register 'R7' ----
+; {
+			; SOURCE LINE # 46
+; 	SBUF=TRANS_DATA;
+			; SOURCE LINE # 47
+	MOV  	SBUF,R7
+?C0004:
+; 	while(TI==0);
+			; SOURCE LINE # 48
+	JNB  	TI,?C0004
+?C0005:
+; 	TI=0;
+			; SOURCE LINE # 49
+	CLR  	TI
+; }
+			; SOURCE LINE # 50
+	RET  	
+; END OF _fn_Transmit_Serial
+
+; 
+; 
+; // Intiialising the Default Serial Port
+; void fn_Initialize_Serial(char baud_rate) 
+
+	RSEG  ?PR?_fn_Initialize_Serial?SERIAL_CODES
+_fn_Initialize_Serial:
+			; SOURCE LINE # 54
+;---- Variable 'baud_rate?242' assigned to Register 'R7' ----
+; {
+			; SOURCE LINE # 55
+; 	SCON=0X50;	 /* SCON: mode 1, 8-bit UART, enable rcvr      */
+			; SOURCE LINE # 56
+	MOV  	SCON,#050H
+; 	TMOD=0X20;	//timer 1,8-bit auto reload 
+			; SOURCE LINE # 57
+	MOV  	TMOD,#020H
+; 	switch(baud_rate)
+			; SOURCE LINE # 58
+	MOV  	A,R7
+	DEC  	A
+	JZ   	?C0009
+	DEC  	A
+	JZ   	?C0010
+	ADD  	A,#02H
+	JNZ  	?C0007
+; 	{
+			; SOURCE LINE # 59
+; 		//	Initialization settings for 1200 baud rate
+; 			case 0:
+			; SOURCE LINE # 61
+?C0008:
+; 				{
+			; SOURCE LINE # 62
+; 						TH1=0XE8;
+			; SOURCE LINE # 63
+	MOV  	TH1,#0E8H
+; 						break;
+			; SOURCE LINE # 64
+	SJMP 	?C0007
+; 				}
+			; SOURCE LINE # 65
+; 		//	Initialization settings for 9600 baud rate	
+; 			case 1:
+			; SOURCE LINE # 67
+?C0009:
+; 				{
+			; SOURCE LINE # 68
+; 						TH1=0XFD;
+			; SOURCE LINE # 69
+	MOV  	TH1,#0FDH
+; 						break;
+			; SOURCE LINE # 70
+	SJMP 	?C0007
+; 				 }
+			; SOURCE LINE # 71
+; 		//	Initialization settings for 28800 baud rate					
+; 			case 2:
+			; SOURCE LINE # 73
+?C0010:
+; 				{
+			; SOURCE LINE # 74
+; 						TH1=0XFF;
+			; SOURCE LINE # 75
+	MOV  	TH1,#0FFH
+; 						break;
+			; SOURCE LINE # 76
+; 				 }
+			; SOURCE LINE # 77
+; 	}	
+			; SOURCE LINE # 78
+?C0007:
+; 	TR1=1;			/* TR1:  timer 1 run                          */
+			; SOURCE LINE # 79
+	SETB 	TR1
+; 	TI    = 1;                  /* TI:   set TI to send first char of UART    */
+			; SOURCE LINE # 80
+	SETB 	TI
+; 
+; 
+; }
+			; SOURCE LINE # 83
+	RET  	
+; END OF _fn_Initialize_Serial
+
+	END

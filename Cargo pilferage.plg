@@ -1,0 +1,20 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+E:\apsis codes\Daya Backup\STUDENT PACKAGE(UC,VB,SCH,DSH)\cargo on pic with old 8051\Cargo pilferage_1(checked by riyaz & prashanth)\Cargo pilferage.uvproj
+Project File Date:  04/01/2013
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling delay.c...
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+Project build/rebuild aborted.
+Target not created
